@@ -4,8 +4,7 @@ import cn.sh1rocu.touhoulittlemaid.util.itemhandler.IItemHandler;
 import cn.sh1rocu.touhoulittlemaid.util.itemhandler.SlotItemHandler;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.MaidMainContainer;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -23,17 +22,7 @@ import java.util.Optional;
 
 public class CraftingTableBackpackContainer extends MaidMainContainer {
     public static final MenuType<CraftingTableBackpackContainer> TYPE = new ExtendedScreenHandlerType<>(CraftingTableBackpackContainer::new
-            , new StreamCodec<>() {
-        @Override
-        public Integer decode(RegistryFriendlyByteBuf buf) {
-            return buf.readInt();
-        }
-
-        @Override
-        public void encode(RegistryFriendlyByteBuf buf, Integer data) {
-            buf.writeInt(data);
-        }
-    });
+            , ByteBufCodecs.INT);
     private final CraftingContainer craftSlots = new TransientCraftingContainer(this, 3, 3);
     private final ResultContainer resultSlots = new ResultContainer();
     private final ContainerLevelAccess access;

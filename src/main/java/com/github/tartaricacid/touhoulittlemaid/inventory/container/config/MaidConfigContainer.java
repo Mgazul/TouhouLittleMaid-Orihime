@@ -3,9 +3,8 @@ package com.github.tartaricacid.touhoulittlemaid.inventory.container.config;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.AbstractMaidContainer;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -17,17 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class MaidConfigContainer extends AbstractMaidContainer {
-    public static final MenuType<MaidConfigContainer> TYPE = new ExtendedScreenHandlerType<>(MaidConfigContainer::new, new StreamCodec<>() {
-        @Override
-        public @NotNull Integer decode(@NotNull RegistryFriendlyByteBuf buf) {
-            return buf.readInt();
-        }
-
-        @Override
-        public void encode(@NotNull RegistryFriendlyByteBuf buf, @NotNull Integer data) {
-            buf.writeInt(data);
-        }
-    });
+    public static final MenuType<MaidConfigContainer> TYPE = new ExtendedScreenHandlerType<>(MaidConfigContainer::new, ByteBufCodecs.INT);
     private static final int PLAYER_INVENTORY_SIZE = 27;
 
     public MaidConfigContainer(int id, Inventory inventory, int entityId) {

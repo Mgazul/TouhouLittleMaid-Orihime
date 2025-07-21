@@ -2,25 +2,14 @@ package com.github.tartaricacid.touhoulittlemaid.inventory.container.backpack;
 
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.MaidMainContainer;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.PlayerEnderChestContainer;
 import net.minecraft.world.inventory.Slot;
 
 public class EnderChestBackpackContainer extends MaidMainContainer {
-    public static final MenuType<EnderChestBackpackContainer> TYPE = new ExtendedScreenHandlerType<>(EnderChestBackpackContainer::new, new StreamCodec<>() {
-        @Override
-        public Integer decode(RegistryFriendlyByteBuf buf) {
-            return buf.readInt();
-        }
-
-        @Override
-        public void encode(RegistryFriendlyByteBuf buf, Integer data) {
-            buf.writeInt(data);
-        }
-    });
+    public static final MenuType<EnderChestBackpackContainer> TYPE = new ExtendedScreenHandlerType<>(EnderChestBackpackContainer::new, ByteBufCodecs.INT);
 
     public EnderChestBackpackContainer(int id, Inventory inventory, int entityId) {
         super(TYPE, id, inventory, entityId);

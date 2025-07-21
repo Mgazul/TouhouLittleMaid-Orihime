@@ -11,8 +11,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -24,17 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import static net.minecraft.world.inventory.InventoryMenu.BLOCK_ATLAS;
 
 public class TankBackpackContainer extends MaidMainContainer {
-    public static final MenuType<TankBackpackContainer> TYPE = new ExtendedScreenHandlerType<>(TankBackpackContainer::new, new StreamCodec<>() {
-        @Override
-        public Integer decode(RegistryFriendlyByteBuf buf) {
-            return buf.readInt();
-        }
-
-        @Override
-        public void encode(RegistryFriendlyByteBuf buf, Integer data) {
-            buf.writeInt(data);
-        }
-    });
+    public static final MenuType<TankBackpackContainer> TYPE = new ExtendedScreenHandlerType<>(TankBackpackContainer::new, ByteBufCodecs.INT);
     private static final ResourceLocation INPUT_SLOT = ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "slot/tank_input_slot");
     private static final ResourceLocation OUTPUT_SLOT = ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "slot/tank_output_slot");
     private final ContainerData data;
