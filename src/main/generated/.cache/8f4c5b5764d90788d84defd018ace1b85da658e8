@@ -1,0 +1,5 @@
+// 1.21.1	2025-07-21T22:03:33.7339183	Touhou Little Maid: Orihime/minecraft:chest Loot Table
+eeaddfa27057d55ee9e84aef41582d312cc116cd data\touhou_little_maid\loot_table\chests\additional_loot_table.json
+90987eb4b108b0c3a5a924bb66e6254359bd71fe data\touhou_little_maid\loot_table\advancement\cake.json
+2d00d8351f50e72862aadb25da69e49681ef0ece data\touhou_little_maid\loot_table\give_smart_slab.json
+a91c147a8a0fc6df030407a37eff113f637d6a66 data\touhou_little_maid\loot_table\advancement\power_point.json

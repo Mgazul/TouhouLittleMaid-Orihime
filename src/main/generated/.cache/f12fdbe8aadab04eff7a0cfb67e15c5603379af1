@@ -1,0 +1,6 @@
+// 1.21.1	2025-07-21T22:03:33.7463253	Touhou Little Maid: Orihime/Tags for minecraft:entity_type
+398d4b59e9e9b4c14a370ad3ee5eececccc9247a data\minecraft\tags\entity_type\fall_damage_immune.json
+398d4b59e9e9b4c14a370ad3ee5eececccc9247a data\minecraft\tags\entity_type\freeze_immune_entity_types.json
+d465e5a2e73e96c0ee874ba5f1daf8a09f225102 data\minecraft\tags\entity_type\impact_projectiles.json
+053bb6bbbb1e6064395621847357c68137803f56 data\iceandfire\tags\entity_type\immune_to_gorgon_stone.json
+398d4b59e9e9b4c14a370ad3ee5eececccc9247a data\minecraft\tags\entity_type\powder_snow_walkable_mobs.json

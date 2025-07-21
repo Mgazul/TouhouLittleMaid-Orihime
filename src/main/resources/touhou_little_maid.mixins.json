@@ -1,0 +1,30 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.tartaricacid.touhoulittlemaid.mixin",
+  "refmap": "touhou_little_maid.refmap.json",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "CropBlockAccessor",
+    "EntityAccessor",
+    "EntityMixin",
+    "FenceGateBlockAccessor",
+    "FishingHookPredicateMixin",
+    "MixinArrowEntity",
+    "MixinCrossbowItem",
+    "MixinStructureTemplate",
+    "MixinThrownTrident",
+    "NavigationMixin",
+    "PersistentEntitySectionManagerMixin",
+    "PlayerMixin"
+  ],
+  "client": [
+    "client.HumanoidModelMixin",
+    "client.ItemPropertiesMixin",
+    "client.LanguageMixin",
+    "client.LivingEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

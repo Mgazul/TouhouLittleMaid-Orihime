@@ -1,0 +1,5 @@
+// 1.21.1	2025-07-21T22:03:33.7411034	Touhou Little Maid: Orihime/Tags for minecraft:item
+991a2f6fc38fb75ca487d12599c4f6b1e11c93a2 data\minecraft\tags\item\enchantable\durability.json
+8fdb28ce7779afd232bbc67f65900bed05b1c7f0 data\touhou_little_maid\tags\item\maid_plantable_seeds.json
+1c0990f2c695fa6a24e25fc68371b5f34aa5f31a data\touhou_little_maid\tags\item\gohei_enchantable.json
+69326916c72e2beac1f78787ed58ca65ceae7d9c data\touhou_little_maid\tags\item\maid_tamed_item.json

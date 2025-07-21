@@ -1,0 +1,53 @@
+package com.github.tartaricacid.touhoulittlemaid.client.init;
+
+import cn.sh1rocu.touhoulittlemaid.api.event.KeyInputCallback;
+import com.github.tartaricacid.touhoulittlemaid.client.animation.HardcodedAnimationManger;
+import com.github.tartaricacid.touhoulittlemaid.client.animation.gecko.AnimationRegister;
+import com.github.tartaricacid.touhoulittlemaid.client.event.PressAIChatKeyEvent;
+import com.github.tartaricacid.touhoulittlemaid.client.event.ShowOptifineScreen;
+import com.github.tartaricacid.touhoulittlemaid.client.input.STTChatKey;
+import com.github.tartaricacid.touhoulittlemaid.client.overlay.BroomTipsOverlay;
+import com.github.tartaricacid.touhoulittlemaid.client.overlay.MaidTipsOverlay;
+import com.github.tartaricacid.touhoulittlemaid.client.overlay.ShowPowerOverlay;
+import com.github.tartaricacid.touhoulittlemaid.compat.embeddium.EmbeddiumCompat;
+import com.github.tartaricacid.touhoulittlemaid.compat.oculus.OculusCompat;
+import com.github.tartaricacid.touhoulittlemaid.compat.sodium.SodiumCompat;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.minecraft.resources.ResourceLocation;
+
+@Environment(EnvType.CLIENT)
+public class ClientSetupEvent {
+    private static final ResourceLocation CROSSHAIR = ResourceLocation.withDefaultNamespace("hud/crosshair");
+    private static final ResourceLocation HOTBAR = ResourceLocation.withDefaultNamespace("hud/hotbar");
+
+    public static void onClientSetup() {
+        AnimationRegister.registerAnimationState();
+        MaidTipsOverlay.init();
+        ShowOptifineScreen.checkOptifineIsLoaded();
+        HardcodedAnimationManger.init();
+        resisterKeyMappings();
+
+        // 客户端兼容
+        OculusCompat.init();
+        SodiumCompat.init();
+        EmbeddiumCompat.init();
+        // SimpleHatsCompat.init();
+        // ImmersiveMelodiesCompat.init();
+    }
+
+    public static void RegisterGuiLayers() {
+        //event.registerAbove(CROSSHAIR, getResourceLocation("tlm_maid_tips"), new MaidTipsOverlay());
+        //event.registerAbove(CROSSHAIR, getResourceLocation("tlm_broom_tips"), new BroomTipsOverlay());
+        //event.registerAbove(HOTBAR, getResourceLocation("tlm_show_power"), new ShowPowerOverlay());
+        HudRenderCallback.EVENT.register(MaidTipsOverlay.INSTANCE::render);
+        HudRenderCallback.EVENT.register(BroomTipsOverlay.INSTANCE::render);
+        HudRenderCallback.EVENT.register(ShowPowerOverlay.INSTANCE::render);
+    }
+
+    public static void resisterKeyMappings() {
+        KeyBindingHelper.registerKeyBinding(STTChatKey.STT_CHAT_KEY);
+    }
+}

@@ -1,0 +1,234 @@
+plugins {
+    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = "${archives_base_name}-${minecraft_version}"
+}
+
+
+fabricApi {
+    configureDataGeneration {
+        client = true
+    }
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/touhou_little_maid.accesswidener")
+    mixin {
+        defaultRefmapName = "touhou_little_maid.refmap.json"
+    }
+}
+
+repositories {
+    // ./libs 目录为库
+    flatDir {
+        dir "libs"
+    }
+    // mavenLocal 为本机仓库
+    mavenLocal()
+    mavenCentral()
+    maven {
+        name = 'ParchmentMC'
+        url = 'https://maven.parchmentmc.org'
+    }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    maven {
+        url "https://maven.shedaniel.me/"
+        content {
+            includeGroup "me.shedaniel"
+            includeGroup "me.shedaniel.cloth"
+            includeGroup "dev.architectury"
+        }
+    }
+    maven {
+        url "https://maven2.bai.lol"
+        content {
+            includeGroup "mcp.mobius.waila"
+            includeGroup "lol.bai"
+        }
+    }
+    maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+        content {
+            includeGroup "dev.emi"
+        }
+    }
+    maven {
+        name 'cursemaven'
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven { // for TOP
+        url "https://maven.k-4u.nl/"
+        content {
+            includeGroup "mcjty.theoneprobe"
+        }
+    }
+    maven {
+        url = "https://maven.theillusivec4.top/"
+        content {
+            includeGroup "top.theillusivec4.curios"
+        }
+    }
+    maven {// CCA
+        name = "Ladysnake Mods"
+        url = 'https://maven.ladysnake.org/releases'
+    }
+    maven {// Forge Config API Port
+        name = "Fuzs Mod Resources"
+        url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+    }
+    maven {// ModMenu
+        name = "Terraformers"
+        url = "https://maven.terraformersmc.com/"
+    }
+    maven {
+        name = "CottonMC"
+        url = "https://server.bbkr.space/artifactory/libs-release"
+    }
+    maven {
+        url = "https://maven.modmuss50.me/"
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    //mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${project.parchment_minecraft_version}:${project.parchment_mappings_version}@zip")
+    }
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // JS
+    modImplementation(include("org.openjdk.nashorn:nashorn-core:15.4"))
+
+    modCompileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+    annotationProcessor 'com.google.code.findbugs:jsr305:3.0.2'
+
+    // MP3 音频解码库，暂时不需要
+    // minecraftLibraries "com.googlecode.soundlibs:mp3spi:1.9.5.4"
+    // minecraftLibraries "com.googlecode.soundlibs:jlayer:1.0.1.4"
+    // minecraftLibraries "com.googlecode.soundlibs:tritonus-share:0.3.7.4"
+
+    // Opus 音频解码库
+    minecraftLibraries(modImplementation(include("org.gagravarr:vorbis-java-core:0.8")))
+    minecraftLibraries(modImplementation(include("io.github.jaredmdobson:concentus:1.0.2")))
+
+    // YAML 库
+    minecraftLibraries(modImplementation(include("org.yaml:snakeyaml:2.4")))
+
+    // 拆分出来的基岩版模型加载库
+    modImplementation(include("libs:simplebedrockmodel-1.21.1-release:1.1.0"))
+
+    // JEI
+    modImplementation "maven.modrinth:jei:${jei_version}"
+    // REI
+    modCompileOnly "maven.modrinth:architectury-api:${architectury_api_version}"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
+    modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
+        exclude group: 'net.fabricmc.fabric-api'
+    }
+    // EMI
+    modCompileOnly "maven.modrinth:emi:${emi_version}"
+
+    modImplementation "maven.modrinth:jade:${jade_version}"
+    modImplementation "maven.modrinth:cyberanner-ironchest:${iron_chests_version}"
+    modImplementation "maven.modrinth:carry-on:${carry_on_version}"
+    modImplementation "maven.modrinth:patchouli:${patchouli_version}"
+
+    // IPN
+    modImplementation "net.fabricmc:fabric-language-kotlin:1.13.4+kotlin.2.2.0"
+    modImplementation "maven.modrinth:libipn:fabric-1.21-6.5.0"
+    modImplementation "maven.modrinth:inventory-profiles-next:fabric-1.21.1-2.1.8"
+
+    modCompileOnly "maven.modrinth:sodium:mc1.21.1-0.6.13-fabric"
+    modCompileOnly "maven.modrinth:iris:1.8.8+1.21.1-fabric"
+
+    // CCA
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
+    include "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+    include "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
+
+    // Forge Config API Port
+    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:21.1.3"
+
+    // ModMenu
+    modImplementation("com.terraformersmc:modmenu:11.0.3")
+
+    // 不加就无法run的各种前置
+    // FIXME 加了也run不了，加载世界会一直调用实体的粒子渲染，直接崩开发环境的客户端，使用启动器启动正常运行
+    modImplementation "io.github.cottonmc:LibGui:11.1.0+1.21"
+    modImplementation "me.zeroeightsix:fiber:0.23.0-SNAPSHOT"
+}
+
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "loader_version", project.loader_version
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version,
+                "loader_version": project.loader_version
+    }
+}
+
+def targetJavaVersion = 21
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        it.options.release.set(targetJavaVersion)
+    }
+}
+
+tasks.withType(Jar).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.WARN
+}
+tasks.withType(Zip).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.WARN
+}
+tasks.withType(Copy).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.WARN
+}
+
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+    withSourcesJar()
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+}
+
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            artifactId = project.archives_base_name
+            from components.java
+        }
+    }
+
+    repositories {
+    }
+}

@@ -1,0 +1,40 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "cn.sh1rocu.touhoulittlemaid.mixin",
+  "refmap": "touhou_little_maid.refmap.json",
+  "compatibilityLevel": "JAVA_21",
+  "plugin": "cn.sh1rocu.touhoulittlemaid.util.MixinPlugin",
+  "mixins": [
+    "accessor.ExperienceOrbAccessor",
+    "accessor.MobAccessor",
+    "client.PlayerListMixin",
+    "common.BlockBehaviourMixin",
+    "common.EntityMixin",
+    "common.BlockEntityMixin",
+    "common.ItemEntityMixin",
+    "common.LivingEntityMixin",
+    "common.LootTableBuilderMixin",
+    "common.NaturalSpawnerMixin",
+    "common.PersistentEntitySectionManagerMixin",
+    "common.RedStoneWireBlockMixin",
+    "common.ServerEntityMixin",
+    "common.ServerLevelMixin",
+    "compat.carryon.ListHandlerMixin"
+  ],
+  "client": [
+    "accessor.ScreenAccessor",
+    "accessor.TextureSheetParticleAccessor",
+    "client.ChannelAccessHandleMixin",
+    "client.ClientLevelMixin",
+    "client.ItemInHandRendererMixin",
+    "client.ItemRendererMixin",
+    "client.KeyboardHandlerMixin",
+    "client.MinecraftMixin",
+    "client.ParticleEngineMixin",
+    "client.SoundEngineMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
