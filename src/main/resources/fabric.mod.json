@@ -8,7 +8,7 @@
     "Sh1roCu"
   ],
   "contact": {},
-  "license": "MIT",
+  "license": "MIT / CC BY-NC-SA 4.0",
   "icon": "logo.png",
   "environment": "*",
   "entrypoints": {
@@ -56,7 +56,10 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
-    "minecraft": ["1.21","1.21.1"],
+    "minecraft": [
+      "1.21",
+      "1.21.1"
+    ],
     "forgeconfigapiport": "*"
   }
 }

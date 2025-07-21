@@ -216,7 +216,10 @@ java {
 }
 
 jar {
-    from("LICENSE") {
+    from("LICENSE-MIT") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+    from("LICENSE-CC") {
         rename { "${it}_${project.archivesBaseName}" }
     }
 }
