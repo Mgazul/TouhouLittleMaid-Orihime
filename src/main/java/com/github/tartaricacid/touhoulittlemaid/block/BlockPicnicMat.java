@@ -11,6 +11,8 @@ import com.github.tartaricacid.touhoulittlemaid.init.InitBlocks;
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemPicnicBasket;
 import com.github.tartaricacid.touhoulittlemaid.tileentity.TileEntityPicnicMat;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.Util;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.BlockPos;
@@ -165,6 +167,7 @@ public class BlockPicnicMat extends Block implements EntityBlock, IBlock {
         return super.playerWillDestroy(world, pos, state, player);
     }
 
+    @Environment(EnvType.CLIENT)
     @Override
     public boolean addHitEffects(BlockState state, Level world, HitResult target, ParticleEngine manager) {
         return false;

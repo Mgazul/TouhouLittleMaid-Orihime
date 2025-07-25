@@ -45,7 +45,7 @@ public final class TouhouLittleMaid {
         InitDataComponent.init();
         InitLootCondition.init();
 
-        NetworkHandler.registerC2SPackets();
+        NetworkHandler.registerPackets();
         // CCA init by Entrypoint
         //InitCapabilities.registerGenericItemHandlers();
 

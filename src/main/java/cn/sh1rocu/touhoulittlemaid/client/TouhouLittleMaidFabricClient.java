@@ -37,7 +37,7 @@ public class TouhouLittleMaidFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         TouhouLittleMaidClient.setup();
-        NetworkHandler.registerS2CPackets();
+        NetworkHandler.registerClientReceivers();
         ClientExtensionsEvent.RegisterClientExtensions();
         InfoGetManager.onClientSetup();
         ItemTooltipCallback.EVENT.register(AddInformationEvent::onRenderTooltips);

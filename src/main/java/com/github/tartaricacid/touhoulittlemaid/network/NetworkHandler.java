@@ -18,44 +18,76 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 
 public class NetworkHandler {
+    public static void registerPackets() {
+        registerC2SPackets();
+        registerS2CPackets();
+    }
+
     private static <T extends CustomPacketPayload> void registerC2SPacket(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec, ServerPlayNetworking.PlayPayloadHandler<T> handler) {
         PayloadTypeRegistry.playC2S().register(type, streamCodec);
         ServerPlayNetworking.registerGlobalReceiver(type, handler);
     }
 
-    @Environment(EnvType.CLIENT)
-    private static <T extends CustomPacketPayload> void registerS2CPacket(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec, ClientPlayNetworking.PlayPayloadHandler<T> handler) {
+    private static <T extends CustomPacketPayload> void registerS2CPacket(CustomPacketPayload.Type<T> type, StreamCodec<? super RegistryFriendlyByteBuf, T> streamCodec) {
         PayloadTypeRegistry.playS2C().register(type, streamCodec);
-        ClientPlayNetworking.registerGlobalReceiver(type, handler);
     }
 
     @Environment(EnvType.CLIENT)
-    public static void registerS2CPackets() {
-        registerS2CPacket(OpenChairGuiPackage.TYPE, OpenChairGuiPackage.STREAM_CODEC, OpenChairGuiPackage::handle);
-        registerS2CPacket(ItemBreakPackage.TYPE, ItemBreakPackage.STREAM_CODEC, ItemBreakPackage::handle);
-        registerS2CPacket(SpawnParticlePackage.TYPE, SpawnParticlePackage.STREAM_CODEC, SpawnParticlePackage::handle);
-        registerS2CPacket(SyncDataPackage.TYPE, SyncDataPackage.STREAM_CODEC, SyncDataPackage::handle);
-        registerS2CPacket(OpenBeaconGuiPackage.TYPE, OpenBeaconGuiPackage.STREAM_CODEC, OpenBeaconGuiPackage::handle);
-        registerS2CPacket(BeaconAbsorbPackage.TYPE, BeaconAbsorbPackage.STREAM_CODEC, BeaconAbsorbPackage::handle);
-        registerS2CPacket(OpenSwitcherGuiPackage.TYPE, OpenSwitcherGuiPackage.STREAM_CODEC, OpenSwitcherGuiPackage::handle);
-        registerS2CPacket(SendEffectPackage.TYPE, SendEffectPackage.STREAM_CODEC, SendEffectPackage::handle);
-        registerS2CPacket(PlayMaidSoundPackage.TYPE, PlayMaidSoundPackage.STREAM_CODEC, PlayMaidSoundPackage::handle);
-        registerS2CPacket(GomokuClientPackage.TYPE, GomokuClientPackage.STREAM_CODEC, GomokuClientPackage::handle);
-        registerS2CPacket(FoxScrollPackage.TYPE, FoxScrollPackage.STREAM_CODEC, FoxScrollPackage::handle);
-        registerS2CPacket(CheckSchedulePosPacket.TYPE, CheckSchedulePosPacket.STREAM_CODEC, CheckSchedulePosPacket::handle);
-        registerS2CPacket(SyncMaidAreaPackage.TYPE, SyncMaidAreaPackage.STREAM_CODEC, SyncMaidAreaPackage::handle);
-        registerS2CPacket(CChessToClientPackage.TYPE, CChessToClientPackage.STREAM_CODEC, CChessToClientPackage::handle);
-        registerS2CPacket(WChessToClientPackage.TYPE, WChessToClientPackage.STREAM_CODEC, WChessToClientPackage::handle);
-        registerS2CPacket(TTSAudioToClientPackage.TYPE, TTSAudioToClientPackage.STREAM_CODEC, TTSAudioToClientPackage::handle);
-        registerS2CPacket(SyncAiSettingPackage.TYPE, SyncAiSettingPackage.STREAM_CODEC, SyncAiSettingPackage::handle);
-        registerS2CPacket(OpenMaidAIDataScreenPackage.TYPE, OpenMaidAIDataScreenPackage.STREAM_CODEC, OpenMaidAIDataScreenPackage::handle);
+    public static <T extends CustomPacketPayload> void registerClientReceivers() {
+        ClientPlayNetworking.registerGlobalReceiver(OpenChairGuiPackage.TYPE, OpenChairGuiPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(ItemBreakPackage.TYPE, ItemBreakPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SpawnParticlePackage.TYPE, SpawnParticlePackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SyncDataPackage.TYPE, SyncDataPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(OpenBeaconGuiPackage.TYPE, OpenBeaconGuiPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(BeaconAbsorbPackage.TYPE, BeaconAbsorbPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(OpenSwitcherGuiPackage.TYPE, OpenSwitcherGuiPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SendEffectPackage.TYPE, SendEffectPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(PlayMaidSoundPackage.TYPE, PlayMaidSoundPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(GomokuClientPackage.TYPE, GomokuClientPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(FoxScrollPackage.TYPE, FoxScrollPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(CheckSchedulePosPacket.TYPE, CheckSchedulePosPacket::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SyncMaidAreaPackage.TYPE, SyncMaidAreaPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(CChessToClientPackage.TYPE, CChessToClientPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(WChessToClientPackage.TYPE, WChessToClientPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(TTSAudioToClientPackage.TYPE, TTSAudioToClientPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SyncAiSettingPackage.TYPE, SyncAiSettingPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(OpenMaidAIDataScreenPackage.TYPE, OpenMaidAIDataScreenPackage::handle);
         // 仅安装 YSM 后才会发送此包
-        registerS2CPacket(SyncYsmMaidDataPackage.TYPE, SyncYsmMaidDataPackage.STREAM_CODEC, SyncYsmMaidDataPackage::handle);
-        registerS2CPacket(TTSSystemAudioToClientPackage.TYPE, TTSSystemAudioToClientPackage.STREAM_CODEC, TTSSystemAudioToClientPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SyncYsmMaidDataPackage.TYPE, SyncYsmMaidDataPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(TTSSystemAudioToClientPackage.TYPE, TTSSystemAudioToClientPackage::handle);
 
-        registerS2CPacket(AdvancedAddEntityPayload.TYPE, AdvancedAddEntityPayload.STREAM_CODEC, AdvancedAddEntityPayload::handle);
+        ClientPlayNetworking.registerGlobalReceiver(AdvancedAddEntityPayload.TYPE, AdvancedAddEntityPayload::handle);
 
-        registerS2CPacket(SyncFluidAmountPackage.TYPE, SyncFluidAmountPackage.STREAM_CODEC, SyncFluidAmountPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(SyncFluidAmountPackage.TYPE, SyncFluidAmountPackage::handle);
+
+    }
+
+    public static void registerS2CPackets() {
+        registerS2CPacket(OpenChairGuiPackage.TYPE, OpenChairGuiPackage.STREAM_CODEC);
+        registerS2CPacket(ItemBreakPackage.TYPE, ItemBreakPackage.STREAM_CODEC);
+        registerS2CPacket(SpawnParticlePackage.TYPE, SpawnParticlePackage.STREAM_CODEC);
+        registerS2CPacket(SyncDataPackage.TYPE, SyncDataPackage.STREAM_CODEC);
+        registerS2CPacket(OpenBeaconGuiPackage.TYPE, OpenBeaconGuiPackage.STREAM_CODEC);
+        registerS2CPacket(BeaconAbsorbPackage.TYPE, BeaconAbsorbPackage.STREAM_CODEC);
+        registerS2CPacket(OpenSwitcherGuiPackage.TYPE, OpenSwitcherGuiPackage.STREAM_CODEC);
+        registerS2CPacket(SendEffectPackage.TYPE, SendEffectPackage.STREAM_CODEC);
+        registerS2CPacket(PlayMaidSoundPackage.TYPE, PlayMaidSoundPackage.STREAM_CODEC);
+        registerS2CPacket(GomokuClientPackage.TYPE, GomokuClientPackage.STREAM_CODEC);
+        registerS2CPacket(FoxScrollPackage.TYPE, FoxScrollPackage.STREAM_CODEC);
+        registerS2CPacket(CheckSchedulePosPacket.TYPE, CheckSchedulePosPacket.STREAM_CODEC);
+        registerS2CPacket(SyncMaidAreaPackage.TYPE, SyncMaidAreaPackage.STREAM_CODEC);
+        registerS2CPacket(CChessToClientPackage.TYPE, CChessToClientPackage.STREAM_CODEC);
+        registerS2CPacket(WChessToClientPackage.TYPE, WChessToClientPackage.STREAM_CODEC);
+        registerS2CPacket(TTSAudioToClientPackage.TYPE, TTSAudioToClientPackage.STREAM_CODEC);
+        registerS2CPacket(SyncAiSettingPackage.TYPE, SyncAiSettingPackage.STREAM_CODEC);
+        registerS2CPacket(OpenMaidAIDataScreenPackage.TYPE, OpenMaidAIDataScreenPackage.STREAM_CODEC);
+        // 仅安装 YSM 后才会发送此包
+        registerS2CPacket(SyncYsmMaidDataPackage.TYPE, SyncYsmMaidDataPackage.STREAM_CODEC);
+        registerS2CPacket(TTSSystemAudioToClientPackage.TYPE, TTSSystemAudioToClientPackage.STREAM_CODEC);
+
+        registerS2CPacket(AdvancedAddEntityPayload.TYPE, AdvancedAddEntityPayload.STREAM_CODEC);
+
+        registerS2CPacket(SyncFluidAmountPackage.TYPE, SyncFluidAmountPackage.STREAM_CODEC);
     }
 
     public static void registerC2SPackets() {

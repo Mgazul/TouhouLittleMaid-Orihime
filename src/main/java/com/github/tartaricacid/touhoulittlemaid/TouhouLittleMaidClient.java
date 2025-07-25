@@ -18,6 +18,8 @@ public class TouhouLittleMaidClient {
         // 这个仅用于客户端，所以不需要在服务端注册
         EntityJoinLevelEvent.CALLBACK.register(event -> {
             Entity clientEntity = event.getEntity();
+            if (!clientEntity.level.isClientSide())
+                return;
             if (clientEntity instanceof Mob mob) {
                 IMaid maid = IMaid.convert(mob);
                 if (maid != null) {

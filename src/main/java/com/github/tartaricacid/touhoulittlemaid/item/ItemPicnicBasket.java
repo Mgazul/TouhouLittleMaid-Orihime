@@ -6,6 +6,8 @@ import com.github.tartaricacid.touhoulittlemaid.client.renderer.tileentity.Picni
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.other.PicnicBasketContainer;
 import com.github.tartaricacid.touhoulittlemaid.inventory.tooltip.ItemContainerTooltip;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -30,6 +32,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ItemPicnicBasket extends BlockItem implements ExtendedScreenHandlerFactory<ItemStack>, IItemRenderer {
+    @Environment(EnvType.CLIENT)
     @Override
     public BlockEntityWithoutLevelRenderer getCustomRenderer() {
         Minecraft minecraft = Minecraft.getInstance();

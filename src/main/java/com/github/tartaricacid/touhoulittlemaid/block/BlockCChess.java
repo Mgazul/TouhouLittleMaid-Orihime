@@ -17,6 +17,8 @@ import com.github.tartaricacid.touhoulittlemaid.tileentity.TileEntityCChess;
 import com.github.tartaricacid.touhoulittlemaid.tileentity.TileEntityJoy;
 import com.github.tartaricacid.touhoulittlemaid.util.CChessUtil;
 import com.mojang.serialization.MapCodec;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.BlockPos;
@@ -160,6 +162,7 @@ public class BlockCChess extends BlockJoy implements IBoardGameBlock, IBlock {
         return super.playerWillDestroy(world, pos, state, player);
     }
 
+    @Environment(EnvType.CLIENT)
     @Override
     public boolean addHitEffects(BlockState state, Level world, HitResult target, ParticleEngine manager) {
         return false;
