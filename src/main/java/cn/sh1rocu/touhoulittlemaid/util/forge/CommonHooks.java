@@ -1,8 +1,10 @@
 package cn.sh1rocu.touhoulittlemaid.util.forge;
 
+import cn.sh1rocu.touhoulittlemaid.api.event.FarmlandTrampleEvent;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -46,5 +48,11 @@ public class CommonHooks {
 
     public static boolean isLadder(BlockState state, LevelReader level, BlockPos pos, LivingEntity entity) {
         return state.is(BlockTags.CLIMBABLE);
+    }
+
+    public static boolean onFarmlandTrample(Level level, BlockPos pos, BlockState state, float fallDistance, Entity entity) {
+        FarmlandTrampleEvent event = new FarmlandTrampleEvent(level, pos, state, fallDistance, entity);
+        FarmlandTrampleEvent.CALLBACK.invoker().post(event);
+        return !event.isCanceled();
     }
 }

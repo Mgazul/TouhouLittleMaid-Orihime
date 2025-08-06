@@ -28,6 +28,18 @@ public class FarmlandTrampleEvent extends CancellableEvent {
         this.fallDistance = fallDistance;
     }
 
+    public LevelAccessor getLevel() {
+        return level;
+    }
+
+    public BlockPos getPos() {
+        return pos;
+    }
+
+    public BlockState getState() {
+        return state;
+    }
+
     public Entity getEntity() {
         return entity;
     }

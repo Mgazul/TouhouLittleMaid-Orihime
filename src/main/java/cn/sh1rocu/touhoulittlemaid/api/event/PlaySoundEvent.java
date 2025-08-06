@@ -26,6 +26,10 @@ public class PlaySoundEvent {
         this.setSound(sound);
     }
 
+    public SoundEngine getEngine() {
+        return engine;
+    }
+
     public String getName() {
         return name;
     }

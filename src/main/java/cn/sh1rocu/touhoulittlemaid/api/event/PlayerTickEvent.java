@@ -25,8 +25,6 @@ public abstract class PlayerTickEvent {
     }
 
     public static class Pre extends PlayerTickEvent {
-
-
         public Pre(Player player) {
             super(player);
         }
