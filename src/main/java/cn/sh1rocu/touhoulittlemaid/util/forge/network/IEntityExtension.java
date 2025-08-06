@@ -1,4 +1,3 @@
-
 package cn.sh1rocu.touhoulittlemaid.util.forge.network;
 
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;

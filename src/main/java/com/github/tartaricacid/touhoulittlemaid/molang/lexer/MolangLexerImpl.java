@@ -101,7 +101,7 @@ final class MolangLexerImpl implements MolangLexer {
         boolean isLastIdentifier = (lastToken != null && lastToken.kind() == TokenKind.IDENTIFIER);
         if (Characters.isDigit(c) || (!isLastIdentifier && c == '.')) {
             StringBuilder builder = new StringBuilder(8);
-            if(!isLastIdentifier) {
+            if (!isLastIdentifier) {
                 builder.appendCodePoint(c);
 
                 // first char is a digit, continue reading number

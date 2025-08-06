@@ -322,7 +322,7 @@ public class Search {
                 mvResult = mv;
                 if (vlBest > -WIN_VALUE && vlBest < WIN_VALUE) {
                     vlBest += (Position.random.nextInt() & RANDOM_MASK) -
-                              (Position.random.nextInt() & RANDOM_MASK);
+                            (Position.random.nextInt() & RANDOM_MASK);
                 }
             }
         }

@@ -51,7 +51,7 @@ public class MaidNavigationManager {
                 // 女仆当前正在使用水下寻路（不保证游泳的状态）
                 // 如果满足使用水下寻路的附加条件，则不进行下面的判断（目标水下或者无法上浮），防止状态之间的闪烁
                 boolean shouldUseWater = (maid.isInWater() && targetingUnderWater())
-                                         || (maid.isUnderWater() && mayBeStuckUnderWater(maid.blockPosition()));
+                        || (maid.isUnderWater() && mayBeStuckUnderWater(maid.blockPosition()));
                 // 要判断出水，需要当前存在路径
                 BlockPos endPos = getEndPos(waterNavigation);
                 if (!shouldUseWater && endPos != null) {
@@ -176,8 +176,8 @@ public class MaidNavigationManager {
     public boolean isWaterSurface(BlockPos pos) {
         // 向上两层（主人浮在水上的话 target 可能是 -1Y 的），向上一层（寻路规则）
         return (level.isWaterAt(pos) && level.getBlockState(pos.above()).isAir())
-               || (level.isWaterAt(pos.below()) && level.getBlockState(pos).isAir())
-               || (level.isWaterAt(pos.above()) && level.getBlockState(pos.above(2)).isAir());
+                || (level.isWaterAt(pos.below()) && level.getBlockState(pos).isAir())
+                || (level.isWaterAt(pos.above()) && level.getBlockState(pos.above(2)).isAir());
     }
 
     /**
@@ -185,8 +185,8 @@ public class MaidNavigationManager {
      */
     private boolean isUnderWater(BlockPos blockPos) {
         return level.isWaterAt(blockPos)
-               && level.isWaterAt(blockPos.above())
-               && level.isWaterAt(blockPos.above(2));
+                && level.isWaterAt(blockPos.above())
+                && level.isWaterAt(blockPos.above(2));
     }
 
     @Nullable

@@ -1,6 +1,5 @@
 package com.github.tartaricacid.touhoulittlemaid.init;
 
-import cn.sh1rocu.touhoulittlemaid.util.itemhandler.CombinedInvWrapper;
 import cn.sh1rocu.touhoulittlemaid.util.itemhandler.entity.EntityArmorInvWrapper;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.inventory.handler.BaubleItemHandler;

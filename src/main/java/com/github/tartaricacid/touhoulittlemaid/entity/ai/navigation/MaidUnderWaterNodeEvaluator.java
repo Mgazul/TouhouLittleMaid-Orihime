@@ -80,8 +80,8 @@ public class MaidUnderWaterNodeEvaluator extends AmphibiousNodeEvaluator impleme
         }
         BlockPos blockPos = node.asBlockPos();
         if (neighbor != null && mob.level.getFluidState(blockPos).is(FluidTags.WATER)
-            && mob.level.getFluidState(neighbor.asBlockPos()).isEmpty()
-            && node.y != neighbor.y && (node.x != neighbor.x || node.z != neighbor.z)) {
+                && mob.level.getFluidState(neighbor.asBlockPos()).isEmpty()
+                && node.y != neighbor.y && (node.x != neighbor.x || node.z != neighbor.z)) {
             return false;
         }
         return super.isNeighborValid(neighbor, node);

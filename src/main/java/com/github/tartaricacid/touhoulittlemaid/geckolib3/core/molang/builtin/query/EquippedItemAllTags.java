@@ -22,7 +22,7 @@ public class EquippedItemAllTags extends LivingEntityFunction {
         }
 
         ItemStack itemStack = EquipmentUtil.getEquippedItem(context.entity().entity(), slotType);
-        if(itemStack.isEmpty()) {
+        if (itemStack.isEmpty()) {
             return false;
         }
 

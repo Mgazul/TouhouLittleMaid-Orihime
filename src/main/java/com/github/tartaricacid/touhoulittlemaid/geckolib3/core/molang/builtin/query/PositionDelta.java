@@ -13,10 +13,14 @@ public class PositionDelta extends EntityFunction {
         float partialTicks = context.entity().animationEvent().getPartialTick();
         Entity entity = context.entity().entity();
         switch (axis) {
-            case 0: return Mth.lerp(partialTicks, entity.xo, entity.getX()) - entity.xo;
-            case 1: return Mth.lerp(partialTicks, entity.yo, entity.getY()) - entity.yo;
-            case 2: return Mth.lerp(partialTicks, entity.zo, entity.getZ()) - entity.zo;
-            default: return null;
+            case 0:
+                return Mth.lerp(partialTicks, entity.xo, entity.getX()) - entity.xo;
+            case 1:
+                return Mth.lerp(partialTicks, entity.yo, entity.getY()) - entity.yo;
+            case 2:
+                return Mth.lerp(partialTicks, entity.zo, entity.getZ()) - entity.zo;
+            default:
+                return null;
         }
     }
 

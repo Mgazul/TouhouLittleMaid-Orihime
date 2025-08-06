@@ -2,19 +2,13 @@ package com.github.tartaricacid.touhoulittlemaid;
 
 import com.github.tartaricacid.touhoulittlemaid.api.ILittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.compat.aquaculture.AquacultureCompat;
-import com.github.tartaricacid.touhoulittlemaid.config.GeneralConfig;
-import com.github.tartaricacid.touhoulittlemaid.config.ServerConfig;
-import com.github.tartaricacid.touhoulittlemaid.entity.chatbubble.ChatBubbleManger;
 import com.github.tartaricacid.touhoulittlemaid.entity.info.CommonDefaultPack;
 import com.github.tartaricacid.touhoulittlemaid.init.*;
 import com.github.tartaricacid.touhoulittlemaid.init.registry.CommandRegistry;
-import com.github.tartaricacid.touhoulittlemaid.init.registry.CommonRegistry;
 import com.github.tartaricacid.touhoulittlemaid.network.NetworkHandler;
 import com.google.common.collect.Lists;
-import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.loader.api.FabricLoader;
-import net.neoforged.fml.config.ModConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

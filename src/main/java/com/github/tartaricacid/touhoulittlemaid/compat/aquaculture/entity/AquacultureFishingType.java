@@ -2,7 +2,7 @@ package com.github.tartaricacid.touhoulittlemaid.compat.aquaculture.entity;
 
 /**
  * 没Fabric端，太好了（
- * */
+ */
 public class AquacultureFishingType {
 
 }

@@ -31,9 +31,9 @@ public class MaidAttackTridentTask extends Behavior<EntityMaid> {
     @Override
     protected boolean checkExtraStartConditions(ServerLevel worldIn, EntityMaid owner) {
         return this.hasTrident(owner) &&
-               owner.getBrain().getMemory(MemoryModuleType.ATTACK_TARGET)
-                       .filter(Entity::isAlive)
-                       .isPresent();
+                owner.getBrain().getMemory(MemoryModuleType.ATTACK_TARGET)
+                        .filter(Entity::isAlive)
+                        .isPresent();
     }
 
     @Override

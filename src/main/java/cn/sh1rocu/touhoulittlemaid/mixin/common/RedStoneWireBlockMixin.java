@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
  * From Porting_Lib
- * */
+ */
 @Mixin(RedStoneWireBlock.class)
 public class RedStoneWireBlockMixin {
     @Inject(

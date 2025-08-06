@@ -43,7 +43,7 @@ public /* sealed */ interface ExpressionEvaluator<TEntity> /* permits Expression
      * Creates a new {@link ExpressionEvaluator} instance with
      * the given bindings.
      *
-     * @param entity   The entity object
+     * @param entity The entity object
      * @return The created expression evaluator.
      * @since 3.0.0
      */

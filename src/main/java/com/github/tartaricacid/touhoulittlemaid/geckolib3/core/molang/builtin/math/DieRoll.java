@@ -17,7 +17,7 @@ public class DieRoll extends ContextFunction<Object> {
         int i = arguments.getAsInt(context, 0);
         double min = arguments.getAsDouble(context, 1);
         double range = arguments.getAsDouble(context, 2);
-        if(min > range) {
+        if (min > range) {
             double temp = min;
             min = range;
             range = temp - range;

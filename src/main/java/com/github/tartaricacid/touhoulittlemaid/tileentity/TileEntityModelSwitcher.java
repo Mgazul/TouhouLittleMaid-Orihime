@@ -1,7 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.tileentity;
 
 import cn.sh1rocu.touhoulittlemaid.api.extension.IBlockEntityPersistentData;
-import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitBlocks;
 import com.google.common.collect.Lists;
 import io.netty.buffer.ByteBuf;

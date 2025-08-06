@@ -5,7 +5,6 @@ import com.github.tartaricacid.touhoulittlemaid.ai.service.ConfigProxySelector;
 import com.github.tartaricacid.touhoulittlemaid.ai.service.SerializerRegister;
 import com.github.tartaricacid.touhoulittlemaid.ai.service.ServiceType;
 import com.github.tartaricacid.touhoulittlemaid.ai.service.Site;
-import com.github.tartaricacid.touhoulittlemaid.ai.service.stt.STTClient;
 import com.github.tartaricacid.touhoulittlemaid.config.subconfig.AIConfig;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;

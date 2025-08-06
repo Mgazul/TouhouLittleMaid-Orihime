@@ -19,7 +19,7 @@ public class RelativeBlockHasAnyTag extends EntityFunction {
         int offsetX = arguments.getAsInt(ctx, 0);
         int offsetY = arguments.getAsInt(ctx, 1);
         int offsetZ = arguments.getAsInt(ctx, 2);
-        if(Math.abs(offsetX) > 8 || Math.abs(offsetY) > 8 || Math.abs(offsetZ) > 8) {
+        if (Math.abs(offsetX) > 8 || Math.abs(offsetY) > 8 || Math.abs(offsetZ) > 8) {
             return false;
         }
 
@@ -27,7 +27,7 @@ public class RelativeBlockHasAnyTag extends EntityFunction {
 
         for (int i = 3; i < arguments.size(); i++) {
             ResourceLocation tagId = MolangUtils.parseResourceLocation(ctx.entity(), arguments.getAsString(ctx, i));
-            if(tagId == null) {
+            if (tagId == null) {
                 return null;
             }
 

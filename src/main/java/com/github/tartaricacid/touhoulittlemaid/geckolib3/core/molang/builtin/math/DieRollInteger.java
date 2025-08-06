@@ -17,7 +17,7 @@ public class DieRollInteger extends ContextFunction<Object> {
         int i = Math.round(arguments.getAsFloat(context, 0));
         int min = arguments.getAsInt(context, 1);
         int range = arguments.getAsInt(context, 2);
-        if(min > range) {
+        if (min > range) {
             int temp = min;
             min = range;
             range = temp - range;

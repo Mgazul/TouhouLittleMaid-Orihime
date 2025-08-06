@@ -54,13 +54,13 @@ public final class IdentifierExpression implements Expression {
     }
 
     public static Expression get(String name, Object target) {
-        if(target instanceof Number) {
+        if (target instanceof Number) {
             return new DoubleExpression(((Number) target).doubleValue());
-        } else if(target instanceof String) {
+        } else if (target instanceof String) {
             return new StringExpression((String) target);
-        } else if(target instanceof AssignableVariable) {
+        } else if (target instanceof AssignableVariable) {
             return new AssignableVariableExpression((AssignableVariable) target);
-        } else if(target instanceof Variable) {
+        } else if (target instanceof Variable) {
             return new VariableExpression((Variable) target);
         }
         return new IdentifierExpression(name, target);

@@ -879,7 +879,7 @@ public class Position {
                 return IN_FORT(sqDst) && ADVISOR_SPAN(sqSrc, sqDst);
             case PIECE_BISHOP:
                 return SAME_HALF(sqSrc, sqDst) && BISHOP_SPAN(sqSrc, sqDst) &&
-                       squares[BISHOP_PIN(sqSrc, sqDst)] == 0;
+                        squares[BISHOP_PIN(sqSrc, sqDst)] == 0;
             case PIECE_KNIGHT:
                 int sqPin = KNIGHT_PIN(sqSrc, sqDst);
                 return sqPin != sqSrc && squares[sqPin] == 0;

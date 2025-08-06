@@ -30,7 +30,7 @@ public class TagBlock extends FabricTagProvider<Block> {
                 .forceAddTag(BlockTags.FENCES)
                 .forceAddTag(BlockTags.CLIMBABLE);
 
-        getOrCreateTagBuilder(ALTAR_TORII).add(Blocks.RED_WOOL,Blocks.RED_CONCRETE).addOptional(ResourceLocation.parse("biomesoplenty:redwood_planks"));
+        getOrCreateTagBuilder(ALTAR_TORII).add(Blocks.RED_WOOL, Blocks.RED_CONCRETE).addOptional(ResourceLocation.parse("biomesoplenty:redwood_planks"));
         getOrCreateTagBuilder(ALTAR_PILLAR).forceAddTag(BlockTags.LOGS);
     }
 }

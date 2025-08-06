@@ -8,7 +8,6 @@ import com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid.task.Defa
 import com.github.tartaricacid.touhoulittlemaid.client.gui.item.PicnicBasketContainerScreen;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.item.WirelessIOContainerGui;
 import com.github.tartaricacid.touhoulittlemaid.init.InitContainer;
-import com.github.tartaricacid.touhoulittlemaid.inventory.container.config.MaidAIChatConfigContainer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.screens.MenuScreens;

@@ -174,7 +174,7 @@ public class Evaluate {
                     if (pieceType == PIECE_PAWN) {
                         break;
                     } else if (pieceType == PIECE_KING || pieceType == PIECE_KNIGHT ||
-                               pieceType == (isRook ? PIECE_BISHOP : PIECE_ROOK)) {
+                            pieceType == (isRook ? PIECE_BISHOP : PIECE_ROOK)) {
                         direct = false;
                     }
                 }
@@ -402,8 +402,8 @@ public class Evaluate {
             }
             int brIsolated = brSingle & ~((brSingle << 1) | (brSingle >> 1));
             int penalty = Util.POP_COUNT_16(brDouble) * DOUBLE_PENALTY +
-                          Util.POP_COUNT_16(brIsolated) * ISOLATED_PENALTY +
-                          Util.POP_COUNT_16(brIsolated & brDouble) * ISOLATED_PENALTY * 2;
+                    Util.POP_COUNT_16(brIsolated) * ISOLATED_PENALTY +
+                    Util.POP_COUNT_16(brIsolated & brDouble) * ISOLATED_PENALTY * 2;
             vl += (pos.sdPlayer == sd ? -penalty : penalty);
         }
         return vl;

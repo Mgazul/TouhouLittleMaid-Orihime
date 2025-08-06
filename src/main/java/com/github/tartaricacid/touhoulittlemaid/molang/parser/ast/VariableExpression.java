@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class VariableExpression  implements Expression {
+public class VariableExpression implements Expression {
     private final Variable target;
 
     public VariableExpression(Variable target) {

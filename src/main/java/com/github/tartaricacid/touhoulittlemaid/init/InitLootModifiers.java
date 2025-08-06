@@ -1,7 +1,5 @@
 package com.github.tartaricacid.touhoulittlemaid.init;
 
-import cn.sh1rocu.touhoulittlemaid.api.extension.ILootContext;
-import cn.sh1rocu.touhoulittlemaid.api.extension.ILootTable;
 import cn.sh1rocu.touhoulittlemaid.api.extension.ILootTableBuilder;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.datagen.LootTableGenerator;
@@ -63,7 +61,7 @@ public class InitLootModifiers {
 
         LootTableEvents.MODIFY.addPhaseOrdering(Event.DEFAULT_PHASE, LAST);
         LootTableEvents.MODIFY.register(LAST,
-                (key, builder, source, provider) ->  ((ILootTableBuilder) builder).tlm$setId(key.location())
+                (key, builder, source, provider) -> ((ILootTableBuilder) builder).tlm$setId(key.location())
         );
     }
 }

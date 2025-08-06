@@ -33,7 +33,7 @@ public class LayerMaidBackItem extends RenderLayer<Mob, BedrockModel<Mob>> {
         }
         ItemStack stack = maid.getBackpackShowItem();
         if (!renderer.getMainInfo().isShowBackpack() || mob.isSleeping()
-            || mob.isInvisible() || RenderFixer.isCarryOnRender(stack, bufferIn)) {
+                || mob.isInvisible() || RenderFixer.isCarryOnRender(stack, bufferIn)) {
             return;
         }
         if (maid instanceof EntityMaid entityMaid && !entityMaid.getConfigManager().isShowBackItem()) {

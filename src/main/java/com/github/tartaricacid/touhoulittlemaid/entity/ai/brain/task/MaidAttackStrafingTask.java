@@ -28,9 +28,9 @@ public class MaidAttackStrafingTask extends Behavior<EntityMaid> {
     @Override
     protected boolean checkExtraStartConditions(ServerLevel worldIn, EntityMaid owner) {
         return owner.getMainHandItem().getItem() instanceof ProjectileWeaponItem &&
-               owner.getBrain().getMemory(MemoryModuleType.ATTACK_TARGET)
-                       .filter(Entity::isAlive)
-                       .isPresent();
+                owner.getBrain().getMemory(MemoryModuleType.ATTACK_TARGET)
+                        .filter(Entity::isAlive)
+                        .isPresent();
     }
 
     @Override

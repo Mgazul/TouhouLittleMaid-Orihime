@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * From Porting_Lib
- * */
+ */
 @Environment(EnvType.CLIENT)
 @Mixin(KeyboardHandler.class)
 public abstract class KeyboardHandlerMixin {

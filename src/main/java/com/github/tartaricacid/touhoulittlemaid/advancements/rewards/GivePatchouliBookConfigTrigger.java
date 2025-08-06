@@ -24,7 +24,7 @@ public class GivePatchouliBookConfigTrigger extends SimpleCriterionTrigger<GiveP
 
     public record Instance(Optional<ContextAwarePredicate> player) implements SimpleInstance {
         public static final Codec<Instance> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(Instance::player))
+                        EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(Instance::player))
                 .apply(instance, Instance::new));
 
         public static Criterion<Instance> instance() {

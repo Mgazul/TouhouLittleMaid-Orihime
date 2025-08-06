@@ -676,7 +676,7 @@ public class Position {
         }
         int sqEnPassant = PARSE_COORD(fen, index + 1);
         if (sqEnPassant > 0 && PAWN_EN_PASSANT(sqEnPassant, sdPlayer) &&
-            squares[sqEnPassant - FORWARD_DELTA(sdPlayer)] > 0) {
+                squares[sqEnPassant - FORWARD_DELTA(sdPlayer)] > 0) {
             setIrrev(castlingBits, sqEnPassant);
         } else {
             setIrrev(castlingBits, 0);
@@ -984,7 +984,7 @@ public class Position {
                     return (sqDst == sqTmp - 1 || sqDst == sqTmp + 1);
                 }
                 return (sqDst == sqTmp || (sqDst == sqTmp + delta &&
-                                           PAWN_INIT(sqSrc, sdPlayer) && squares[sqTmp] == 0));
+                        PAWN_INIT(sqSrc, sdPlayer) && squares[sqTmp] == 0));
             default:
                 return false;
         }

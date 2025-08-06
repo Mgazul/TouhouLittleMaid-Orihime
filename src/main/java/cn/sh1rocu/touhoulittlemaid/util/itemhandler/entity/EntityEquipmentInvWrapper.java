@@ -6,7 +6,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.ladysnake.cca.api.v3.component.Component;
 
 import java.util.ArrayList;
 import java.util.List;

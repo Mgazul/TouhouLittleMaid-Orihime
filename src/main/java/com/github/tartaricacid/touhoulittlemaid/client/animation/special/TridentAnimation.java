@@ -1,8 +1,8 @@
 package com.github.tartaricacid.touhoulittlemaid.client.animation.special;
 
+import com.github.tartaricacid.simplebedrockmodel.client.bedrock.model.BedrockPart;
 import com.github.tartaricacid.touhoulittlemaid.api.animation.ICustomAnimation;
 import com.github.tartaricacid.touhoulittlemaid.api.animation.IModelRenderer;
-import com.github.tartaricacid.simplebedrockmodel.client.bedrock.model.BedrockPart;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -17,7 +17,7 @@ public class TridentAnimation implements ICustomAnimation<Mob> {
                                   float limbSwing, float limbSwingAmount, float ageInTicks,
                                   float netHeadYaw, float headPitch) {
         if (!mob.isSleeping() && mob.isUsingItem() && mob.getUsedItemHand() == InteractionHand.MAIN_HAND
-            && mob.getMainHandItem().getItem() instanceof TridentItem) {
+                && mob.getMainHandItem().getItem() instanceof TridentItem) {
             int tick = mob.getTicksUsingItem();
             BedrockPart armRight = ICustomAnimation.getPartOrNull(models, "armRight");
             if (armRight != null) {

@@ -14,7 +14,7 @@ public class Random extends ContextFunction<Object> {
     protected Object eval(ExecutionContext<IContext<Object>> context, ArgumentCollection arguments) {
         double min = arguments.getAsDouble(context, 0);
         double range = arguments.getAsDouble(context, 1);
-        if(min > range) {
+        if (min > range) {
             double temp = min;
             min = range;
             range = temp - range;
