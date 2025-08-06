@@ -47,18 +47,18 @@ public class MaidTipsOverlay implements LayeredDraw.Layer {
     }
 
     public static void init() {
-        INSTANCE.addTips("INSTANCE.touhou_little_maid.compass.tips", ENABLE_COMPASS_TIP, Items.COMPASS);
-        INSTANCE.addTips("INSTANCE.touhou_little_maid.golden_apple.tips", ENABLE_GOLDEN_APPLE_TIP, Items.GOLDEN_APPLE, Items.ENCHANTED_GOLDEN_APPLE);
-        INSTANCE.addTips("INSTANCE.touhou_little_maid.potion.tips", ENABLE_POTION_TIP, Items.POTION);
-        INSTANCE.addTips("INSTANCE.touhou_little_maid.milk_bucket.tips", ENABLE_MILK_BUCKET_TIP, Items.MILK_BUCKET);
-        INSTANCE.addTips("INSTANCE.touhou_little_maid.glass_bottle.tips", ENABLE_GLASS_BOTTLE_TIP, Items.GLASS_BOTTLE);
-        INSTANCE.addTips("INSTANCE.touhou_little_maid.name_tag.tips", ENABLE_NAME_TAG_TIP, Items.NAME_TAG);
-        INSTANCE.addTips("INSTANCE.touhou_little_maid.lead.tips", ENABLE_LEAD_TIP, Items.LEAD);
-        INSTANCE.addTips("INSTANCE.touhou_little_maid.debug_stick.tips", Items.DEBUG_STICK);
-        INSTANCE.addTips("INSTANCE.touhou_little_maid.saddle.tips", ENABLE_SADDLE_TIP, Items.SADDLE);
+        INSTANCE.addTips("overlay.touhou_little_maid.compass.tips", ENABLE_COMPASS_TIP, Items.COMPASS);
+        INSTANCE.addTips("overlay.touhou_little_maid.golden_apple.tips", ENABLE_GOLDEN_APPLE_TIP, Items.GOLDEN_APPLE, Items.ENCHANTED_GOLDEN_APPLE);
+        INSTANCE.addTips("overlay.touhou_little_maid.potion.tips", ENABLE_POTION_TIP, Items.POTION);
+        INSTANCE.addTips("overlay.touhou_little_maid.milk_bucket.tips", ENABLE_MILK_BUCKET_TIP, Items.MILK_BUCKET);
+        INSTANCE.addTips("overlay.touhou_little_maid.glass_bottle.tips", ENABLE_GLASS_BOTTLE_TIP, Items.GLASS_BOTTLE);
+        INSTANCE.addTips("overlay.touhou_little_maid.name_tag.tips", ENABLE_NAME_TAG_TIP, Items.NAME_TAG);
+        INSTANCE.addTips("overlay.touhou_little_maid.lead.tips", ENABLE_LEAD_TIP, Items.LEAD);
+        INSTANCE.addTips("overlay.touhou_little_maid.debug_stick.tips", Items.DEBUG_STICK);
+        INSTANCE.addTips("overlay.touhou_little_maid.saddle.tips", ENABLE_SADDLE_TIP, Items.SADDLE);
 
-        INSTANCE.addSpecialTips("INSTANCE.touhou_little_maid.ntr_item.tips", (item, maid, player) -> !maid.isOwnedBy(player) && EntityMaid.getNtrItem().test(item));
-        INSTANCE.addSpecialTips("INSTANCE.touhou_little_maid.remove_backpack.tips", MaidTipsOverlay::checkShears);
+        INSTANCE.addSpecialTips("overlay.touhou_little_maid.ntr_item.tips", (item, maid, player) -> !maid.isOwnedBy(player) && EntityMaid.getNtrItem().test(item));
+        INSTANCE.addSpecialTips("overlay.touhou_little_maid.remove_backpack.tips", MaidTipsOverlay::checkShears);
 
         for (ILittleMaid littleMaid : TouhouLittleMaid.EXTENSIONS) {
             littleMaid.addMaidTips(INSTANCE);
