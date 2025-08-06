@@ -1,21 +1,19 @@
 package com.github.tartaricacid.touhoulittlemaid.entity.projectile;
 
 import com.github.tartaricacid.touhoulittlemaid.config.subconfig.MaidConfig;
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitDamage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerEntity;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -77,6 +75,11 @@ public class EntityDanmaku extends ThrowableProjectile {
         Entity thrower = getOwner();
         Entity hit = result.getEntity();
         if (thrower instanceof TamableAnimal tameable) {
+            // 女仆射出的弹幕不能伤害玩家
+            if (tameable instanceof EntityMaid && hit instanceof Player) {
+                this.discard();
+                return;
+            }
             if (hit instanceof TamableAnimal hitTameable && hasSameOwner(tameable, hitTameable)) {
                 this.discard();
                 return;
@@ -109,11 +112,6 @@ public class EntityDanmaku extends ThrowableProjectile {
         if (this.tickCount > MAX_TICKS_EXISTED) {
             this.discard();
         }
-    }
-
-    @Override
-    public boolean isInWater() {
-        return super.isInWater();
     }
 
     @Override

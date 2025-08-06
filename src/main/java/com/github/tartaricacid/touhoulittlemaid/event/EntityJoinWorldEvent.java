@@ -16,6 +16,8 @@ import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Creeper;
 
+import java.util.List;
+
 import static com.github.tartaricacid.touhoulittlemaid.init.InitDataAttachment.POWER_NUM;
 
 public class EntityJoinWorldEvent {
@@ -28,9 +30,12 @@ public class EntityJoinWorldEvent {
     public static void onAnimalJoinWorld(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof Animal animal) {
             GoalSelector goalSelector = ((MobAccessor) animal).tlm$goalSelector();
-            goalSelector.getAvailableGoals().stream().filter(goal -> goal.getGoal() instanceof TemptGoal).findFirst().ifPresent(g -> {
+            // 先复制一遍进行遍历，避免出现 ConcurrentModificationException
+            var goals = List.copyOf(goalSelector.getAvailableGoals());
+            goals.stream().filter(goal -> goal.getGoal() instanceof TemptGoal).findFirst().ifPresent(g -> {
                 if (g.getGoal() instanceof TemptGoal temptGoal) {
-                    goalSelector.addGoal(g.getPriority(), new MaidTemptGoal(temptGoal.mob, temptGoal.speedModifier, temptGoal.items, temptGoal.canScare));
+                    MaidTemptGoal maidTemptGoal = new MaidTemptGoal(temptGoal.mob, temptGoal.speedModifier, temptGoal.items, temptGoal.canScare);
+                    goalSelector.addGoal(g.getPriority(), maidTemptGoal);
                 }
             });
         }

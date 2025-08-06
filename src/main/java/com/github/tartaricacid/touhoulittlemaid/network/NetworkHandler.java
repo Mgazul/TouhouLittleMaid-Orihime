@@ -50,8 +50,6 @@ public class NetworkHandler {
         ClientPlayNetworking.registerGlobalReceiver(CChessToClientPackage.TYPE, CChessToClientPackage::handle);
         ClientPlayNetworking.registerGlobalReceiver(WChessToClientPackage.TYPE, WChessToClientPackage::handle);
         ClientPlayNetworking.registerGlobalReceiver(TTSAudioToClientPackage.TYPE, TTSAudioToClientPackage::handle);
-        ClientPlayNetworking.registerGlobalReceiver(SyncAiSettingPackage.TYPE, SyncAiSettingPackage::handle);
-        ClientPlayNetworking.registerGlobalReceiver(OpenMaidAIDataScreenPackage.TYPE, OpenMaidAIDataScreenPackage::handle);
         // 仅安装 YSM 后才会发送此包
         ClientPlayNetworking.registerGlobalReceiver(SyncYsmMaidDataPackage.TYPE, SyncYsmMaidDataPackage::handle);
         ClientPlayNetworking.registerGlobalReceiver(TTSSystemAudioToClientPackage.TYPE, TTSSystemAudioToClientPackage::handle);
@@ -79,8 +77,6 @@ public class NetworkHandler {
         registerS2CPacket(CChessToClientPackage.TYPE, CChessToClientPackage.STREAM_CODEC);
         registerS2CPacket(WChessToClientPackage.TYPE, WChessToClientPackage.STREAM_CODEC);
         registerS2CPacket(TTSAudioToClientPackage.TYPE, TTSAudioToClientPackage.STREAM_CODEC);
-        registerS2CPacket(SyncAiSettingPackage.TYPE, SyncAiSettingPackage.STREAM_CODEC);
-        registerS2CPacket(OpenMaidAIDataScreenPackage.TYPE, OpenMaidAIDataScreenPackage.STREAM_CODEC);
         // 仅安装 YSM 后才会发送此包
         registerS2CPacket(SyncYsmMaidDataPackage.TYPE, SyncYsmMaidDataPackage.STREAM_CODEC);
         registerS2CPacket(TTSSystemAudioToClientPackage.TYPE, TTSSystemAudioToClientPackage.STREAM_CODEC);
@@ -117,7 +113,8 @@ public class NetworkHandler {
         // 仅安装 YSM 后才会发送此包
         registerC2SPacket(YsmMaidModelPackage.TYPE, YsmMaidModelPackage.STREAM_CODEC, YsmMaidModelPackage::handle);
         registerC2SPacket(SaveMaidAIDataPackage.TYPE, SaveMaidAIDataPackage.STREAM_CODEC, SaveMaidAIDataPackage::handle);
-        registerC2SPacket(GetMaidAIDataPackage.TYPE, GetMaidAIDataPackage.STREAM_CODEC, GetMaidAIDataPackage::handle);
+        registerC2SPacket(ClearMaidAIDataPacket.TYPE, ClearMaidAIDataPacket.STREAM_CODEC, ClearMaidAIDataPacket::handle);
+        registerC2SPacket(OpenMaidGuiPackage.TYPE, OpenMaidGuiPackage.STREAM_CODEC, OpenMaidGuiPackage::handle);
 
     }
 

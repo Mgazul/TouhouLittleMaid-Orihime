@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:chest",
+  "type": "minecraft:advancement_reward",
   "pools": [
     {
       "bonus_rolls": 0.0,

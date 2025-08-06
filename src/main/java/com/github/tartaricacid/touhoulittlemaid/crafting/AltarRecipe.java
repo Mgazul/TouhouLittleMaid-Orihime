@@ -1,6 +1,5 @@
 package com.github.tartaricacid.touhoulittlemaid.crafting;
 
-import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.item.EntityBox;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitDataComponent;
@@ -44,7 +43,7 @@ public class AltarRecipe extends ShapelessRecipe {
     }
 
     public ResourceLocation getId() {
-        return ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "altar_crafting");
+        return BuiltInRegistries.RECIPE_TYPE.getKey(InitRecipes.ALTAR_CRAFTING);
     }
 
     public String getRecipeString() {
@@ -74,7 +73,8 @@ public class AltarRecipe extends ShapelessRecipe {
             return;
         }
 
-        type.spawn(world, pos, MobSpawnType.STRUCTURE);
+        // 生成类型为 EVENT 也许更合适
+        type.spawn(world, pos, MobSpawnType.EVENT);
     }
 
     private void rebornMaid(ServerLevel world, BlockPos pos, @Nullable List<ItemStack> list) {

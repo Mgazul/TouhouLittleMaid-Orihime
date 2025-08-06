@@ -4,8 +4,13 @@ import cn.sh1rocu.touhoulittlemaid.api.event.*;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.event.InteractMaidEvent;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAfterEatEvent;
+import com.github.tartaricacid.touhoulittlemaid.api.event.MaidDamageEvent;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidDeathEvent;
-import com.github.tartaricacid.touhoulittlemaid.debug.ChangeMaidOwner;
+import com.github.tartaricacid.touhoulittlemaid.config.GeneralConfig;
+import com.github.tartaricacid.touhoulittlemaid.config.ServerConfig;
+import com.github.tartaricacid.touhoulittlemaid.debug.event.DebugStickClickEvent;
+import com.github.tartaricacid.touhoulittlemaid.debug.target.SendMaidDebugDataEvent;
+import com.github.tartaricacid.touhoulittlemaid.entity.chatbubble.RandomEmoji;
 import com.github.tartaricacid.touhoulittlemaid.event.*;
 import com.github.tartaricacid.touhoulittlemaid.event.food.ConvertFoodEatenEvent;
 import com.github.tartaricacid.touhoulittlemaid.event.food.RemainFoodEatenEvent;
@@ -14,21 +19,30 @@ import com.github.tartaricacid.touhoulittlemaid.init.registry.CommonRegistry;
 import com.github.tartaricacid.touhoulittlemaid.init.registry.CompatRegistry;
 import com.github.tartaricacid.touhoulittlemaid.init.registry.MobSpawnInfoRegistry;
 import com.github.tartaricacid.touhoulittlemaid.item.ItemSubstituteJizo;
+import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
 import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeModConfigEvents;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents;
+import net.neoforged.fml.config.ModConfig;
 
 public class TouhouLittleMaidFabric implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        // AI模块初始化较快，需要最优先加载config，否则ConfigProxySelector的config字段可能为null
+        registerConfiguration();
+        CommonRegistry.onSetupEvent();
         TouhouLittleMaid.commonSetup();
         CompatRegistry.onEnqueue();
-        CommonRegistry.onSetupEvent();
         subscribeEvents();
         subscribeDebugEvents();
+    }
+
+    private static void registerConfiguration() {
+        NeoForgeConfigRegistry.INSTANCE.register(TouhouLittleMaid.MOD_ID, ModConfig.Type.COMMON, GeneralConfig.getConfigSpec());
+        NeoForgeConfigRegistry.INSTANCE.register(TouhouLittleMaid.MOD_ID, ModConfig.Type.SERVER, ServerConfig.init());
     }
 
     private void subscribeEvents() {
@@ -49,7 +63,6 @@ public class TouhouLittleMaidFabric implements ModInitializer {
         MaidAfterEatEvent.CALLBACK.register(RemainFoodEatenEvent::onAfterMaidEat);
         InteractMaidEvent.CALLBACK.register(ApplyGoldenAppleEvent::onInteractMaid);
         InteractMaidEvent.CALLBACK.register(ApplyPotionEffectEvent::onInteractMaid);
-        InteractMaidEvent.CALLBACK.register(ApplyScriptBook::onInteractMaid);
         InteractMaidEvent.CALLBACK.register(DismountMaidEvent::onInteract);
         InteractMaidEvent.CALLBACK.register(GetExpBottleEvent::onInteract);
         InteractMaidEvent.CALLBACK.register(HandleBackpackEvent::onInteractMaid);
@@ -64,9 +77,11 @@ public class TouhouLittleMaidFabric implements ModInitializer {
         InteractMaidEvent.CALLBACK.register(UseFavorabilityToolEvent::onInteract);
         InteractMaidEvent.CALLBACK.register(UseNameTagEvent::onInteractServer);
         InteractMaidEvent.CALLBACK.register(ItemSubstituteJizo::onEntityInteract);
+        MaidDamageEvent.CALLBACK.register(RandomEmoji::addHurtChatText);
     }
 
     private static void subscribeDebugEvents() {
-        InteractMaidEvent.CALLBACK.register(ChangeMaidOwner::onInteract);
+        InteractMaidEvent.CALLBACK.register(DebugStickClickEvent::onInteract);
+        PlayerTickEvent.START.register(SendMaidDebugDataEvent::onPlayerTick);
     }
 }

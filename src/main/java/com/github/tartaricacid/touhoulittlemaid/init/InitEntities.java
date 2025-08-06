@@ -5,7 +5,7 @@ import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.MaidSchedule;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.sensor.MaidHostilesSensor;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.sensor.MaidNearestLivingEntitySensor;
 import com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.sensor.MaidPickupEntitiesSensor;
-import com.github.tartaricacid.touhoulittlemaid.entity.chatbubble.MaidChatBubbles;
+import com.github.tartaricacid.touhoulittlemaid.entity.chatbubble.ChatBubbleRegister;
 import com.github.tartaricacid.touhoulittlemaid.entity.item.*;
 import com.github.tartaricacid.touhoulittlemaid.entity.monster.EntityFairy;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -104,7 +104,7 @@ public final class InitEntities {
 
     private static void registerSerializer() {
         EntityDataSerializers.registerSerializer(MaidSchedule.DATA);
-        EntityDataSerializers.registerSerializer(MaidChatBubbles.DATA);
+        EntityDataSerializers.registerSerializer(ChatBubbleRegister.INSTANCE);
     }
 
     private static void addEntityAttribute(EntityType<? extends LivingEntity> type, AttributeSupplier.Builder builder) {

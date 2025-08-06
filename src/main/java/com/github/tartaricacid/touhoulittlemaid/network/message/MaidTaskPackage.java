@@ -1,6 +1,7 @@
 package com.github.tartaricacid.touhoulittlemaid.network.message;
 
 import com.github.tartaricacid.touhoulittlemaid.advancements.maid.TriggerType;
+import com.github.tartaricacid.touhoulittlemaid.api.event.MaidTaskEnableEvent;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.TabIndex;
@@ -39,6 +40,11 @@ public record MaidTaskPackage(int id, ResourceLocation uid) implements CustomPac
             Entity entity = sender.level.getEntity(message.id);
             if (entity instanceof EntityMaid maid && maid.isOwnedBy(sender)) {
                 IMaidTask task = TaskManager.findTask(message.uid).orElse(TaskManager.getIdleTask());
+                MaidTaskEnableEvent event = new MaidTaskEnableEvent(task, maid);
+                MaidTaskEnableEvent.CALLBACK.invoker().onMaidTaskEnable(event);
+                if (task != TaskManager.getIdleTask() && event.isCanceled()) {
+                    return;
+                }
                 if (!task.isEnable(maid)) {
                     return;
                 }

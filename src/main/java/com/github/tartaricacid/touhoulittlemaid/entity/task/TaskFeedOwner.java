@@ -17,6 +17,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodData;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -68,7 +69,7 @@ public class TaskFeedOwner implements IFeedTask {
 
         // 蜂蜜瓶可以清除中毒效果，所以当玩家拥有中毒效果时，应当优先使用
         //if (stack.is(Items.HONEY_BOTTLE) && owner.getActiveEffects().stream().anyMatch(effect -> effect.getCures().contains(EffectCures.HONEY))) {
-        if (stack.is(Items.HONEY_BOTTLE) && owner.getActiveEffects().stream().anyMatch(effect -> effect.is(MobEffects.POISON))) {
+        if (stack.is(Items.HONEY_BOTTLE) && owner.hasEffect(MobEffects.POISON)) {
             return Priority.HIGH;
         }
         ;
@@ -82,17 +83,19 @@ public class TaskFeedOwner implements IFeedTask {
 
         //if (stack.getItem().getFoodProperties(stack, owner) != null) {
         if (stack.get(DataComponents.FOOD) != null) {
+            FoodData foodData = owner.getFoodData();
+            if (!foodData.needsFood()) {
+                return Priority.LOWEST;
+            }
             //FoodProperties food = stack.getItem().getFoodProperties(stack, owner);
             FoodProperties food = stack.get(DataComponents.FOOD);
             int heal = 0;
             if (food != null) {
                 heal = food.nutrition();
             }
-            int hunger = 20 - owner.getFoodData().getFoodLevel();
-            if (heal == hunger) {
+            int hunger = 20 - foodData.getFoodLevel();
+            if (heal >= hunger) {
                 return Priority.HIGH;
-            } else if (heal > hunger) {
-                return Priority.LOWEST;
             } else {
                 return Priority.LOW;
             }

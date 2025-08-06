@@ -2,13 +2,10 @@ package com.github.tartaricacid.touhoulittlemaid.command.subcommand;
 
 import com.github.tartaricacid.touhoulittlemaid.client.event.ReloadResourceEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.info.ServerCustomPackLoader;
-import com.github.tartaricacid.touhoulittlemaid.network.message.SyncAiSettingPackage;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import net.fabricmc.api.EnvType;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -31,7 +28,6 @@ public final class PackCommand {
             ReloadResourceEvent.asyncReloadAllPack();
         }
         ServerCustomPackLoader.reloadPacks();
-        PlayerLookup.all(context.getSource().getServer()).forEach(player -> ServerPlayNetworking.send(player, SyncAiSettingPackage.getInstance()));
         return Command.SINGLE_SUCCESS;
     }
 }

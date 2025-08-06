@@ -2,7 +2,7 @@ package com.github.tartaricacid.touhoulittlemaid.entity.backpack;
 
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.backpack.IMaidBackpack;
-import com.github.tartaricacid.touhoulittlemaid.client.model.backpack.EnderChestBackpackModel;
+import com.github.tartaricacid.touhoulittlemaid.client.resource.BedrockModelLoader;
 import com.github.tartaricacid.touhoulittlemaid.entity.item.EntityTombstone;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
@@ -25,6 +25,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
+
+import static com.github.tartaricacid.touhoulittlemaid.client.resource.BedrockModelLoader.END_CHEST_BACKPACK;
 
 public class EnderChestBackpack extends IMaidBackpack {
     public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "ender_chest_backpack");
@@ -80,14 +82,14 @@ public class EnderChestBackpack extends IMaidBackpack {
     @Override
     @Environment(EnvType.CLIENT)
     public EntityModel<EntityMaid> getBackpackModel(EntityModelSet modelSet) {
-        return new EnderChestBackpackModel(modelSet.bakeLayer(EnderChestBackpackModel.LAYER));
+        return BedrockModelLoader.getModel(END_CHEST_BACKPACK);
     }
 
     @Nullable
     @Override
     @Environment(EnvType.CLIENT)
     public ResourceLocation getBackpackTexture() {
-        return ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "textures/entity/ender_chest_backpack.png");
+        return ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "textures/bedrock/entity/backpack/ender_chest_backpack.png");
     }
 
     @Override

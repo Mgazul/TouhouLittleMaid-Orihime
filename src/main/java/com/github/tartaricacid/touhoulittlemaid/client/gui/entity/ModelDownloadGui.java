@@ -9,10 +9,13 @@ import com.github.tartaricacid.touhoulittlemaid.client.gui.widget.button.FlatCol
 import com.github.tartaricacid.touhoulittlemaid.client.gui.widget.button.GuiDownloadButton;
 import com.github.tartaricacid.touhoulittlemaid.client.gui.widget.button.PackInfoButton;
 import com.github.tartaricacid.touhoulittlemaid.client.resource.CustomPackLoader;
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.tartaricacid.touhoulittlemaid.network.message.OpenMaidGuiPackage;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.platform.InputConstants;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
@@ -42,6 +45,7 @@ public class ModelDownloadGui extends Screen {
     private static final String PACK_FILE_SUFFIX = ".zip";
     private final Map<Long, String> crc32Infos = Maps.newHashMap();
     private final List<DownloadInfo> showInfos = Lists.newArrayList();
+    private final EntityMaid maid;
     private Condition condition = Condition.ALL;
     private EditBox textField;
     private boolean needReload = false;
@@ -50,10 +54,11 @@ public class ModelDownloadGui extends Screen {
     private int x;
     private int y;
 
-    public ModelDownloadGui() {
+    public ModelDownloadGui(EntityMaid maid) {
         super(Component.literal("New Model Pack Download GUI"));
         this.getCrc32Infos();
         this.checkDownloadInfo();
+        this.maid = maid;
     }
 
     @Override
@@ -151,7 +156,11 @@ public class ModelDownloadGui extends Screen {
             i++;
         }
         this.addRenderableWidget(new FlatColorButton(x + 400, y + 2, 20, 20, Component.empty(),
-                b -> Screens.getClient(this).setScreen(null)).setTooltips("gui.touhou_little_maid.skin.button.close"));
+                b -> {
+                    if (this.maid != null) {
+                        ClientPlayNetworking.send(new OpenMaidGuiPackage(this.maid.getId()));
+                    }
+                }).setTooltips("gui.touhou_little_maid.skin.button.close"));
         this.addRenderableWidget(Button.builder(Component.translatable("gui.touhou_little_maid.resources_download.open_folder"), b -> Util.getPlatform().openFile(CustomPackLoader.PACK_FOLDER.toFile()))
                 .pos(x + 270, y + 218).size(150, 20).build());
     }

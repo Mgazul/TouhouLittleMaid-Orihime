@@ -2,8 +2,7 @@ package com.github.tartaricacid.touhoulittlemaid.client.overlay;
 
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.ILittleMaid;
-import com.github.tartaricacid.touhoulittlemaid.client.event.PressAIChatKeyEvent;
-import com.github.tartaricacid.touhoulittlemaid.compat.ysm.YsmCompat;
+import com.github.tartaricacid.touhoulittlemaid.compat.kubejs.ModKubeJSCompat;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -35,31 +34,36 @@ import static com.github.tartaricacid.touhoulittlemaid.config.subconfig.RenderCo
 public class MaidTipsOverlay implements LayeredDraw.Layer {
     private static final ResourceLocation ICON = ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "textures/gui/maid_tips_icon.png");
 
-    public static final MaidTipsOverlay INSTANCE = new MaidTipsOverlay();
     private static Map<Item, MutableComponent> TIPS = Maps.newHashMap();
     private static Map<Item, ModConfigSpec.BooleanValue> TIPS_CONFIG = Maps.newHashMap();
     private static Map<CheckCondition, MutableComponent> SPECIAL_TIPS = Maps.newHashMap();
 
-    public static void init() {
-        INSTANCE.addTips("overlay.touhou_little_maid.compass.tips", ENABLE_COMPASS_TIP, Items.COMPASS);
-        INSTANCE.addTips("overlay.touhou_little_maid.golden_apple.tips", ENABLE_GOLDEN_APPLE_TIP, Items.GOLDEN_APPLE, Items.ENCHANTED_GOLDEN_APPLE);
-        INSTANCE.addTips("overlay.touhou_little_maid.potion.tips", ENABLE_POTION_TIP, Items.POTION);
-        INSTANCE.addTips("overlay.touhou_little_maid.milk_bucket.tips", ENABLE_MILK_BUCKET_TIP, Items.MILK_BUCKET);
-        INSTANCE.addTips("overlay.touhou_little_maid.script_book.tips", ENABLE_SCRIPT_BOOK_TIP, Items.WRITABLE_BOOK, Items.WRITTEN_BOOK);
-        INSTANCE.addTips("overlay.touhou_little_maid.glass_bottle.tips", ENABLE_GLASS_BOTTLE_TIP, Items.GLASS_BOTTLE);
-        INSTANCE.addTips("overlay.touhou_little_maid.name_tag.tips", ENABLE_NAME_TAG_TIP, Items.NAME_TAG);
-        INSTANCE.addTips("overlay.touhou_little_maid.lead.tips", ENABLE_LEAD_TIP, Items.LEAD);
-        INSTANCE.addTips("overlay.touhou_little_maid.debug_stick.tips", Items.DEBUG_STICK);
-        INSTANCE.addTips("overlay.touhou_little_maid.saddle.tips", ENABLE_SADDLE_TIP, Items.SADDLE);
+    public static final MaidTipsOverlay INSTANCE = new MaidTipsOverlay();
 
-        INSTANCE.addSpecialTips("overlay.touhou_little_maid.ntr_item.tips", (item, maid, player) -> !maid.isOwnedBy(player) && EntityMaid.getNtrItem().test(item));
-        INSTANCE.addSpecialTips("overlay.touhou_little_maid.remove_backpack.tips", MaidTipsOverlay::checkShears);
-        INSTANCE.addSpecialTips("overlay.touhou_little_maid.ysm_roulette_anim.tips", MaidTipsOverlay::checkYsmRouletteAnimCondition);
-        INSTANCE.addSpecialTips("overlay.touhou_little_maid.can_ai_chat.tips", MaidTipsOverlay::checkAiChatCondition);
+    public MaidTipsOverlay() {
+        TIPS = Maps.newHashMap();
+        TIPS_CONFIG = Maps.newHashMap();
+        SPECIAL_TIPS = Maps.newHashMap();
+    }
+
+    public static void init() {
+        INSTANCE.addTips("INSTANCE.touhou_little_maid.compass.tips", ENABLE_COMPASS_TIP, Items.COMPASS);
+        INSTANCE.addTips("INSTANCE.touhou_little_maid.golden_apple.tips", ENABLE_GOLDEN_APPLE_TIP, Items.GOLDEN_APPLE, Items.ENCHANTED_GOLDEN_APPLE);
+        INSTANCE.addTips("INSTANCE.touhou_little_maid.potion.tips", ENABLE_POTION_TIP, Items.POTION);
+        INSTANCE.addTips("INSTANCE.touhou_little_maid.milk_bucket.tips", ENABLE_MILK_BUCKET_TIP, Items.MILK_BUCKET);
+        INSTANCE.addTips("INSTANCE.touhou_little_maid.glass_bottle.tips", ENABLE_GLASS_BOTTLE_TIP, Items.GLASS_BOTTLE);
+        INSTANCE.addTips("INSTANCE.touhou_little_maid.name_tag.tips", ENABLE_NAME_TAG_TIP, Items.NAME_TAG);
+        INSTANCE.addTips("INSTANCE.touhou_little_maid.lead.tips", ENABLE_LEAD_TIP, Items.LEAD);
+        INSTANCE.addTips("INSTANCE.touhou_little_maid.debug_stick.tips", Items.DEBUG_STICK);
+        INSTANCE.addTips("INSTANCE.touhou_little_maid.saddle.tips", ENABLE_SADDLE_TIP, Items.SADDLE);
+
+        INSTANCE.addSpecialTips("INSTANCE.touhou_little_maid.ntr_item.tips", (item, maid, player) -> !maid.isOwnedBy(player) && EntityMaid.getNtrItem().test(item));
+        INSTANCE.addSpecialTips("INSTANCE.touhou_little_maid.remove_backpack.tips", MaidTipsOverlay::checkShears);
 
         for (ILittleMaid littleMaid : TouhouLittleMaid.EXTENSIONS) {
             littleMaid.addMaidTips(INSTANCE);
         }
+        ModKubeJSCompat.maidTipsOverlayInit(INSTANCE);
 
         TIPS = ImmutableMap.copyOf(TIPS);
         TIPS_CONFIG = ImmutableMap.copyOf(TIPS_CONFIG);
@@ -71,37 +75,6 @@ public class MaidTipsOverlay implements LayeredDraw.Layer {
             return false;
         }
         return maid.isOwnedBy(player) && maid.hasBackpack() && item.is(ConventionalItemTags.SHEAR_TOOLS);
-    }
-
-    private static boolean checkYsmRouletteAnimCondition(ItemStack item, EntityMaid maid, LocalPlayer player) {
-        if (!YsmCompat.isInstalled()) {
-            return false;
-        }
-        Minecraft mc = Minecraft.getInstance();
-        if (mc.screen != null) {
-            return false;
-        }
-        if (!item.isEmpty()) {
-            return false;
-        }
-        if (!ENABLE_YSM_ROULETTE_TIP.get()) {
-            return false;
-        }
-        return maid.isOwnedBy(player) && maid.isYsmModel();
-    }
-
-    private static boolean checkAiChatCondition(ItemStack item, EntityMaid maid, LocalPlayer player) {
-        Minecraft mc = Minecraft.getInstance();
-        if (mc.screen != null) {
-            return false;
-        }
-        if (!item.isEmpty()) {
-            return false;
-        }
-        if (!ENABLE_AI_CHAT_TIP.get()) {
-            return false;
-        }
-        return maid.isOwnedBy(player) && PressAIChatKeyEvent.CAN_CHAT_MAID_IDS.contains(maid.getModelId());
     }
 
     private static MutableComponent checkSpecialTips(ItemStack mainhandItem, EntityMaid maid, LocalPlayer player) {

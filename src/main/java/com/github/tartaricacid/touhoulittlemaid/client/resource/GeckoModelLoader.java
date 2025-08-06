@@ -1,6 +1,7 @@
 package com.github.tartaricacid.touhoulittlemaid.client.resource;
 
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
+import com.github.tartaricacid.touhoulittlemaid.api.event.client.DefaultGeckoAnimationEvent;
 import com.github.tartaricacid.touhoulittlemaid.client.animation.gecko.condition.ConditionManager;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.core.builder.Animation;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.core.molang.MolangParser;
@@ -122,5 +123,7 @@ public class GeckoModelLoader {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        DefaultGeckoAnimationEvent event = new DefaultGeckoAnimationEvent(DEFAULT_MAID_ANIMATION_FILE, DEFAULT_TAC_ANIMATION_FILE, DEFAULT_CHAIR_ANIMATION_FILE);
+        DefaultGeckoAnimationEvent.CALLBACK.invoker().onDefaultGeckoAnimation(event);
     }
 }

@@ -5,12 +5,15 @@ import com.github.tartaricacid.touhoulittlemaid.compat.aquaculture.AquacultureCo
 import com.github.tartaricacid.touhoulittlemaid.config.GeneralConfig;
 import com.github.tartaricacid.touhoulittlemaid.config.ServerConfig;
 import com.github.tartaricacid.touhoulittlemaid.entity.chatbubble.ChatBubbleManger;
+import com.github.tartaricacid.touhoulittlemaid.entity.info.CommonDefaultPack;
 import com.github.tartaricacid.touhoulittlemaid.init.*;
 import com.github.tartaricacid.touhoulittlemaid.init.registry.CommandRegistry;
+import com.github.tartaricacid.touhoulittlemaid.init.registry.CommonRegistry;
 import com.github.tartaricacid.touhoulittlemaid.network.NetworkHandler;
 import com.google.common.collect.Lists;
 import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.loader.api.FabricLoader;
 import net.neoforged.fml.config.ModConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,12 +24,12 @@ public final class TouhouLittleMaid {
     public static final String MOD_ID = "touhou_little_maid";
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
     public static List<ILittleMaid> EXTENSIONS = Lists.newArrayList();
+    public static boolean DEBUG = FabricLoader.getInstance().isDevelopmentEnvironment();
 
     public static void commonSetup() {
         initRegister();
-        ChatBubbleManger.initDefaultChat();
-        registerConfiguration();
 
+        CommonDefaultPack.initCommonDefaultPack();
         AquacultureCompat.init();
     }
 
@@ -44,6 +47,7 @@ public final class TouhouLittleMaid {
         InitDataAttachment.init();
         InitDataComponent.init();
         InitLootCondition.init();
+        InitLootModifiers.init();
 
         NetworkHandler.registerPackets();
         // CCA init by Entrypoint
@@ -52,10 +56,5 @@ public final class TouhouLittleMaid {
         CommandRegistrationCallback.EVENT.register(
                 (dispatcher, context, selection) ->
                         CommandRegistry.onServerStaring(dispatcher));
-    }
-
-    private static void registerConfiguration() {
-        NeoForgeConfigRegistry.INSTANCE.register(MOD_ID, ModConfig.Type.COMMON, GeneralConfig.getConfigSpec());
-        NeoForgeConfigRegistry.INSTANCE.register(MOD_ID, ModConfig.Type.SERVER, ServerConfig.init());
     }
 }

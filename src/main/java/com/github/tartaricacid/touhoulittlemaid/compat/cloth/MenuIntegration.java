@@ -71,16 +71,6 @@ public class MenuIntegration {
                     MaidConfig.MAID_TEMPTATION_ITEM.save();
                 }).build());
 
-        maid.addEntry(entryBuilder.startDropdownMenu(Component.translatable("config.touhou_little_maid.maid.maid_ntr_item"),
-                        DropdownMenuBuilder.TopCellElementBuilder.ofItemObject(BuiltInRegistries.ITEM.get(ResourceLocation.parse(MaidConfig.MAID_NTR_ITEM.get()))),
-                        DropdownMenuBuilder.CellCreatorBuilder.ofItemObject())
-                .setSelections(BuiltInRegistries.ITEM.stream().sorted(Comparator.comparing(Item::toString)).collect(Collectors.toCollection(LinkedHashSet::new)))
-                .setDefaultValue(Items.STRUCTURE_VOID).setTooltip(Component.translatable("config.touhou_little_maid.maid.maid_ntr_item.tooltip"))
-                .setSaveConsumer(s -> {
-                    MaidConfig.MAID_NTR_ITEM.set(BuiltInRegistries.ITEM.getKey(s).toString());
-                    MaidConfig.MAID_NTR_ITEM.save();
-                }).build());
-
         maid.addEntry(entryBuilder.startIntSlider(Component.translatable("config.touhou_little_maid.maid.maid_work_range"), MaidConfig.MAID_WORK_RANGE.get(), 3, 64)
                 .setDefaultValue(12).setTooltip(Component.translatable("config.touhou_little_maid.maid.maid_work_range.tooltip"))
                 .setSaveConsumer(i -> {
@@ -375,6 +365,13 @@ public class MenuIntegration {
                     MiscConfig.USE_NEW_MAID_FAIRY_MODEL.set(b);
                     MiscConfig.USE_NEW_MAID_FAIRY_MODEL.save();
                 }).build());
+
+        misc.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid.misc.invulnerable_particle_effect"), MiscConfig.INVULNERABLE_PARTICLE_EFFECT.get())
+                .setDefaultValue(true).setTooltip(Component.translatable("config.touhou_little_maid.misc.invulnerable_particle_effect.tooltip"))
+                .setSaveConsumer(s -> {
+                    MiscConfig.INVULNERABLE_PARTICLE_EFFECT.set(s);
+                    MiscConfig.INVULNERABLE_PARTICLE_EFFECT.save();
+                }).build());
     }
 
     private static void vanillaConfig(ConfigBuilder root, ConfigEntryBuilder entryBuilder) {
@@ -436,12 +433,6 @@ public class MenuIntegration {
                     RenderConfig.ENABLE_MILK_BUCKET_TIP.save();
                 }).build());
 
-        render.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid.render.enable_script_book_tip"), RenderConfig.ENABLE_SCRIPT_BOOK_TIP.get())
-                .setDefaultValue(true).setSaveConsumer(value -> {
-                    RenderConfig.ENABLE_SCRIPT_BOOK_TIP.set(value);
-                    RenderConfig.ENABLE_SCRIPT_BOOK_TIP.save();
-                }).build());
-
         render.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid.render.enable_glass_bottle_tip"), RenderConfig.ENABLE_GLASS_BOTTLE_TIP.get())
                 .setDefaultValue(true).setSaveConsumer(value -> {
                     RenderConfig.ENABLE_GLASS_BOTTLE_TIP.set(value);
@@ -470,18 +461,6 @@ public class MenuIntegration {
                 .setDefaultValue(true).setSaveConsumer(value -> {
                     RenderConfig.ENABLE_SHEARS_TIP.set(value);
                     RenderConfig.ENABLE_SHEARS_TIP.save();
-                }).build());
-
-        render.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid.render.enable_ysm_roulette_tip"), RenderConfig.ENABLE_YSM_ROULETTE_TIP.get())
-                .setDefaultValue(true).setSaveConsumer(value -> {
-                    RenderConfig.ENABLE_YSM_ROULETTE_TIP.set(value);
-                    RenderConfig.ENABLE_YSM_ROULETTE_TIP.save();
-                }).build());
-
-        render.addEntry(entryBuilder.startBooleanToggle(Component.translatable("config.touhou_little_maid.render.enable_ai_chat_tip"), RenderConfig.ENABLE_AI_CHAT_TIP.get())
-                .setDefaultValue(true).setSaveConsumer(value -> {
-                    RenderConfig.ENABLE_AI_CHAT_TIP.set(value);
-                    RenderConfig.ENABLE_AI_CHAT_TIP.save();
                 }).build());
     }
 }

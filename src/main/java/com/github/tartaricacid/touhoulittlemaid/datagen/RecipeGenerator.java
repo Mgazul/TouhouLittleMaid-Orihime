@@ -10,13 +10,16 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.fabricmc.fabric.mixin.item.ItemAccessor;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import vazkii.patchouli.common.item.PatchouliDataComponents;
@@ -361,14 +364,15 @@ public class RecipeGenerator extends FabricRecipeProvider {
 
 
         ResourceCondition modLoadedCondition = ResourceConditions.allModsLoaded(CompatRegistry.PATCHOULI);
-        ItemStack patchouliBook = new ItemStack(PatchouliItems.BOOK);
-        patchouliBook.set(PatchouliDataComponents.BOOK, InitItems.MEMORIZABLE_GENSOKYO_LOCATION);
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, patchouliBook.getItem())
+        Item patchouliBook = PatchouliItems.BOOK;
+        ((ItemAccessor) (patchouliBook)).setComponents(DataComponentMap.composite(
+                patchouliBook.components(), DataComponentMap.builder().set(PatchouliDataComponents.BOOK, InitItems.MEMORIZABLE_GENSOKYO_LOCATION).build()));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, patchouliBook)
                 .requires(ConventionalItemTags.WHITE_DYES)
                 .requires(ConventionalItemTags.RED_DYES)
                 .requires(Items.BOOK)
                 .unlockedBy(getHasName(Items.BOOK), has(Items.BOOK))
-                .save(this.withConditions(recipeOutput, modLoadedCondition), InitItems.MEMORIZABLE_GENSOKYO_LOCATION);
+                .save(withConditions(recipeOutput, modLoadedCondition), InitItems.MEMORIZABLE_GENSOKYO_LOCATION);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, InitItems.CHAIR)
                 .pattern("   ")

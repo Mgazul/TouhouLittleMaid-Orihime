@@ -359,7 +359,8 @@ public class MaidFishingHook extends Projectile {
                         .withParameter(LootContextParams.ORIGIN, this.position())
                         .withParameter(LootContextParams.TOOL, stack)
                         .withParameter(LootContextParams.THIS_ENTITY, this)
-                        .withParameter(LootContextParams.ATTACKING_ENTITY, maid)
+                        // TODO: Fabric没允许这个param
+                        // .withParameter(LootContextParams.ATTACKING_ENTITY, maid)
                         .withLuck(this.luck + maid.getLuck())
                         .create(LootContextParamSets.FISHING);
 

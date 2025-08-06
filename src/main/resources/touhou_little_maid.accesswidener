@@ -40,3 +40,9 @@ extendable method net/minecraft/world/level/pathfinder/PathFinder getBestH (Lnet
 accessible field net/minecraft/client/GameNarrator narrator Lcom/mojang/text2speech/Narrator;
 
 accessible method net/minecraft/util/thread/BlockableEventLoop submitAsync (Ljava/lang/Runnable;)Ljava/util/concurrent/CompletableFuture;
+
+accessible method net/minecraft/world/level/pathfinder/PathFinder findPath (Lnet/minecraft/util/profiling/ProfilerFiller;Lnet/minecraft/world/level/pathfinder/Node;Ljava/util/Map;FIF)Lnet/minecraft/world/level/pathfinder/Path; # findPath
+extendable method net/minecraft/world/level/pathfinder/PathFinder findPath (Lnet/minecraft/util/profiling/ProfilerFiller;Lnet/minecraft/world/level/pathfinder/Node;Ljava/util/Map;FIF)Lnet/minecraft/world/level/pathfinder/Path; # findPath
+accessible field net/minecraft/world/level/pathfinder/PathFinder openSet Lnet/minecraft/world/level/pathfinder/BinaryHeap;
+mutable field net/minecraft/world/level/pathfinder/PathFinder openSet Lnet/minecraft/world/level/pathfinder/BinaryHeap;
+accessible method net/minecraft/world/level/pathfinder/Path setDebug ([Lnet/minecraft/world/level/pathfinder/Node;[Lnet/minecraft/world/level/pathfinder/Node;Ljava/util/Set;)V

@@ -9,6 +9,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SpawnEggItem;
 
 public final class InitItems {
@@ -65,13 +66,14 @@ public final class InitItems {
     public static Item FAVORABILITY_TOOL_ADD = register("favorability_tool_add", new ItemFavorabilityTool("add"));
     public static Item FAVORABILITY_TOOL_REDUCE = register("favorability_tool_reduce", new ItemFavorabilityTool("reduce"));
     public static Item FAVORABILITY_TOOL_FULL = register("favorability_tool_full", new ItemFavorabilityTool("full"));
-    public static Item SHRINE = register("shrine", new BlockItem(InitBlocks.SHRINE, new Item.Properties()));
+    public static Item SHRINE = register("shrine", new BlockItem(InitBlocks.SHRINE, new Item.Properties().rarity(Rarity.RARE)));
     public static Item KAPPA_COMPASS = register("kappa_compass", new ItemKappaCompass());
     public static Item BROOM = register("broom", new ItemBroom());
     public static Item PICNIC_BASKET = register("picnic_basket", new ItemPicnicBasket(InitBlocks.PICNIC_MAT));
     public static Item SCARECROW = register("scarecrow", new BlockItem(InitBlocks.SCARECROW, new Item.Properties()));
     public static Item SERVANT_BELL = register("servant_bell", new ItemServantBell());
     public static Item ENTITY_ID_COPY = register("entity_id_copy", new ItemEntityIdCopy());
+    public static Item OWNER_CONVERSION_TOOL = register("owner_conversion_tool", new Item(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
     @SuppressWarnings("deprecation")
     public static Item MONSTER_LIST = register("monster_list", new ItemMonsterList());
 

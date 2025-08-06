@@ -2,12 +2,12 @@ package com.github.tartaricacid.touhoulittlemaid.entity.ai.path;
 
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.NodeEvaluator;
-import net.minecraft.world.level.pathfinder.PathFinder;
 import net.minecraft.world.level.pathfinder.Target;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
-public class MaidUnderWaterBoardingPathFinder extends PathFinder {
+public class MaidUnderWaterBoardingPathFinder extends MaidWrappedPathFinder {
     public MaidUnderWaterBoardingPathFinder(NodeEvaluator pNodeEvaluator, int pMaxVisitedNodes) {
         super(pNodeEvaluator, pMaxVisitedNodes);
     }
@@ -16,7 +16,7 @@ public class MaidUnderWaterBoardingPathFinder extends PathFinder {
      * 修改了 H 计算方法
      */
     @Override
-    public float getBestH(Node node, Set<Target> targets) {
+    public float getBestH(@NotNull Node node, Set<Target> targets) {
         float maxValue = Float.MAX_VALUE;
         for (Target target : targets) {
             float distance = node.distanceTo(target);

@@ -1,6 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.client.model.bedrock;
 
-import com.github.tartaricacid.simplebedrockmodel.client.bedrock.AbstractBedrockModel;
+import com.github.tartaricacid.simplebedrockmodel.client.bedrock.AbstractBedrockEntityModel;
 import com.github.tartaricacid.simplebedrockmodel.client.bedrock.model.BedrockPart;
 import com.github.tartaricacid.simplebedrockmodel.client.bedrock.pojo.BedrockModelPOJO;
 import com.github.tartaricacid.simplebedrockmodel.client.bedrock.pojo.BedrockVersion;
@@ -16,7 +16,6 @@ import com.github.tartaricacid.touhoulittlemaid.entity.item.EntityChair;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.world.entity.HumanoidArm;
@@ -30,7 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
-public class BedrockModel<T extends LivingEntity> extends AbstractBedrockModel<T> {
+public class BedrockModel<T extends LivingEntity> extends AbstractBedrockEntityModel<T> {
     /**
      * 用于自定义动画的变量
      */
@@ -67,15 +66,6 @@ public class BedrockModel<T extends LivingEntity> extends AbstractBedrockModel<T
             }
         }
     }
-
-    @Override
-    @ParametersAreNonnullByDefault
-    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
-        for (BedrockPart model : shouldRender) {
-            model.render(poseStack, buffer, packedLight, packedOverlay);
-        }
-    }
-
 
     @SuppressWarnings("unchecked")
     private void setupMaidAnim(IMaid entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, Invocable invocable) {

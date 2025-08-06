@@ -5,18 +5,20 @@
   "refmap": "touhou_little_maid.refmap.json",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "CropBlockAccessor",
-    "EntityAccessor",
+    "ArrowMixin",
+    "ConduitBlockEntityMixin",
     "EntityMixin",
-    "FenceGateBlockAccessor",
     "FishingHookPredicateMixin",
-    "MixinArrowEntity",
     "MixinCrossbowItem",
-    "MixinStructureTemplate",
-    "MixinThrownTrident",
+    "ThrownTridentMixin",
     "NavigationMixin",
     "PersistentEntitySectionManagerMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "StructureTemplateMixin",
+    "accessor.ArrowAccessor",
+    "accessor.CropBlockAccessor",
+    "accessor.EntityAccessor",
+    "accessor.FenceGateBlockAccessor"
   ],
   "client": [
     "client.HumanoidModelMixin",

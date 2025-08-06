@@ -1,6 +1,7 @@
 package cn.sh1rocu.touhoulittlemaid.client;
 
 import cn.sh1rocu.touhoulittlemaid.api.event.*;
+import com.github.tartaricacid.simplebedrockmodel.client.manager.BedrockEntityModelRegisterEvent;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaidClient;
 import com.github.tartaricacid.touhoulittlemaid.api.event.InteractMaidEvent;
@@ -9,6 +10,8 @@ import com.github.tartaricacid.touhoulittlemaid.client.download.InfoGetManager;
 import com.github.tartaricacid.touhoulittlemaid.client.event.*;
 import com.github.tartaricacid.touhoulittlemaid.client.init.*;
 import com.github.tartaricacid.touhoulittlemaid.client.input.STTChatKey;
+import com.github.tartaricacid.touhoulittlemaid.client.resource.BedrockModelLoader;
+import com.github.tartaricacid.touhoulittlemaid.debug.target.DebugClientRenderEvent;
 import com.github.tartaricacid.touhoulittlemaid.event.ClientExtensionsEvent;
 import com.github.tartaricacid.touhoulittlemaid.event.maid.UseNameTagEvent;
 import com.github.tartaricacid.touhoulittlemaid.network.NetworkHandler;
@@ -22,10 +25,8 @@ import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.world.entity.GlowSquid;
 
 public class TouhouLittleMaidFabricClient implements ClientModInitializer {
     private static final ResourceLocation HIGHEST = ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "event_highest_priority");
@@ -40,6 +41,7 @@ public class TouhouLittleMaidFabricClient implements ClientModInitializer {
         NetworkHandler.registerClientReceivers();
         ClientExtensionsEvent.RegisterClientExtensions();
         InfoGetManager.onClientSetup();
+        BedrockEntityModelRegisterEvent.CALLBACK.register(BedrockModelLoader::onRegisterBedrockModelRenderers);
         ItemTooltipCallback.EVENT.register(AddInformationEvent::onRenderTooltips);
         RenderHandEvent.CALLBACK.register(CarryMaidHideArmEvent::onRenderHandEvent);
         NeoForgeModConfigEvents.loading(TouhouLittleMaid.MOD_ID).register(ClientPackDownloadEvent::onLoadingConfig);
@@ -64,12 +66,13 @@ public class TouhouLittleMaidFabricClient implements ClientModInitializer {
         RenderMaidEvent.CALLBACK.register(LOW_EST, SpecialMaidRenderEvent::onRenderEasterEggModel);
         WorldRenderEvents.AFTER_ENTITIES.register(WirelessIORenderEvent::onRender);
         ClientSetupEvent.onClientSetup();
-        ClientSetupEvent.RegisterGuiLayers();
+        ClientSetupEvent.onRegisterGuiLayers();
         TooltipComponentCallback.EVENT.register(InitClientTooltip::onRegisterClientTooltip);
         InitContainerGui.clientSetup();
         InitEntitiesRender.onEntityRenderers();
         InitEntitiesRender.onRegisterLayers();
         ModelLoadingPlugin.register(new InitSpecialItemRender());
         EntityJoinLevelEvent.CALLBACK.register(EntityCacheUtil::onChangeDim);
+        WorldRenderEvents.AFTER_ENTITIES.register(DebugClientRenderEvent::onRender);
     }
 }

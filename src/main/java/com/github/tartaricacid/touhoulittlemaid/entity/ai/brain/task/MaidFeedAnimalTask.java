@@ -22,6 +22,7 @@ public class MaidFeedAnimalTask extends MaidCheckRateTask {
     private final float speedModifier;
     private final int maxAnimalCount;
     private Animal feedEntity = null;
+    private long chatBubbleKey = -1;
 
     public MaidFeedAnimalTask(float speedModifier, int maxAnimalCount) {
         super(ImmutableMap.of(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryStatus.VALUE_PRESENT,
@@ -67,7 +68,7 @@ public class MaidFeedAnimalTask extends MaidCheckRateTask {
                 feedEntity = null;
             }
         } else {
-            ChatBubbleManger.addInnerChatText(maid, "chat_bubble.touhou_little_maid.inner.feed_animal.max_number");
+            this.chatBubbleKey = maid.getChatBubbleManager().addTextChatBubbleIfTimeout("chat_bubble.touhou_little_maid.inner.feed_animal.max_number", chatBubbleKey);
         }
     }
 

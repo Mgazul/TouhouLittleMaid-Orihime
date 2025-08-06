@@ -1,7 +1,7 @@
 package com.github.tartaricacid.touhoulittlemaid.client.init;
 
-import com.github.tartaricacid.touhoulittlemaid.client.model.*;
-import com.github.tartaricacid.touhoulittlemaid.client.model.backpack.*;
+import com.github.tartaricacid.touhoulittlemaid.client.model.DebugFloorModel;
+import com.github.tartaricacid.touhoulittlemaid.client.model.NewEntityFairyModel;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.*;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.tileentity.*;
 import com.github.tartaricacid.touhoulittlemaid.entity.item.*;
@@ -53,33 +53,34 @@ public final class InitEntitiesRender {
     }
 
     public static void onRegisterLayers() {
-        EntityModelLayerRegistry.registerModelLayer(AltarModel.LAYER, AltarModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(AltarModel.LAYER, AltarModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(DebugFloorModel.LAYER, DebugFloorModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(EntityBoxModel.LAYER, EntityBoxModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(EntityFairyModel.LAYER, EntityFairyModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(EntityBoxModel.LAYER, EntityBoxModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(EntityFairyModel.LAYER, EntityFairyModel::createBodyLayer);
+        // 为了别的模组兼容，暂时保留
         EntityModelLayerRegistry.registerModelLayer(NewEntityFairyModel.LAYER, NewEntityFairyModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(BigBackpackModel.LAYER, BigBackpackModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(MiddleBackpackModel.LAYER, MiddleBackpackModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(SmallBackpackModel.LAYER, SmallBackpackModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(StatueBaseModel.LAYER, StatueBaseModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(EntityYukkuriModel.LAYER, EntityYukkuriModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(EntityMarisaYukkuriModel.LAYER, EntityMarisaYukkuriModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(GomokuModel.LAYER, GomokuModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(CChessModel.LAYER, CChessModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(WChessModel.LAYER, WChessModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(PieceModel.LAYER, PieceModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(CraftingTableBackpackModel.LAYER, CraftingTableBackpackModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(EnderChestBackpackModel.LAYER, EnderChestBackpackModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(FurnaceBackpackModel.LAYER, FurnaceBackpackModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(TankBackpackModel.LAYER, TankBackpackModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(TombstoneModel.LAYER, TombstoneModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(KeyboardModel.LAYER, KeyboardModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(BookshelfModel.LAYER, BookshelfModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(ComputerModel.LAYER, ComputerModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(ShrineModel.LAYER, ShrineModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(MaidBannerModel.LAYER, MaidBannerModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(BroomModel.LAYER, BroomModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(PicnicBasketModel.LAYER, PicnicBasketModel::createBodyLayer);
-        EntityModelLayerRegistry.registerModelLayer(PicnicMatModel.LAYER, PicnicMatModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(BigBackpackModel.LAYER, BigBackpackModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(MiddleBackpackModel.LAYER, MiddleBackpackModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(SmallBackpackModel.LAYER, SmallBackpackModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(StatueBaseModel.LAYER, StatueBaseModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(EntityYukkuriModel.LAYER, EntityYukkuriModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(EntityMarisaYukkuriModel.LAYER, EntityMarisaYukkuriModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(GomokuModel.LAYER, GomokuModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(CChessModel.LAYER, CChessModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(WChessModel.LAYER, WChessModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(PieceModel.LAYER, PieceModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(CraftingTableBackpackModel.LAYER, CraftingTableBackpackModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(EnderChestBackpackModel.LAYER, EnderChestBackpackModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(FurnaceBackpackModel.LAYER, FurnaceBackpackModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(TankBackpackModel.LAYER, TankBackpackModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(TombstoneModel.LAYER, TombstoneModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(KeyboardModel.LAYER, KeyboardModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(BookshelfModel.LAYER, BookshelfModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(ComputerModel.LAYER, ComputerModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(ShrineModel.LAYER, ShrineModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(MaidBannerModel.LAYER, MaidBannerModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(BroomModel.LAYER, BroomModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(PicnicBasketModel.LAYER, PicnicBasketModel::createBodyLayer);
+//        EntityModelLayerRegistry.registerModelLayer(PicnicMatModel.LAYER, PicnicMatModel::createBodyLayer);
     }
 }

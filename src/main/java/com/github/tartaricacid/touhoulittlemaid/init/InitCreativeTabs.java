@@ -90,6 +90,7 @@ public class InitCreativeTabs {
                 output.accept(BROOM);
                 output.accept(SCARECROW);
                 output.accept(ENTITY_ID_COPY);
+                output.accept(OWNER_CONVERSION_TOOL);
                 if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
                     ItemEntityPlaceholder.fillItemCategory(output);
                 }

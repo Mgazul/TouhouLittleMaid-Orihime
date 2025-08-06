@@ -10,6 +10,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 
 import javax.annotation.Nullable;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class ItemSubstituteJizo extends Item {
     public ItemSubstituteJizo() {
-        super((new Properties()).stacksTo(1));
+        super((new Properties()).stacksTo(1).rarity(Rarity.EPIC));
     }
 
     public static void onEntityInteract(InteractMaidEvent event) {
