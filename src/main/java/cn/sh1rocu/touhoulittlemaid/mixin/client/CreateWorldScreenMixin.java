@@ -1,9 +1,11 @@
-package cn.sh1rocu.touhoulittlemaid.mixin.common;
+package cn.sh1rocu.touhoulittlemaid.mixin.client;
 
 import cn.sh1rocu.touhoulittlemaid.api.event.AddPackFindersEvent;
 import cn.sh1rocu.touhoulittlemaid.api.mixin.PackRepositoryExtension;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.datafixers.util.Pair;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
@@ -20,6 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.nio.file.Path;
 
+@Environment(EnvType.CLIENT)
 @Mixin(CreateWorldScreen.class)
 public class CreateWorldScreenMixin {
     @Shadow
