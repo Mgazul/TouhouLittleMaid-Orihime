@@ -29,6 +29,7 @@
     "common.RedStoneWireBlockMixin",
     "common.ServerEntityMixin",
     "common.ServerLevelMixin",
+    "common.ServerLevelMixin$EntityCallbacksMixin",
     "common.ServerPacksSourceMixin",
     "common.ThrowableProjectileMixin",
     "compat.carryon.ListHandlerMixin"
@@ -39,6 +40,7 @@
     "accessor.TextureSheetParticleAccessor",
     "client.ChannelAccessHandleMixin",
     "client.ClientLevelMixin",
+    "client.ClientLevelMixin$EntityCallbacksMixin",
     "client.CreateWorldScreenMixin",
     "client.ItemInHandRendererMixin",
     "client.ItemRendererMixin",

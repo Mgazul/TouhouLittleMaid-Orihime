@@ -1,6 +1,7 @@
 package cn.sh1rocu.touhoulittlemaid.mixin.client;
 
 import cn.sh1rocu.touhoulittlemaid.api.event.EntityJoinLevelEvent;
+import cn.sh1rocu.touhoulittlemaid.api.extension.IEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -32,5 +33,20 @@ public abstract class ClientLevelMixin extends Level {
         EntityJoinLevelEvent.CALLBACK.invoker().post(event);
         if (event.isCanceled())
             ci.cancel();
+    }
+
+    @Inject(method = "addEntity", at = @At("TAIL"))
+    public void tlm$addedToWorld(Entity entity, CallbackInfo ci) {
+        if (entity instanceof IEntity iEntity)
+            iEntity.onAddedToLevel();
+    }
+
+    @Mixin(targets = "net/minecraft/client/multiplayer/ClientLevel$EntityCallbacks")
+    public abstract static class EntityCallbacksMixin {
+        @Inject(method = "onTrackingEnd(Lnet/minecraft/world/entity/Entity;)V", at = @At("TAIL"))
+        private void tlm$removedFromLevel(Entity entity, CallbackInfo ci) {
+            if (entity instanceof IEntity iEntity)
+                iEntity.onRemovedFromLevel();
+        }
     }
 }

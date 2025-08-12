@@ -1,12 +1,14 @@
 package cn.sh1rocu.touhoulittlemaid.mixin.common;
 
 import cn.sh1rocu.touhoulittlemaid.api.event.EntityJoinLevelEvent;
+import cn.sh1rocu.touhoulittlemaid.api.extension.IEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.entity.EntityAccess;
 import net.minecraft.world.level.entity.PersistentEntitySectionManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PersistentEntitySectionManager.class)
@@ -19,5 +21,11 @@ public class PersistentEntitySectionManagerMixin<T extends EntityAccess> {
             if (event.isCanceled())
                 cir.setReturnValue(false);
         }
+    }
+
+    @Inject(method = {"method_31857", "method_31863", "method_31864"}, at = @At("TAIL"))
+    private void tlm$addedToWorld(EntityAccess entityAccess, CallbackInfo ci) {
+        if (entityAccess instanceof IEntity entity)
+            entity.onAddedToLevel();
     }
 }
