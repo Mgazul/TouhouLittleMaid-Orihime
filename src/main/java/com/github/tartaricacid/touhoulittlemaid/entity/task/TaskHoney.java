@@ -57,6 +57,6 @@ public class TaskHoney implements IMaidTask {
 
     private boolean hasShears(EntityMaid maid) {
         return maid.getMainHandItem().getItem() /*.canPerformAction(ItemAbilities.SHEARS_HARVEST)*/ instanceof ShearsItem
-                || maid.getMainHandItem().is(ConventionalItemTags.SHIELD_TOOLS);
+                || maid.getMainHandItem().is(ConventionalItemTags.SHEAR_TOOLS);
     }
 }

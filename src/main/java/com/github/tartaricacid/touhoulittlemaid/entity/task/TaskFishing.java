@@ -53,7 +53,7 @@ public class TaskFishing implements IMaidTask {
     @Override
     public List<Pair<String, Predicate<EntityMaid>>> getConditionDescription(EntityMaid maid) {
         return Collections.singletonList(Pair.of("has_fishing_rod", e -> e.getMainHandItem()/*.canPerformAction(ItemAbilities.FISHING_ROD_CAST)*/
-                .getItem() instanceof FishingRodItem || e.getMainHandItem().is(ConventionalItemTags.SHIELD_TOOLS)
+                .getItem() instanceof FishingRodItem || e.getMainHandItem().is(ConventionalItemTags.FISHING_ROD_TOOLS)
         ));
     }
 
