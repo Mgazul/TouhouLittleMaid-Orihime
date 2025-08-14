@@ -13,9 +13,11 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.ItemStack;
 
+import static cn.sh1rocu.touhoulittlemaid.TouhouLittleMaidFabric.HIGH;
+
 public class DrownProtectBauble implements IMaidBauble {
     public DrownProtectBauble() {
-        MaidDamageEvent.CALLBACK.register(this::onLivingDamage);
+        MaidDamageEvent.CALLBACK.register(HIGH, this::onLivingDamage);
     }
 
     public void onLivingDamage(MaidDamageEvent event) {

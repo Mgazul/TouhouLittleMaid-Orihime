@@ -21,13 +21,23 @@ import com.github.tartaricacid.touhoulittlemaid.init.registry.MobSpawnInfoRegist
 import com.github.tartaricacid.touhoulittlemaid.item.ItemSubstituteJizo;
 import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeConfigRegistry;
 import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeModConfigEvents;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.config.ModConfig;
 
 public class TouhouLittleMaidFabric implements ModInitializer {
+    public static final ResourceLocation HIGHEST = ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "event_highest_priority");
+    public static final ResourceLocation HIGH = ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "event_high_priority");
+    // NORMAL用Fabric的DEFAULT
+    // public static final ResourceLocation NORMAL = ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "event_normal_priority");
+    public static final ResourceLocation LOW = ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "event_low_priority");
+    public static final ResourceLocation LOWEST = ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "event_lowest_priority");
 
     @Override
     public void onInitialize() {
@@ -46,6 +56,19 @@ public class TouhouLittleMaidFabric implements ModInitializer {
     }
 
     private void subscribeEvents() {
+        InteractMaidEvent.CALLBACK.addPhaseOrdering(HIGHEST, HIGH);
+        InteractMaidEvent.CALLBACK.addPhaseOrdering(HIGH, Event.DEFAULT_PHASE);
+        InteractMaidEvent.CALLBACK.addPhaseOrdering(Event.DEFAULT_PHASE, LOW);
+        InteractMaidEvent.CALLBACK.addPhaseOrdering(LOW, LOWEST);
+
+        MaidDeathEvent.CALLBACK.addPhaseOrdering(HIGH, Event.DEFAULT_PHASE);
+        MaidDeathEvent.CALLBACK.addPhaseOrdering(Event.DEFAULT_PHASE, LOW);
+
+        MaidDamageEvent.CALLBACK.addPhaseOrdering(HIGHEST, HIGH);
+        MaidDamageEvent.CALLBACK.addPhaseOrdering(HIGH, Event.DEFAULT_PHASE);
+        MaidDamageEvent.CALLBACK.addPhaseOrdering(Event.DEFAULT_PHASE, LOW);
+        MaidDamageEvent.CALLBACK.addPhaseOrdering(LOW, LOWEST);
+
         EntityDeathEvent.onEntityDeath();
         EntityDeathEvent.onPlayerCloned();
         PotentialSpawnsEvent.CALLBACK.register(MobSpawnInfoRegistry::addMobSpawnInfo);
@@ -63,7 +86,7 @@ public class TouhouLittleMaidFabric implements ModInitializer {
         MaidAfterEatEvent.CALLBACK.register(RemainFoodEatenEvent::onAfterMaidEat);
         InteractMaidEvent.CALLBACK.register(ApplyGoldenAppleEvent::onInteractMaid);
         InteractMaidEvent.CALLBACK.register(ApplyPotionEffectEvent::onInteractMaid);
-        InteractMaidEvent.CALLBACK.register(DismountMaidEvent::onInteract);
+        InteractMaidEvent.CALLBACK.register(LOW, DismountMaidEvent::onInteract);
         InteractMaidEvent.CALLBACK.register(GetExpBottleEvent::onInteract);
         InteractMaidEvent.CALLBACK.register(HandleBackpackEvent::onInteractMaid);
         InteractMaidEvent.CALLBACK.register(MaidAreaClickEvent::onInteract);
@@ -73,10 +96,13 @@ public class TouhouLittleMaidFabric implements ModInitializer {
         LivingEntityUseItemFinishEvent.CALLBACK.register(PotionItemUse::onMaidPotionItemUse);
         InteractMaidEvent.CALLBACK.register(SaddleMaidEvent::onInteract);
         InteractMaidEvent.CALLBACK.register(SlabClickEvent::onInteract);
-        InteractMaidEvent.CALLBACK.register(SwitchSittingEvent::onInteractMaid);
+        InteractMaidEvent.CALLBACK.register(LOWEST, SwitchSittingEvent::onInteractMaid);
         InteractMaidEvent.CALLBACK.register(UseFavorabilityToolEvent::onInteract);
-        InteractMaidEvent.CALLBACK.register(UseNameTagEvent::onInteractServer);
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER) {
+            InteractMaidEvent.CALLBACK.register(UseNameTagEvent::onInteractServer);
+        }
         InteractMaidEvent.CALLBACK.register(ItemSubstituteJizo::onEntityInteract);
+
         MaidDamageEvent.CALLBACK.register(RandomEmoji::addHurtChatText);
     }
 

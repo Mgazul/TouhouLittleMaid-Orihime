@@ -12,6 +12,10 @@ import net.minecraft.world.level.Level;
 
 public final class SwitchSittingEvent {
     public static void onInteractMaid(InteractMaidEvent event) {
+        // 当事件被取消时，说明有其他交互，不进行切换操作
+        if (event.isCanceled())
+            return;
+
         Player player = event.getPlayer();
         EntityMaid maid = event.getMaid();
         Level world = event.getWorld();

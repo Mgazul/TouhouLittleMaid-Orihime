@@ -87,7 +87,7 @@ public class InfoGetManager {
         map.put("X-Minecraft-UUID", UndashedUuid.toString(user.getProfileId()));
         map.put("X-Minecraft-Version", currentVersion.getName());
         map.put("X-Minecraft-Version-ID", currentVersion.getId());
-        //map.put("X-NeoForge-Version", NeoForgeVersion.getVersion());
+        map.put("X-Fabric-Version", FabricLoader.getInstance().getModContainer("fabric").get().getMetadata().getVersion().getFriendlyString());
         map.put("X-TLM-Version", FabricLoader.getInstance().getModContainer(TouhouLittleMaid.MOD_ID).get().getMetadata().getVersion().getFriendlyString());
         map.put("User-Agent", "Minecraft Java/" + currentVersion.getName());
 

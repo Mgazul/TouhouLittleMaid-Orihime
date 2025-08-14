@@ -14,9 +14,11 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
 
+import static cn.sh1rocu.touhoulittlemaid.TouhouLittleMaidFabric.HIGH;
+
 public class FireProtectBauble implements IMaidBauble {
     public FireProtectBauble() {
-        MaidDamageEvent.CALLBACK.register(this::onLivingDamage);
+        MaidDamageEvent.CALLBACK.register(HIGH, this::onLivingDamage);
     }
 
     public void onLivingDamage(MaidDamageEvent event) {

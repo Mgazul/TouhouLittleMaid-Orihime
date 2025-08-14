@@ -38,7 +38,7 @@ public class MaidTipsOverlay implements LayeredDraw.Layer {
     private static Map<Item, ModConfigSpec.BooleanValue> TIPS_CONFIG = Maps.newHashMap();
     private static Map<CheckCondition, MutableComponent> SPECIAL_TIPS = Maps.newHashMap();
 
-    public static final MaidTipsOverlay INSTANCE = new MaidTipsOverlay();
+    public static MaidTipsOverlay INSTANCE;
 
     public MaidTipsOverlay() {
         TIPS = Maps.newHashMap();
@@ -47,6 +47,8 @@ public class MaidTipsOverlay implements LayeredDraw.Layer {
     }
 
     public static void init() {
+        INSTANCE = new MaidTipsOverlay();
+
         INSTANCE.addTips("overlay.touhou_little_maid.compass.tips", ENABLE_COMPASS_TIP, Items.COMPASS);
         INSTANCE.addTips("overlay.touhou_little_maid.golden_apple.tips", ENABLE_GOLDEN_APPLE_TIP, Items.GOLDEN_APPLE, Items.ENCHANTED_GOLDEN_APPLE);
         INSTANCE.addTips("overlay.touhou_little_maid.potion.tips", ENABLE_POTION_TIP, Items.POTION);

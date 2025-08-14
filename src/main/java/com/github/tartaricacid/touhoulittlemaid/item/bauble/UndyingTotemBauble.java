@@ -13,9 +13,11 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityEvent;
 
+import static cn.sh1rocu.touhoulittlemaid.TouhouLittleMaidFabric.HIGH;
+
 public class UndyingTotemBauble implements IMaidBauble {
     public UndyingTotemBauble() {
-        MaidDeathEvent.CALLBACK.register(this::onLivingDamage);
+        MaidDeathEvent.CALLBACK.register(HIGH, this::onLivingDamage);
     }
 
     public void onLivingDamage(MaidDeathEvent event) {

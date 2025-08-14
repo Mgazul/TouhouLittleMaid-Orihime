@@ -26,6 +26,7 @@ public final class UseNameTagEvent {
         }
     }
 
+    @Environment(EnvType.SERVER)
     public static void onInteractServer(InteractMaidEvent event) {
         ItemStack stack = event.getStack();
         Player player = event.getPlayer();

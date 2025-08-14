@@ -25,24 +25,24 @@ import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 
-public class TouhouLittleMaidFabricClient implements ClientModInitializer {
-    private static final ResourceLocation HIGHEST = ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "event_highest_priority");
-    // NORMAL用Fabric的DEFAULT
-    //private static final ResourceLocation NORMAL = ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "event_normal_priority");
-    private static final ResourceLocation LOW = ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "event_low_priority");
-    private static final ResourceLocation LOW_EST = ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "event_lowest_priority");
+import static cn.sh1rocu.touhoulittlemaid.TouhouLittleMaidFabric.*;
 
+public class TouhouLittleMaidFabricClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         TouhouLittleMaidClient.setup();
         NetworkHandler.registerClientReceivers();
         ClientExtensionsEvent.RegisterClientExtensions();
         InfoGetManager.onClientSetup();
+
         BedrockEntityModelRegisterEvent.CALLBACK.register(BedrockModelLoader::onRegisterBedrockModelRenderers);
-        ItemTooltipCallback.EVENT.register(AddInformationEvent::onRenderTooltips);
+
+        ItemTooltipCallback.EVENT.addPhaseOrdering(Event.DEFAULT_PHASE, LOW);
+        ItemTooltipCallback.EVENT.addPhaseOrdering(LOW, LOWEST);
+        ItemTooltipCallback.EVENT.register(LOWEST, AddInformationEvent::onRenderTooltips);
+
         RenderHandEvent.CALLBACK.register(CarryMaidHideArmEvent::onRenderHandEvent);
         NeoForgeModConfigEvents.loading(TouhouLittleMaid.MOD_ID).register(ClientPackDownloadEvent::onLoadingConfig);
         NeoForgeModConfigEvents.reloading(TouhouLittleMaid.MOD_ID).register(ClientPackDownloadEvent::onReloadingConfig);
@@ -57,13 +57,16 @@ public class TouhouLittleMaidFabricClient implements ClientModInitializer {
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new ReloadResourceEvent());
         WorldRenderEvents.AFTER_TRANSLUCENT.register(ScrollRenderEvent::onRenderWorldLastEvent);
         ScreenEvents.AFTER_INIT.register(ShowOptifineScreen::showOptifineWarning);
-        RenderMaidEvent.CALLBACK.addPhaseOrdering(HIGHEST, Event.DEFAULT_PHASE);
+
+        RenderMaidEvent.CALLBACK.addPhaseOrdering(HIGHEST, HIGH);
+        RenderMaidEvent.CALLBACK.addPhaseOrdering(HIGH, Event.DEFAULT_PHASE);
         RenderMaidEvent.CALLBACK.addPhaseOrdering(Event.DEFAULT_PHASE, LOW);
-        RenderMaidEvent.CALLBACK.addPhaseOrdering(LOW, LOW_EST);
+        RenderMaidEvent.CALLBACK.addPhaseOrdering(LOW, LOWEST);
         RenderMaidEvent.CALLBACK.register(HIGHEST, SpecialMaidRenderEvent::onRenderPlayerNamedMaid);
         RenderMaidEvent.CALLBACK.register(Event.DEFAULT_PHASE, SpecialMaidRenderEvent::onRenderEncryptNamedMaid);
         RenderMaidEvent.CALLBACK.register(LOW, SpecialMaidRenderEvent::onRenderNormalNamedMaid);
-        RenderMaidEvent.CALLBACK.register(LOW_EST, SpecialMaidRenderEvent::onRenderEasterEggModel);
+        RenderMaidEvent.CALLBACK.register(LOWEST, SpecialMaidRenderEvent::onRenderEasterEggModel);
+
         WorldRenderEvents.AFTER_ENTITIES.register(WirelessIORenderEvent::onRender);
         ClientSetupEvent.onClientSetup();
         ClientSetupEvent.onRegisterGuiLayers();
