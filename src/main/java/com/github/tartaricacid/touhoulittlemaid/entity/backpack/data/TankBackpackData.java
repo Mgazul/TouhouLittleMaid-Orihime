@@ -66,7 +66,7 @@ public class TankBackpackData extends SimpleContainer implements IBackpackData {
             this.tankFluidCount = tank.amount;
             // amount改变时发包同步客户端流体amount
             if (TankBackpackData.this.maid.getOwner() instanceof ServerPlayer serverPlayer) {
-                ServerPlayNetworking.send(serverPlayer, SyncFluidAmountMessage.ID, SyncFluidAmountMessage.encode((int) this.tankFluidCount));
+                ServerPlayNetworking.send(serverPlayer, SyncFluidAmountMessage.ID, SyncFluidAmountMessage.encode(this.maid.getId(), (int) this.tankFluidCount));
             }
             ResourceLocation key = BuiltInRegistries.FLUID.getKey(tank.getResource().getFluid());
             maid.setBackpackFluid(key.toString());

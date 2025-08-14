@@ -119,7 +119,7 @@ public class TankBackpack extends IMaidBackpack {
                 if (player instanceof ServerPlayer serverPlayer && player.level.getEntity(entityId) instanceof EntityMaid maid) {
                     IBackpackData backpackData = maid.getBackpackData();
                     if (backpackData instanceof TankBackpackData tankBackpackData) {
-                        ServerPlayNetworking.send(serverPlayer, SyncFluidAmountMessage.ID, SyncFluidAmountMessage.encode((int) tankBackpackData.getTank().amount));
+                        ServerPlayNetworking.send(serverPlayer, SyncFluidAmountMessage.ID, SyncFluidAmountMessage.encode(entityId, (int) tankBackpackData.getTank().amount));
                     }
                 }
                 return new TankBackpackContainer(index, playerInventory, entityId);

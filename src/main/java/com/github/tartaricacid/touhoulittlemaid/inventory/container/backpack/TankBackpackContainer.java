@@ -11,7 +11,6 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -27,7 +26,6 @@ public class TankBackpackContainer extends MaidMainContainer {
     private static final ResourceLocation INPUT_SLOT = new ResourceLocation(TouhouLittleMaid.MOD_ID, "slot/tank_input_slot");
     private static final ResourceLocation OUTPUT_SLOT = new ResourceLocation(TouhouLittleMaid.MOD_ID, "slot/tank_output_slot");
     private final ContainerData data;
-    private int clientFluidAmount;
 
     public TankBackpackContainer(int id, Inventory inventory, int entityId) {
         super(TYPE, id, inventory, entityId);
@@ -56,15 +54,6 @@ public class TankBackpackContainer extends MaidMainContainer {
 
     public int getFluidCount() {
         return this.data.get(0);
-    }
-
-    // 客户端同步
-    public void setClientFluidCount(int amount) {
-        this.clientFluidAmount = amount;
-    }
-
-    public int getClientFluidAmount() {
-        return this.clientFluidAmount;
     }
 
     public static class TankInputSlot extends Slot {

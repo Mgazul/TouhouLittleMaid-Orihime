@@ -1,6 +1,7 @@
 package com.github.tartaricacid.touhoulittlemaid.network.message;
 
-import com.github.tartaricacid.touhoulittlemaid.inventory.container.backpack.TankBackpackContainer;
+import com.github.tartaricacid.touhoulittlemaid.entity.backpack.data.TankBackpackData;
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.Minecraft;
@@ -14,18 +15,22 @@ import static cn.sh1rocu.touhoulittlemaid.TouhouLittleMaidFabric.getResourceLoca
 public class SyncFluidAmountMessage {
     public static final ResourceLocation ID = getResourceLocation("client_sync_fluid_amount");
 
-    public static FriendlyByteBuf encode(int amount) {
+    public static FriendlyByteBuf encode(int entityId, int amount) {
         FriendlyByteBuf buf = PacketByteBufs.create();
+        buf.writeInt(entityId);
         buf.writeVarInt(amount);
         return buf;
     }
 
     public static void handle(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+        int entityId = buf.readInt();
         int amount = buf.readVarInt();
         client.execute(() -> {
             LocalPlayer player = client.player;
-            if (player != null && player.containerMenu instanceof TankBackpackContainer tankBackpackContainer) {
-                tankBackpackContainer.setClientFluidCount(amount);
+            if (player != null && player.level.getEntity(entityId) instanceof EntityMaid maid) {
+                if (maid.getBackpackData() instanceof TankBackpackData tankBackpackData) {
+                    tankBackpackData.getDataAccess().set(0, amount);
+                }
             }
         });
     }
