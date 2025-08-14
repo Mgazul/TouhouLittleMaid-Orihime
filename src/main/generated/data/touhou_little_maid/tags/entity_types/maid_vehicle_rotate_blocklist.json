@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "create:carriage_contraption",
+      "required": false
+    }
+  ]
+}

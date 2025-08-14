@@ -1,0 +1,297 @@
+plugins {
+    id 'fabric-loom' version '1.11-SNAPSHOT'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = "${archives_base_name}-${minecraft_version}"
+}
+
+
+fabricApi {
+    configureDataGeneration {
+        client = true
+    }
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/touhou_little_maid.accesswidener")
+    mixin {
+        defaultRefmapName = "touhou_little_maid.refmap.json"
+    }
+    runs {
+        datagen {
+            property "fabric-api.datagen.modid", "touhou_little_maid"
+        }
+    }
+}
+
+repositories {
+    // ./libs 目录为库
+    flatDir {
+        dir "libs"
+    }
+    // mavenLocal 为本机仓库
+    mavenLocal()
+    mavenCentral()
+    maven {
+        name = 'ParchmentMC'
+        url = 'https://maven.parchmentmc.org'
+    }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    maven {
+        url "https://maven.shedaniel.me/"
+        content {
+            includeGroup "me.shedaniel"
+            includeGroup "me.shedaniel.cloth"
+            includeGroup "dev.architectury"
+        }
+    }
+    maven {
+        url "https://maven2.bai.lol"
+        content {
+            includeGroup "mcp.mobius.waila"
+            includeGroup "lol.bai"
+        }
+    }
+    maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+        content {
+            includeGroup "dev.emi"
+        }
+    }
+    maven {
+        name 'cursemaven'
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven { // for TOP
+        url "https://maven.k-4u.nl/"
+        content {
+            includeGroup "mcjty.theoneprobe"
+        }
+    }
+    maven {
+        url = "https://maven.theillusivec4.top/"
+        content {
+            includeGroup "top.theillusivec4.curios"
+        }
+    }
+    maven {// CCA
+        name = "Ladysnake Mods"
+        url = 'https://maven.ladysnake.org/releases'
+    }
+    maven {// Forge Config API Port
+        name = "Fuzs Mod Resources"
+        url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+    }
+    maven {// ModMenu
+        name = "Terraformers"
+        url = "https://maven.terraformersmc.com/"
+    }
+    maven {
+        name = "CottonMC"
+        url = "https://server.bbkr.space/artifactory/libs-release"
+    }
+    maven {
+        url = "https://maven.modmuss50.me/"
+    }
+    maven {
+        url "https://maven.jamieswhiteshirt.com/libs-release"
+        content {
+            includeGroup "com.jamieswhiteshirt"
+        }
+    }
+    maven {
+        url "https://maven.latvian.dev/releases"
+        content {
+            includeGroup "dev.latvian.mods"
+            includeGroup "dev.latvian.apps"
+        }
+    }
+
+    maven {
+        url 'https://jitpack.io'
+        content {
+            includeGroup "com.github.rtyley"
+        }
+    }
+    maven {
+        name "reposiliteRepositoryArtifacts"
+        url "https://maven.conczin.net/Artifacts"
+    }
+    maven { url = "https://maven.createmod.net" }
+    maven { url = "https://mvn.devos.one/releases/" }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    //mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${project.parchment_minecraft_version}:${project.parchment_mappings_version}@zip")
+    }
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // 触及距离/攻击范围
+    modImplementation(include("com.jamieswhiteshirt:reach-entity-attributes:2.4.0"))
+
+    // JS
+    modImplementation(include("org.openjdk.nashorn:nashorn-core:15.4"))
+
+    modCompileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+    annotationProcessor 'com.google.code.findbugs:jsr305:3.0.2'
+
+    // MP3 音频解码库，暂时不需要
+    // minecraftLibraries "com.googlecode.soundlibs:mp3spi:1.9.5.4"
+    // minecraftLibraries "com.googlecode.soundlibs:jlayer:1.0.1.4"
+    // minecraftLibraries "com.googlecode.soundlibs:tritonus-share:0.3.7.4"
+
+    // Opus 音频解码库
+    minecraftLibraries(modImplementation(include("org.gagravarr:vorbis-java-core:0.8")))
+    minecraftLibraries(modImplementation(include("io.github.jaredmdobson:concentus:1.0.2")))
+
+    // YAML 库
+    minecraftLibraries(modImplementation(include("org.yaml:snakeyaml:2.4")))
+
+    // 拆分出来的基岩版模型加载库
+    modImplementation(include("libs:simplebedrockmodel:1.3.0-fabric-1.20.1"))
+
+    // 拔刀剑
+    modImplementation "libs:SlashBlade-Refabricated-1.20.1:0.0.3"
+    modImplementation "io.github.fabricators_of_create.Porting-Lib:obj_loader:2.3.8+1.20.1" // 加载obj模型
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-item:${project.cca_version}"
+
+    // JEI
+    modImplementation "maven.modrinth:jei:${jei_version}"
+    // REI
+    modCompileOnly "maven.modrinth:architectury-api:${architectury_api_version}"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
+    modImplementation("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
+        exclude group: 'net.fabricmc.fabric-api'
+    }
+    // EMI
+    modCompileOnly "maven.modrinth:emi:${emi_version}"
+
+    modImplementation "maven.modrinth:jade:${jade_version}"
+    modImplementation "maven.modrinth:cyberanner-ironchest:${iron_chests_version}"
+    modImplementation "maven.modrinth:carry-on:${carry_on_version}"
+    modImplementation "maven.modrinth:patchouli:${patchouli_version}"
+
+    // IPN
+    modImplementation "net.fabricmc:fabric-language-kotlin:1.13.4+kotlin.2.2.0"
+    modImplementation "maven.modrinth:libipn:fabric-1.20-4.0.2"
+    modImplementation "maven.modrinth:inventory-profiles-next:fabric-1.20.1-1.10.15"
+
+    modCompileOnly "maven.modrinth:sodium:mc1.20.1-0.5.13-fabric"
+    modCompileOnly "maven.modrinth:iris:1.7.6+1.20.1-fabric"
+
+    // CCA
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
+    include "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+    include "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
+
+    // Forge Config API Port
+    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:8.0.2"
+
+    // ModMenu
+    modImplementation("com.terraformersmc:modmenu:7.2.2")
+
+    // Simple Hats
+    modImplementation("maven.modrinth:simple-hats:SDPZOmWZ")
+    // trinkets3.7.2在dev环境会出现refmap映射错误，回退版本
+    modImplementation "dev.emi:trinkets:3.7.1"
+
+    // KubeJS
+    modImplementation("dev.latvian.mods:kubejs-fabric:2001.6.5-build.16")
+    modImplementation("dev.latvian.mods:rhino-fabric:2001.2.3-build.10")
+
+    // Immersive Melodies
+    modImplementation "net.conczin:immersive_melodies:0.6.0+1.20.1+fabric"
+
+    // Ponder
+    modImplementation("net.createmod.ponder:Ponder-Fabric-${minecraft_version}:1.0.83")
+
+    // 精妙背包
+    // 你没看错，真是unoffical（，精妙核心又写的对的，神必
+    modCompileOnly("maven.modrinth:sophisticated-backpacks-(unoffical-fabric-port):53tSpjtW")
+    modCompileOnly("maven.modrinth:sophisticated-core-(unofficial-fabric-port):T8bJQfWs")
+
+    modImplementation(include("io.github.fabricators_of_create.Porting-Lib:common:2.3.8+1.20.1"))
+
+    // 不加就无法run的各种前置
+    // FIXME 加了也run不了，加载世界会一直调用实体的粒子渲染，直接崩开发环境的客户端，使用启动器启动正常运行
+    modImplementation "io.github.cottonmc:LibGui:8.1.1+1.20.1"
+    modImplementation "me.zeroeightsix:fiber:0.23.0-SNAPSHOT"
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "loader_version", project.loader_version
+    filteringCharset "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version,
+                "loader_version": project.loader_version
+    }
+}
+
+def targetJavaVersion = 17
+tasks.withType(JavaCompile).configureEach {
+    // ensure that the encoding is set to UTF-8, no matter what the system default is
+    // this fixes some edge cases with special characters not displaying correctly
+    // see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
+    // If Javadoc is generated, this must be specified in that task too.
+    it.options.encoding = "UTF-8"
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        it.options.release.set(targetJavaVersion)
+    }
+}
+
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+    // if it is present.
+    // If you remove this line, sources will not be generated.
+    withSourcesJar()
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
+}
+
+// configure the maven publication
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            artifactId = project.archives_base_name
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+        // Notice: This block does NOT have the same function as the block in the top level.
+        // The repositories here will be used for publishing your artifact, not for
+        // retrieving dependencies.
+    }
+}

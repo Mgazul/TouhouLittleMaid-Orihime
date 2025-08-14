@@ -1,0 +1,48 @@
+package com.github.tartaricacid.touhoulittlemaid.api.event;
+
+import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
+
+/**
+ * Fabric暂无TOP
+ */
+public class AddTopInfoEvent {
+//    private final EntityMaid maid;
+//    private final ProbeMode probeMode;
+//    private final IProbeInfo probeInfo;
+//    private final IProbeHitEntityData hitEntityData;
+//
+//    public AddTopInfoEvent(EntityMaid maid, ProbeMode probeMode, IProbeInfo probeInfo, IProbeHitEntityData hitEntityData) {
+//        this.maid = maid;
+//        this.probeMode = probeMode;
+//        this.probeInfo = probeInfo;
+//        this.hitEntityData = hitEntityData;
+//    }
+//
+//    public EntityMaid getMaid() {
+//        return maid;
+//    }
+//
+//    public ProbeMode getProbeMode() {
+//        return probeMode;
+//    }
+//
+//    public IProbeInfo getProbeInfo() {
+//        return probeInfo;
+//    }
+//
+//    public IProbeHitEntityData getHitEntityData() {
+//        return hitEntityData;
+//    }
+
+    public static final Event<Callback> CALLBACK = EventFactory.createArrayBacked(Callback.class, callbacks -> event -> {
+        for (Callback callback : callbacks) {
+            callback.post(event);
+        }
+    });
+
+    public interface Callback {
+        void post(AddTopInfoEvent event);
+    }
+}
