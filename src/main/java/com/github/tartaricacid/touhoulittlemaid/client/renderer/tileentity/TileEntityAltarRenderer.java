@@ -75,6 +75,7 @@ public class TileEntityAltarRenderer implements BlockEntityRenderer<TileEntityAl
     // TODO
 //    @Override
 //    public AABB getRenderBoundingBox(TileEntityAltar te) {
-//        return RenderHelper.getAABB(te.getWorldPosition().offset(-9, -5, -9), te.getWorldPosition().offset(9, 5, 9));
+//        return RenderHelper.getAABB(te.getWorldPosition().offset(-9, -5, -9),
+//                te.getWorldPosition().offset(9, 5, 9));
 //    }
 }

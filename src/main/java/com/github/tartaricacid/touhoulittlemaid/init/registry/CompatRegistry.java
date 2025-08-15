@@ -1,6 +1,5 @@
 package com.github.tartaricacid.touhoulittlemaid.init.registry;
 
-import com.github.tartaricacid.touhoulittlemaid.compat.carryon.BlackList;
 import com.github.tartaricacid.touhoulittlemaid.compat.patchouli.PatchouliCompat;
 import com.github.tartaricacid.touhoulittlemaid.compat.sbackpack.SBackpackCompat;
 import net.fabricmc.loader.api.FabricLoader;
@@ -19,7 +18,6 @@ public final class CompatRegistry {
         event.enqueueWork(() -> checkModLoad(PATCHOULI, PatchouliCompat::init));
         event.enqueueWork(() -> checkModLoad(CARRY_ON_ID, BlackList::addBlackList));*/
         checkModLoad(PATCHOULI, PatchouliCompat::init);
-        checkModLoad(CARRY_ON_ID, BlackList::addBlackList);
         checkModLoad(SBACKPACK, SBackpackCompat::init);
     }
 

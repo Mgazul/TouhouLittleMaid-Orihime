@@ -4,6 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -19,6 +20,8 @@ public class TagBlock extends FabricTagProvider<Block> {
     public static final TagKey<Block> ALTAR_TORII = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "altar_torii"));
     public static final TagKey<Block> ALTAR_PILLAR = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "altar_pillar"));
 
+    public static final TagKey<Block> CARRYON_BLOCK_BLACKLIST = TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("carryon", "block_blacklist"));
+
     public TagBlock(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, Registries.BLOCK, lookupProvider);
     }
@@ -32,5 +35,9 @@ public class TagBlock extends FabricTagProvider<Block> {
 
         getOrCreateTagBuilder(ALTAR_TORII).add(Blocks.RED_WOOL, Blocks.RED_CONCRETE).addOptional(ResourceLocation.parse("biomesoplenty:redwood_planks"));
         getOrCreateTagBuilder(ALTAR_PILLAR).forceAddTag(BlockTags.LOGS);
+
+        var blacklist = getOrCreateTagBuilder(CARRYON_BLOCK_BLACKLIST);
+        BuiltInRegistries.BLOCK.keySet().stream().filter(id -> id.getNamespace().equals(TouhouLittleMaid.MOD_ID))
+                .forEach(id -> blacklist.add(BuiltInRegistries.BLOCK.get(id)));
     }
 }

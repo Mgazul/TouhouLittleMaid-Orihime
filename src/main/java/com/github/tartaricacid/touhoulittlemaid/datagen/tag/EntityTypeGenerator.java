@@ -16,6 +16,7 @@ import java.util.concurrent.CompletableFuture;
 public class EntityTypeGenerator extends FabricTagProvider<EntityType<?>> {
     public static TagKey<EntityType<?>> MAID_FAIRY_ATTACK_GOAL = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "maid_fairy_attack_goal"));
     public static TagKey<EntityType<?>> MAID_VEHICLE_ROTATE_BLOCKLIST = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "maid_vehicle_rotate_blocklist"));
+    public static TagKey<EntityType<?>> CARRYON_ENTITY_BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath("carryon", "entity_blacklist"));
 
     public EntityTypeGenerator(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, Registries.ENTITY_TYPE, lookupProvider);
@@ -37,7 +38,11 @@ public class EntityTypeGenerator extends FabricTagProvider<EntityType<?>> {
                 .addOptional(id("alexscaves:gingerbread_man"))
                 .addOptional(id("alexsmobs:bunfungus"));
 
-        tag(MAID_VEHICLE_ROTATE_BLOCKLIST).addOptional(id("create:carriage_contraption"));
+        getOrCreateTagBuilder(MAID_VEHICLE_ROTATE_BLOCKLIST).addOptional(id("create:carriage_contraption"));
+        getOrCreateTagBuilder(CARRYON_ENTITY_BLACKLIST).add(
+                InitEntities.TOMBSTONE,
+                InitEntities.SIT,
+                InitEntities.BROOM);
     }
 
     private ResourceLocation id(String name) {
