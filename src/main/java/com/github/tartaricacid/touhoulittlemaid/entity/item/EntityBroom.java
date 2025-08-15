@@ -27,7 +27,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.p3pp3rf1y.sophisticatedcore.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.List;
