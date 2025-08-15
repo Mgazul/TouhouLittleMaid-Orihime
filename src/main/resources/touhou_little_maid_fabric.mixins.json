@@ -6,6 +6,7 @@
   "compatibilityLevel": "JAVA_21",
   "plugin": "cn.sh1rocu.touhoulittlemaid.util.MixinPlugin",
   "mixins": [
+    "accessor.EntityAccessor",
     "accessor.ExperienceOrbAccessor",
     "accessor.LootContextParamSetsAccessor",
     "accessor.MobAccessor",

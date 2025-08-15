@@ -3,6 +3,7 @@ package com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.layer;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
 import com.github.tartaricacid.touhoulittlemaid.client.model.bedrock.BedrockModel;
 import com.github.tartaricacid.touhoulittlemaid.client.renderer.entity.EntityMaidRenderer;
+import com.github.tartaricacid.touhoulittlemaid.compat.simplehats.SimpleHatsCompat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.SkullModelBase;
@@ -74,9 +75,10 @@ public class LayerMaidBipedHead extends RenderLayer<Mob, BedrockModel<Mob>> {
             this.getParentModel().getHead().translateAndRotate(poseStack);
             poseStack.scale(0.8F, -0.8F, -0.8F);
             poseStack.translate(-0.5, 0.625, -0.5);
-            //Minecraft.getInstance().getBlockRenderer().renderSingleBlock(blockState, poseStack, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, null);
             Minecraft.getInstance().getBlockRenderer().renderSingleBlock(blockState, poseStack, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY);
             poseStack.popPose();
+        } else {
+            SimpleHatsCompat.renderHat(poseStack, bufferIn, packedLightIn, mob, stack, this.getParentModel());
         }
     }
 }

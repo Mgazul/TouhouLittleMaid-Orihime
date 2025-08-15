@@ -1041,6 +1041,13 @@ public class EntityMaid extends TamableAnimal implements CrossbowAttackMob, IMai
         MaidDeathEvent event = new MaidDeathEvent(this, cause);
         MaidDeathEvent.CALLBACK.invoker().post(event);
         if (!event.isCanceled()) {
+            // 清除死亡时需要清除的内容
+            this.clearFire();
+            this.setTicksFrozen(0);
+            this.setSharedFlagOnFire(false);
+            this.getCombatTracker().recheckStatus();
+            this.removeAllEffects();
+            // 最后父类方法
             super.die(cause);
         }
     }

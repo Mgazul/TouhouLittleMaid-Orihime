@@ -1,6 +1,7 @@
 package com.github.tartaricacid.touhoulittlemaid.item;
 
 import com.github.tartaricacid.touhoulittlemaid.advancements.maid.TriggerType;
+import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAndItemTransformEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.*;
 import com.github.tartaricacid.touhoulittlemaid.util.MaidRayTraceHelper;
@@ -62,6 +63,10 @@ public class ItemCamera extends Item {
         maid.setHomeModeEnable(false);
         maid.saveWithoutId(maidTag);
         maidTag.putString("id", Objects.requireNonNull(BuiltInRegistries.ENTITY_TYPE.getKey(InitEntities.MAID)).toString());
+
+        var event = new MaidAndItemTransformEvent.ToItem(maid, photo, maidTag);
+        MaidAndItemTransformEvent.TO_ITEM.invoker().onToItem(event);
+
         photo.set(InitDataComponent.MAID_INFO, CustomData.of(maidTag));
         Containers.dropItemStack(worldIn, playerIn.getX(), playerIn.getY(), playerIn.getZ(), photo);
     }

@@ -9,6 +9,7 @@ import com.github.tartaricacid.touhoulittlemaid.api.event.client.RenderMaidEvent
 import com.github.tartaricacid.touhoulittlemaid.client.download.InfoGetManager;
 import com.github.tartaricacid.touhoulittlemaid.client.event.*;
 import com.github.tartaricacid.touhoulittlemaid.client.init.*;
+import com.github.tartaricacid.touhoulittlemaid.client.input.DismountBroomKey;
 import com.github.tartaricacid.touhoulittlemaid.client.input.STTChatKey;
 import com.github.tartaricacid.touhoulittlemaid.client.resource.BedrockModelLoader;
 import com.github.tartaricacid.touhoulittlemaid.debug.target.DebugClientRenderEvent;
@@ -54,6 +55,7 @@ public class TouhouLittleMaidFabricClient implements ClientModInitializer {
         PlaySoundSourceEvent.CALLBACK.register(PlayMaidSoundEvent::onPlaySoundSource);
         KeyInputCallback.EVENT.register(PressAIChatKeyEvent::onOpenConfig);
         KeyInputCallback.EVENT.register(STTChatKey::onSttChatPress);
+        KeyInputCallback.EVENT.register(DismountBroomKey::onDismountPress);
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new ReloadResourceEvent());
         WorldRenderEvents.AFTER_TRANSLUCENT.register(ScrollRenderEvent::onRenderWorldLastEvent);
         ScreenEvents.AFTER_INIT.register(ShowOptifineScreen::showOptifineWarning);

@@ -43,6 +43,7 @@ public final class InitBlocks {
     public static BlockEntityType<TileEntityComputer> COMPUTER_TE = registerBlockEntityType("computer", TileEntityComputer.TYPE);
     public static BlockEntityType<TileEntityShrine> SHRINE_TE = registerBlockEntityType("shrine", TileEntityShrine.TYPE);
     public static BlockEntityType<TileEntityPicnicMat> PICNIC_MAT_TE = registerBlockEntityType("picnic_mat", TileEntityPicnicMat.TYPE);
+    public static BlockEntityType<TileEntityMaidBed> MAID_BED_TE = registerBlockEntityType("maid_bed", TileEntityMaidBed.TYPE);
 
     private static Block registerBlock(String id, Block block) {
         return Registry.register(BuiltInRegistries.BLOCK, ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, id), block);

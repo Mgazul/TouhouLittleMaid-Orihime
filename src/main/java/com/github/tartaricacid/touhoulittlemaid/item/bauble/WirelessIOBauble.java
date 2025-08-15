@@ -4,6 +4,7 @@ import cn.sh1rocu.touhoulittlemaid.util.itemhandler.IItemHandler;
 import com.github.tartaricacid.touhoulittlemaid.advancements.maid.TriggerType;
 import com.github.tartaricacid.touhoulittlemaid.api.bauble.IChestType;
 import com.github.tartaricacid.touhoulittlemaid.api.bauble.IMaidBauble;
+import com.github.tartaricacid.touhoulittlemaid.api.event.MaidWirelessIOEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitTrigger;
 import com.github.tartaricacid.touhoulittlemaid.inventory.chest.ChestManager;
@@ -123,9 +124,17 @@ public class WirelessIOBauble implements IMaidBauble {
                     IItemHandler filterList = ItemWirelessIO.getFilterList(maid.registryAccess(), baubleItem);
 
                     if (isMaidToChest) {
-                        maidToChest(maidInv, chestInv, isBlacklist, filterList, slotConfigData);
+                        var event = new MaidWirelessIOEvent.MaidToChest(maid, maidInv, chestInv, filterList, isBlacklist, slotConfigData);
+                        MaidWirelessIOEvent.MAID_TO_CHEST.invoker().post(event);
+                        if (!event.isCanceled()) {
+                            maidToChest(maidInv, chestInv, isBlacklist, filterList, slotConfigData);
+                        }
                     } else {
-                        chestToMaid(chestInv, maidInv, isBlacklist, filterList, slotConfigData);
+                        var event = new MaidWirelessIOEvent.ChestToMaid(maid, maidInv, chestInv, filterList, isBlacklist, slotConfigData);
+                        MaidWirelessIOEvent.CHEST_TO_MAID.invoker().post(event);
+                        if (!event.isCanceled()) {
+                            chestToMaid(chestInv, maidInv, isBlacklist, filterList, slotConfigData);
+                        }
                     }
                 }
                 if (maid.getOwner() instanceof ServerPlayer serverPlayer) {

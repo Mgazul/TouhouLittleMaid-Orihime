@@ -24,6 +24,7 @@ public final class InstallChairEvent {
                 if (spawnChair != null) {
                     serverLevel.addFreshEntity(spawnChair);
                     spawnChair.startRiding(target);
+                    mainHandItem.shrink(1);
                 }
             }
             return InteractionResult.CONSUME;

@@ -10,17 +10,19 @@
     "EntityMixin",
     "FishingHookPredicateMixin",
     "MixinCrossbowItem",
-    "ThrownTridentMixin",
     "NavigationMixin",
     "PersistentEntitySectionManagerMixin",
     "PlayerMixin",
     "StructureTemplateMixin",
+    "ThrownTridentMixin",
     "accessor.ArrowAccessor",
     "accessor.CropBlockAccessor",
     "accessor.EntityAccessor",
-    "accessor.FenceGateBlockAccessor"
+    "accessor.FenceGateBlockAccessor",
+    "accessor.LivingEntityAccessor"
   ],
   "client": [
+    "client.ClientPacketListenerMixin",
     "client.HumanoidModelMixin",
     "client.ItemPropertiesMixin",
     "client.LanguageMixin",

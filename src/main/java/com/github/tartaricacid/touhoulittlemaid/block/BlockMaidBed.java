@@ -2,21 +2,31 @@ package com.github.tartaricacid.touhoulittlemaid.block;
 
 import cn.sh1rocu.touhoulittlemaid.api.extension.IBedBlock;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
+import com.github.tartaricacid.touhoulittlemaid.item.ItemMaidBed;
+import com.github.tartaricacid.touhoulittlemaid.tileentity.TileEntityMaidBed;
+import com.google.common.collect.Lists;
 import com.mojang.serialization.MapCodec;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -26,13 +36,27 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
-public class BlockMaidBed extends HorizontalDirectionalBlock implements IBedBlock {
+public class BlockMaidBed extends HorizontalDirectionalBlock implements EntityBlock, IBedBlock {
+    public static final List<DyeColor> AVAILABLE_COLOR = Util.make(Lists.newArrayList(), list -> {
+        list.add(DyeColor.WHITE);
+        list.add(DyeColor.BLACK);
+        list.add(DyeColor.YELLOW);
+        list.add(DyeColor.BLUE);
+        list.add(DyeColor.GREEN);
+        list.add(DyeColor.PURPLE);
+        list.add(DyeColor.PINK);
+    });
+
     public static final EnumProperty<BedPart> PART = BlockStateProperties.BED_PART;
     public static final BooleanProperty OCCUPIED = BlockStateProperties.OCCUPIED;
     protected static final VoxelShape BASE = Block.box(0.0, 0.0, 0.0, 16.0, 9.0, 16.0);
@@ -45,6 +69,35 @@ public class BlockMaidBed extends HorizontalDirectionalBlock implements IBedBloc
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
         return BASE;
+    }
+
+    @Override
+    public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+                                           Player player, InteractionHand hand, BlockHitResult hitResult) {
+        ItemStack itemStack = player.getItemInHand(hand);
+        // 检查是否是染料物品
+        if (!(itemStack.getItem() instanceof DyeItem dyeItem)) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+        DyeColor dyeColor = dyeItem.getDyeColor();
+        // 检查染料颜色是否在可用颜色列表中
+        if (!AVAILABLE_COLOR.contains(dyeColor)) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+        // 获取床头位置和方块实体
+        BlockPos headPos = state.getValue(PART) == BedPart.HEAD ? pos : pos.relative(state.getValue(FACING));
+        BlockEntity blockEntity = level.getBlockEntity(headPos);
+        if (!(blockEntity instanceof TileEntityMaidBed bed)) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+        if (bed.getColor() == dyeColor) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+        bed.setColor(dyeColor);
+        if (!player.isCreative()) {
+            itemStack.shrink(1);
+        }
+        return ItemInteractionResult.SUCCESS;
     }
 
     @Override
@@ -89,10 +142,14 @@ public class BlockMaidBed extends HorizontalDirectionalBlock implements IBedBloc
     public void setPlacedBy(Level worldIn, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(worldIn, pos, state, placer, stack);
         if (!worldIn.isClientSide) {
-            BlockPos blockpos = pos.relative(state.getValue(FACING));
-            worldIn.setBlock(blockpos, state.setValue(PART, BedPart.HEAD), Block.UPDATE_ALL);
+            BlockPos headPos = pos.relative(state.getValue(FACING));
+            worldIn.setBlock(headPos, state.setValue(PART, BedPart.HEAD), Block.UPDATE_ALL);
             worldIn.blockUpdated(pos, Blocks.AIR);
-            state.updateNeighbourShapes(worldIn, pos, 3);
+            state.updateNeighbourShapes(worldIn, pos, Block.UPDATE_ALL);
+
+            if (worldIn.getBlockEntity(headPos) instanceof TileEntityMaidBed bed) {
+                bed.setColor(ItemMaidBed.getColor(stack));
+            }
         }
     }
 
@@ -147,5 +204,56 @@ public class BlockMaidBed extends HorizontalDirectionalBlock implements IBedBloc
     @Override
     protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
         return simpleCodec((properties) -> new BlockMaidBed());
+    }
+
+    @Override
+    @Nullable
+    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+        if (pState.getValue(PART) == BedPart.HEAD) {
+            return new TileEntityMaidBed(pPos, pState);
+        }
+        return null;
+    }
+
+    @Override
+    public RenderShape getRenderShape(BlockState pState) {
+        return RenderShape.ENTITYBLOCK_ANIMATED;
+    }
+
+    @Override
+    public List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+        List<ItemStack> stacks = super.getDrops(state, params);
+        BlockEntity parameter = params.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
+        if (parameter instanceof TileEntityMaidBed bed) {
+            stacks.forEach(stack -> {
+                if (stack.getItem() instanceof ItemMaidBed) {
+                    ItemMaidBed.setColor(bed.getColor(), stack);
+                }
+            });
+        }
+        return stacks;
+    }
+
+    @Override
+    // public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(LevelReader level, BlockPos pos, BlockState state) {
+        ItemStack stack = super.getCloneItemStack(level, pos, state);
+
+        // 获取床的颜色信息
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof TileEntityMaidBed bed) {
+            ItemMaidBed.setColor(bed.getColor(), stack);
+        } else {
+            // 如果当前是脚部分，尝试获取头部分的方块实体
+            if (state.getValue(PART) == BedPart.FOOT) {
+                BlockPos headPos = pos.relative(state.getValue(FACING));
+                BlockEntity headEntity = level.getBlockEntity(headPos);
+                if (headEntity instanceof TileEntityMaidBed bed) {
+                    ItemMaidBed.setColor(bed.getColor(), stack);
+                }
+            }
+        }
+
+        return stack;
     }
 }

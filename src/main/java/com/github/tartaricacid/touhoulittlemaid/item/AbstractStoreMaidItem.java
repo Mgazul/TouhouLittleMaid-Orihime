@@ -1,6 +1,7 @@
 package com.github.tartaricacid.touhoulittlemaid.item;
 
 import cn.sh1rocu.touhoulittlemaid.api.extension.IItemEntity;
+import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAndItemTransformEvent;
 import com.github.tartaricacid.touhoulittlemaid.compat.ysm.YsmCompat;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitDataComponent;
@@ -8,6 +9,7 @@ import com.github.tartaricacid.touhoulittlemaid.inventory.tooltip.ItemMaidToolti
 import com.github.tartaricacid.touhoulittlemaid.inventory.tooltip.YsmMaidInfo;
 import com.mojang.serialization.Codec;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionResult;
@@ -40,6 +42,8 @@ public abstract class AbstractStoreMaidItem extends Item implements IItemEntity 
         if (compoundData == null) {
             CompoundTag tag = new CompoundTag();
             maid.saveWithoutId(tag);
+            var event = new MaidAndItemTransformEvent.ToItem(maid, stack, tag);
+            MaidAndItemTransformEvent.TO_ITEM.invoker().onToItem(event);
             stack.set(InitDataComponent.MAID_INFO, CustomData.of(tag));
         }
     }
@@ -88,6 +92,10 @@ public abstract class AbstractStoreMaidItem extends Item implements IItemEntity 
             if (!player.getUUID().equals(ownerUid)) {
                 return InteractionResult.FAIL;
             }
+
+            var event = new MaidAndItemTransformEvent.ToMaid(maid, stack, maidCompound);
+            MaidAndItemTransformEvent.TO_MAID.invoker().onToMaid(event);
+
             maid.load(maidCompound);
             maid.moveTo(context.getClickedPos().above(), 0, 0);
             if (worldIn instanceof ServerLevel) {
@@ -97,6 +105,10 @@ public abstract class AbstractStoreMaidItem extends Item implements IItemEntity 
             maid.playSound(SoundEvents.PLAYER_SPLASH, 1.0F, worldIn.random.nextFloat() * 0.1F + 0.9F);
             runnable.run();
             return InteractionResult.sidedSuccess(worldIn.isClientSide);
+        } else {
+            if (worldIn.isClientSide) {
+                player.sendSystemMessage(Component.translatable("message.touhou_little_maid.photo.have_no_nbt_data"));
+            }
         }
         return super.useOn(context);
     }

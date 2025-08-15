@@ -4,6 +4,7 @@ import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -15,22 +16,31 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
-import static com.github.tartaricacid.touhoulittlemaid.util.ResourceLocationUtil.getResourceLocation;
-
 public class TagItem extends FabricTagProvider<Item> {
-    public static final TagKey<Item> GOHEI_ENCHANTABLE = TagKey.create(Registries.ITEM, getResourceLocation("gohei_enchantable"));
-    public static final TagKey<Item> MAID_PLANTABLE_SEEDS = TagKey.create(Registries.ITEM, getResourceLocation("maid_plantable_seeds"));
-    public static final TagKey<Item> MAID_TAMED_ITEM = TagKey.create(Registries.ITEM, getResourceLocation("maid_tamed_item"));
-    public static final TagKey<Item> MAID_MENDING_BLOCKLIST_ITEM = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "maid_mending_blocklist_item"));
-    public static final TagKey<Item> MAID_VANISHING_BLOCKLIST_ITEM = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "maid_vanishing_blocklist_item"));
+    public static final TagKey<Item> GOHEI_ENCHANTABLE = createTagKey("gohei_enchantable");
+    public static final TagKey<Item> MAID_PLANTABLE_SEEDS = createTagKey("maid_plantable_seeds");
+    public static final TagKey<Item> MAID_TAMED_ITEM = createTagKey("maid_tamed_item");
+    public static final TagKey<Item> MAID_MENDING_BLOCKLIST_ITEM = createTagKey("maid_mending_blocklist_item");
+    public static final TagKey<Item> MAID_VANISHING_BLOCKLIST_ITEM = createTagKey("maid_vanishing_blocklist_item");
+    /**
+     * /**
+     * 女仆进食黑名单，与配置文件协同作用，方便拓展兼容
+     * <p>
+     * 全局的，适用于工作餐、回血餐和家庭餐
+     */
+    public static final TagKey<Item> MAID_EAT_BLOCKLIST_ITEM = createTagKey("maid_eat_blocklist_item");
 
     public TagItem(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
         super(output, Registries.ITEM, completableFuture);
     }
 
 
+    private static TagKey<Item> createTagKey(String name) {
+        return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, name));
+    }
+
     @Override
-    protected void addTags(HolderLookup.@NotNull Provider pProvider) {
+    protected void addTags(HolderLookup.@NotNull Provider provider) {
         getOrCreateTagBuilder(GOHEI_ENCHANTABLE).add(InitItems.HAKUREI_GOHEI);
         getOrCreateTagBuilder(GOHEI_ENCHANTABLE).add(InitItems.SANAE_GOHEI);
 
@@ -45,7 +55,10 @@ public class TagItem extends FabricTagProvider<Item> {
                 .add(InitItems.DROWN_PROTECT_BAUBLE)
                 .add(InitItems.NIMBLE_FABRIC);
 
-        getOrCreateTagBuilder(MAID_PLANTABLE_SEEDS).forceAddTag(ItemTags.VILLAGER_PLANTABLE_SEEDS);
+        getOrCreateTagBuilder(MAID_PLANTABLE_SEEDS)
+                .forceAddTag(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .forceAddTag(ConventionalItemTags.SEEDS)
+                .addOptionalTag(ResourceLocation.parse("kaleidoscope_cookery:cookery_mod_seeds"));
         getOrCreateTagBuilder(MAID_PLANTABLE_SEEDS).add(Items.NETHER_WART);
 
         getOrCreateTagBuilder(MAID_TAMED_ITEM)
@@ -63,5 +76,10 @@ public class TagItem extends FabricTagProvider<Item> {
 
         getOrCreateTagBuilder(MAID_MENDING_BLOCKLIST_ITEM).add(InitItems.ULTRAMARINE_ORB_ELIXIR);
         getOrCreateTagBuilder(MAID_VANISHING_BLOCKLIST_ITEM).add(InitItems.ULTRAMARINE_ORB_ELIXIR);
+
+        // 森罗物语辣椒
+        getOrCreateTagBuilder(MAID_EAT_BLOCKLIST_ITEM)
+                .addOptional(ResourceLocation.parse("kaleidoscope_cookery:red_chili"))
+                .addOptional(ResourceLocation.parse("kaleidoscope_cookery:green_chili"));
     }
 }

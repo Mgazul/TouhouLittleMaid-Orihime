@@ -55,9 +55,8 @@ public class NetworkHandler {
         ClientPlayNetworking.registerGlobalReceiver(TTSSystemAudioToClientPackage.TYPE, TTSSystemAudioToClientPackage::handle);
 
         ClientPlayNetworking.registerGlobalReceiver(AdvancedAddEntityPayload.TYPE, AdvancedAddEntityPayload::handle);
-
         ClientPlayNetworking.registerGlobalReceiver(SyncFluidAmountPackage.TYPE, SyncFluidAmountPackage::handle);
-
+        ClientPlayNetworking.registerGlobalReceiver(OpenPlayerInventoryPackage.TYPE, OpenPlayerInventoryPackage::handle);
     }
 
     public static void registerS2CPackets() {
@@ -82,8 +81,8 @@ public class NetworkHandler {
         registerS2CPacket(TTSSystemAudioToClientPackage.TYPE, TTSSystemAudioToClientPackage.STREAM_CODEC);
 
         registerS2CPacket(AdvancedAddEntityPayload.TYPE, AdvancedAddEntityPayload.STREAM_CODEC);
-
         registerS2CPacket(SyncFluidAmountPackage.TYPE, SyncFluidAmountPackage.STREAM_CODEC);
+        registerS2CPacket(OpenPlayerInventoryPackage.TYPE, OpenPlayerInventoryPackage.STREAM_CODEC);
     }
 
     public static void registerC2SPackets() {
@@ -115,7 +114,7 @@ public class NetworkHandler {
         registerC2SPacket(SaveMaidAIDataPackage.TYPE, SaveMaidAIDataPackage.STREAM_CODEC, SaveMaidAIDataPackage::handle);
         registerC2SPacket(ClearMaidAIDataPacket.TYPE, ClearMaidAIDataPacket.STREAM_CODEC, ClearMaidAIDataPacket::handle);
         registerC2SPacket(OpenMaidGuiPackage.TYPE, OpenMaidGuiPackage.STREAM_CODEC, OpenMaidGuiPackage::handle);
-
+        registerC2SPacket(DismountPackage.TYPE, DismountPackage.STREAM_CODEC, DismountPackage::handle);
     }
 
     public static void sendToNearby(Entity entity, CustomPacketPayload toSend) {
