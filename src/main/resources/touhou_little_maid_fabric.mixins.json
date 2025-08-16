@@ -10,6 +10,7 @@
     "accessor.ExperienceOrbAccessor",
     "accessor.LootContextParamSetsAccessor",
     "accessor.MobAccessor",
+    "accessor.ReloadableResourceManagerAccessor",
     "common.AbstractArrowMixin",
     "common.BlockBehaviourMixin",
     "common.BlockEntityMixin",
