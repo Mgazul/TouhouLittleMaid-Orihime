@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.client.gui.entity.maid;
 
+import cn.sh1rocu.touhoulittlemaid.mixin.accessor.ScreenAccessor;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.api.client.gui.ITooltipButton;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidTaskEnableEvent;
@@ -540,7 +541,7 @@ public abstract class AbstractMaidContainerGui<T extends AbstractMaidContainer> 
     }
 
     private void renderTaskButtonInfo(GuiGraphics graphics, int x, int y) {
-        this.renderables.stream().filter(b -> b instanceof ITooltipButton).forEach(b -> {
+        ((ScreenAccessor) this).tlm$getRenderables().stream().filter(b -> b instanceof ITooltipButton).forEach(b -> {
             ITooltipButton tooltipButton = (ITooltipButton) b;
             if (tooltipButton.isTooltipHovered()) {
                 tooltipButton.renderTooltip(graphics, Screens.getClient(this), x, y);

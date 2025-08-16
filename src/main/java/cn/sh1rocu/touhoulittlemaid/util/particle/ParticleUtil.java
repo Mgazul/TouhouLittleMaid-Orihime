@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 public class ParticleUtil {
     public static TerrainParticle updateSprite(TerrainParticle particle, BlockState state, @Nullable BlockPos pos) {
         if (pos != null)
-            ((TextureSheetParticleAccessor) particle).setSprite(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(state));
+            ((TextureSheetParticleAccessor) particle).tlm$setSprite(Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getParticleIcon(state));
         return particle;
     }
 }
