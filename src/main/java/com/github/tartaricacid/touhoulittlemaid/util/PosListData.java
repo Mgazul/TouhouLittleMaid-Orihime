@@ -21,8 +21,7 @@ public final class PosListData {
     public void deserialize(ListTag nbt) {
         data.clear();
         for (int i = 0; i < nbt.size(); i++) {
-            int[] pos = nbt.getIntArray(i);
-            data.add(new BlockPos(pos[0], pos[1], pos[2]));
+            data.add(NbtUtils.readBlockPos(nbt.getCompound(i)));
         }
     }
 

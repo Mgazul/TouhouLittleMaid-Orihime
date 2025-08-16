@@ -53,12 +53,6 @@ public class TileEntityAltar extends BlockEntity implements IBlockEntityPersiste
         refresh();
     }
 
-    /**
-     * FIXME
-     * <p>
-     * 不知道为什么1.20.1用Mixin实现getPersistentData()有问题，关闭存档后祭坛数据保存异常
-     */
-
     @Override
     public void saveAdditional(CompoundTag pTag) {
         getPersistentData().putBoolean(IS_RENDER, isRender);
@@ -79,8 +73,8 @@ public class TileEntityAltar extends BlockEntity implements IBlockEntityPersiste
         storageState = Block.stateById(getPersistentData().getInt(STORAGE_STATE_ID));
         handler.deserializeNBT(getPersistentData().getCompound(STORAGE_ITEM));
         direction = Direction.byName(getPersistentData().getString(DIRECTION));
-        blockPosList.deserialize(getPersistentData().getList(STORAGE_BLOCK_LIST, Tag.TAG_INT_ARRAY));
-        canPlaceItemPosList.deserialize(getPersistentData().getList(CAN_PLACE_ITEM_POS_LIST, Tag.TAG_INT_ARRAY));
+        blockPosList.deserialize(getPersistentData().getList(STORAGE_BLOCK_LIST, Tag.TAG_COMPOUND));
+        canPlaceItemPosList.deserialize(getPersistentData().getList(CAN_PLACE_ITEM_POS_LIST, Tag.TAG_COMPOUND));
     }
 
     public BlockPos getWorldPosition() {

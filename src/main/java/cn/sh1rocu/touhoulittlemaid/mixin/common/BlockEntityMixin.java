@@ -1,7 +1,6 @@
 package cn.sh1rocu.touhoulittlemaid.mixin.common;
 
 import cn.sh1rocu.touhoulittlemaid.api.extension.IBlockEntityPersistentData;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -26,7 +25,7 @@ public abstract class BlockEntityMixin implements IBlockEntityPersistentData {
     @Inject(method = "saveAdditional", at = @At("RETURN"))
     private void tlm$saveAdditional(CompoundTag tag, CallbackInfo ci) {
         if (tlm$persistentData != null) {
-            tag.put(PERSISTENT_DATA, tlm$persistentData.copy());
+            tag.put(PERSISTENT_DATA, tlm$persistentData);
         }
     }
 
