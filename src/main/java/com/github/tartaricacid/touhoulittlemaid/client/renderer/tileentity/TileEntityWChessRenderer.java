@@ -7,7 +7,6 @@ import com.github.tartaricacid.touhoulittlemaid.client.model.WChessPiecesModel;
 import com.github.tartaricacid.touhoulittlemaid.client.model.bedrock.SimpleBedrockModel;
 import com.github.tartaricacid.touhoulittlemaid.client.resource.BedrockModelLoader;
 import com.github.tartaricacid.touhoulittlemaid.tileentity.TileEntityWChess;
-import com.github.tartaricacid.touhoulittlemaid.util.RenderHelper;
 import com.github.tartaricacid.touhoulittlemaid.util.WChessUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -26,7 +25,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.AABB;
 
 public class TileEntityWChessRenderer implements BlockEntityRenderer<TileEntityWChess> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(TouhouLittleMaid.MOD_ID, "textures/bedrock/block/wchess.png");
