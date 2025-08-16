@@ -1,6 +1,5 @@
 package com.github.tartaricacid.touhoulittlemaid.tileentity;
 
-import cn.sh1rocu.touhoulittlemaid.api.extension.IBlockEntityPersistentData;
 import com.github.tartaricacid.touhoulittlemaid.api.block.IBoardGameEntityBlock;
 import com.github.tartaricacid.touhoulittlemaid.api.game.xqwlight.Position;
 import com.github.tartaricacid.touhoulittlemaid.init.InitBlocks;
@@ -10,7 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class TileEntityCChess extends TileEntityJoy implements IBoardGameEntityBlock, IBlockEntityPersistentData {
+public class TileEntityCChess extends TileEntityJoy implements IBoardGameEntityBlock {
     public static final BlockEntityType<TileEntityCChess> TYPE = BlockEntityType.Builder.of(TileEntityCChess::new, InitBlocks.CCHESS).build(null);
 
     private static final String CHESS_DATA = "ChessData";

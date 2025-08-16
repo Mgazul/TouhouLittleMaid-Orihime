@@ -63,8 +63,7 @@ public class ItemPicnicBasket extends BlockItem implements ExtendedScreenHandler
     }
 
     // FIXME
-    // Can't open GUI by right click AIR in creative game-mode, but it's effective to right click an entity that can't interact with player.
-    // 未知原因导致创造模式时无法通过右键空气打开GUI，use压根没调用；但是右键不能交互的实体能正常打开，神了。
+    // (概率出现)未知原因导致创造模式时无法通过右键空气打开GUI，use压根没调用；但是右键不能交互的实体能正常打开，神了。
     @Override
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
         if (handIn == InteractionHand.MAIN_HAND && playerIn instanceof ServerPlayer serverPlayer) {

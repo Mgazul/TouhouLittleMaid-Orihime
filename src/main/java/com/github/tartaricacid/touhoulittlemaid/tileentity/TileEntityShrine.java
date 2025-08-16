@@ -45,14 +45,14 @@ public class TileEntityShrine extends BlockEntity implements IBlockEntityPersist
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
+    protected void saveAdditional(CompoundTag tag) {
         getPersistentData().put(STORAGE_ITEM, handler.serializeNBT());
-        super.saveAdditional(pTag);
+        super.saveAdditional(tag);
     }
 
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
+    public void load(CompoundTag nbt) {
+        super.load(nbt);
         handler.deserializeNBT(getPersistentData().getCompound(STORAGE_ITEM));
     }
 

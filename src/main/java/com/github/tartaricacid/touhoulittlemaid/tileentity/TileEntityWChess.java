@@ -1,6 +1,5 @@
 package com.github.tartaricacid.touhoulittlemaid.tileentity;
 
-import cn.sh1rocu.touhoulittlemaid.api.extension.IBlockEntityPersistentData;
 import com.github.tartaricacid.touhoulittlemaid.api.block.IBoardGameEntityBlock;
 import com.github.tartaricacid.touhoulittlemaid.api.game.chess.Position;
 import com.github.tartaricacid.touhoulittlemaid.init.InitBlocks;
@@ -10,7 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class TileEntityWChess extends TileEntityJoy implements IBoardGameEntityBlock, IBlockEntityPersistentData {
+public class TileEntityWChess extends TileEntityJoy implements IBoardGameEntityBlock {
     public static final BlockEntityType<TileEntityWChess> TYPE = BlockEntityType.Builder.of(TileEntityWChess::new, InitBlocks.WCHESS).build(null);
 
     private static final String CHESS_DATA = "ChessData";
@@ -52,8 +51,8 @@ public class TileEntityWChess extends TileEntityJoy implements IBoardGameEntityB
     }
 
     @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
+    public void load(CompoundTag nbt) {
+        super.load(nbt);
         CompoundTag data = getPersistentData();
         chessCounter = data.getInt(CHESS_COUNTER);
         selectChessPoint = data.getInt(SELECT_CHESS_POINT);

@@ -75,16 +75,16 @@ public class TileEntityMaidBeacon extends BlockEntity implements IBlockEntityPer
     }
 
     @Override
-    public void saveAdditional(CompoundTag pTag) {
+    public void saveAdditional(CompoundTag compound) {
         getPersistentData().putInt(POTION_INDEX_TAG, potionIndex);
         getPersistentData().putFloat(STORAGE_POWER_TAG, storagePower);
         getPersistentData().putBoolean(OVERFLOW_DELETE_TAG, overflowDelete);
-        super.saveAdditional(pTag);
+        super.saveAdditional(compound);
     }
 
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
+    public void load(CompoundTag nbt) {
+        super.load(nbt);
         potionIndex = getPersistentData().getInt(POTION_INDEX_TAG);
         storagePower = getPersistentData().getFloat(STORAGE_POWER_TAG);
         overflowDelete = getPersistentData().getBoolean(OVERFLOW_DELETE_TAG);

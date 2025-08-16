@@ -1,6 +1,5 @@
 package com.github.tartaricacid.touhoulittlemaid.tileentity;
 
-import cn.sh1rocu.touhoulittlemaid.api.extension.IBlockEntityPersistentData;
 import com.github.tartaricacid.touhoulittlemaid.api.block.IBoardGameEntityBlock;
 import com.github.tartaricacid.touhoulittlemaid.api.game.gomoku.Point;
 import com.github.tartaricacid.touhoulittlemaid.init.InitBlocks;
@@ -12,13 +11,15 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class TileEntityGomoku extends TileEntityJoy implements IBoardGameEntityBlock, IBlockEntityPersistentData {
+public class TileEntityGomoku extends TileEntityJoy implements IBoardGameEntityBlock {
     public static final BlockEntityType<TileEntityGomoku> TYPE = BlockEntityType.Builder.of(TileEntityGomoku::new, InitBlocks.GOMOKU).build(null);
+
     private static final String CHESS_DATA = "ChessData";
     private static final String IN_PROGRESS = "InProgress";
     private static final String PLAYER_TURN = "PlayerTurn";
     private static final String CHESS_COUNTER = "ChessCounter";
     private static final String LATEST_CHESS_POINT = "LatestChessPoint";
+
     private int[][] chessData = new int[15][15];
     private boolean inProgress = true;
     private boolean playerTurn = true;
@@ -30,7 +31,7 @@ public class TileEntityGomoku extends TileEntityJoy implements IBoardGameEntityB
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
+    protected void saveAdditional(CompoundTag tag) {
         ListTag listTag = new ListTag();
         for (int[] chessRow : chessData) {
             listTag.add(new IntArrayTag(chessRow));
@@ -40,13 +41,13 @@ public class TileEntityGomoku extends TileEntityJoy implements IBoardGameEntityB
         getPersistentData().putBoolean(PLAYER_TURN, this.playerTurn);
         getPersistentData().putInt(CHESS_COUNTER, this.chessCounter);
         getPersistentData().put(LATEST_CHESS_POINT, Point.toTag(this.latestChessPoint));
-        super.saveAdditional(pTag);
+        super.saveAdditional(tag);
     }
 
     @Override
-    public void load(CompoundTag pTag) {
-        super.load(pTag);
-        ListTag listTag = getPersistentData().getList(CHESS_DATA, Tag.TAG_BYTE_ARRAY);
+    public void load(CompoundTag nbt) {
+        super.load(nbt);
+        ListTag listTag = getPersistentData().getList(CHESS_DATA, Tag.TAG_INT_ARRAY);
         for (int i = 0; i < listTag.size(); i++) {
             int[] intArray = listTag.getIntArray(i);
             this.chessData[i] = intArray;
@@ -73,7 +74,6 @@ public class TileEntityGomoku extends TileEntityJoy implements IBoardGameEntityB
         this.chessData[x][y] = type;
         this.latestChessPoint = new Point(x, y, type);
         this.chessCounter += 1;
-        ;
     }
 
     public boolean isPlayerTurn() {
