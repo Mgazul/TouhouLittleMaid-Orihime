@@ -15,6 +15,6 @@ public class CancelSaddleMaidEvent {
             player.ejectPassengers();
             return InteractionResultHolder.fail(itemStack);
         }
-        return InteractionResultHolder.pass(ItemStack.EMPTY);
+        return InteractionResultHolder.pass(itemStack);
     }
 }
