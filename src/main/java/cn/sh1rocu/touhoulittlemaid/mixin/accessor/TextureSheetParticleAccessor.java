@@ -11,5 +11,5 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(TextureSheetParticle.class)
 public interface TextureSheetParticleAccessor {
     @Invoker("setSprite")
-    void setSprite(TextureAtlasSprite sprite);
+    void tlm$setSprite(TextureAtlasSprite sprite);
 }
