@@ -189,7 +189,6 @@ dependencies {
     modImplementation("net.createmod.ponder:Ponder-Fabric-${minecraft_version}:1.0.61")
 
     // 精妙背包
-    // 你没看错，真是unoffical（，精妙核心又写的对的，神必
     modCompileOnly("libs:sophisticatedbackpacks:1.21.1-3.23.4.3.106")
     modCompileOnly("libs:sophisticatedcore:1.21.1-1.2.9.17.157")
     modCompileOnly(files("libs/compile_only/core-3.1.0-beta.47+1.21.1.jar"))

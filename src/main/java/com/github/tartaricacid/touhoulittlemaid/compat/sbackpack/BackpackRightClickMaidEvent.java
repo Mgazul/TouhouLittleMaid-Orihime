@@ -41,6 +41,7 @@ public class BackpackRightClickMaidEvent {
                         transaction, true);
                 if (filled > 0) {
                     maid.setExperience(maidXp - (int) XpHelper.liquidToExperience(filled));
+                    transaction.commit();
                 }
                 event.setCanceled(true);
             }
