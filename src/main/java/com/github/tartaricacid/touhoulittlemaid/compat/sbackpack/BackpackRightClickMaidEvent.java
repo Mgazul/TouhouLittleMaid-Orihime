@@ -39,6 +39,7 @@ public class BackpackRightClickMaidEvent {
                     long filled = fluid.insert(ModFluids.EXPERIENCE_TAG, count, ModFluids.XP_STILL, transaction, true);
                     if (filled > 0) {
                         maid.setExperience(maidXp - (int) XpHelper.liquidToExperience(filled));
+                        transaction.commit();
                     }
                     event.setCanceled(true);
                 }
