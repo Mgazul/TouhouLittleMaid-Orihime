@@ -1,6 +1,7 @@
 package cn.sh1rocu.touhoulittlemaid.mixin.client;
 
 import cn.sh1rocu.touhoulittlemaid.api.event.AddPackFindersEvent;
+import cn.sh1rocu.touhoulittlemaid.api.event.RegisterClientReloadListenersEvent;
 import cn.sh1rocu.touhoulittlemaid.api.extension.IBlock;
 import cn.sh1rocu.touhoulittlemaid.api.extension.IPickedResult;
 import cn.sh1rocu.touhoulittlemaid.api.mixin.PackRepositoryExtension;
@@ -16,10 +17,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.PackRepository;
+import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,6 +42,15 @@ public abstract class MinecraftMixin {
 
     @Shadow
     public abstract PackRepository getResourcePackRepository();
+
+    @Shadow
+    @Final
+    private ReloadableResourceManager resourceManager;
+
+    @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/Window;updateVsync(Z)V"))
+    private void sbm$onInit(CallbackInfo ci) {
+        RegisterClientReloadListenersEvent.CALLBACK.invoker().post(new RegisterClientReloadListenersEvent(this.resourceManager));
+    }
 
     @WrapWithCondition(
             method = "continueAttack",

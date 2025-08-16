@@ -36,6 +36,7 @@ public class TouhouLittleMaidFabricClient implements ClientModInitializer {
         NetworkHandler.registerS2CPackets();
         InfoGetManager.onClientSetup();
 
+        com.github.tartaricacid.simplebedrockmodel.client.ClientSetupEvent.onClientSetup();
         BedrockEntityModelRegisterEvent.CALLBACK.register(BedrockModelLoader::onRegisterBedrockModelRenderers);
 
         ItemTooltipCallback.EVENT.addPhaseOrdering(Event.DEFAULT_PHASE, LOW);

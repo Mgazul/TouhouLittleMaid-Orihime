@@ -10,6 +10,7 @@
     "accessor.LootContextParamSetsAccessor",
     "accessor.MobAccessor",
     "accessor.RecipeManagerAccessor",
+    "accessor.ReloadableResourceManagerAccessor",
     "accessor.TempGoalAccessor",
     "common.AbstractArrowMixin",
     "common.AbstractHurtingProjectileMixin",
