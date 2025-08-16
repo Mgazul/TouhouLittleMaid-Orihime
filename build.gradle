@@ -231,7 +231,6 @@ dependencies {
     modImplementation(include("io.github.fabricators_of_create.Porting-Lib:common:2.3.8+1.20.1"))
 
     // 不加就无法run的各种前置
-    // FIXME 加了也run不了，加载世界会一直调用实体的粒子渲染，直接崩开发环境的客户端，使用启动器启动正常运行
     modImplementation "io.github.cottonmc:LibGui:8.1.1+1.20.1"
     modImplementation "me.zeroeightsix:fiber:0.23.0-SNAPSHOT"
 }

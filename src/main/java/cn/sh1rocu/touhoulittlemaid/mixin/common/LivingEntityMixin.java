@@ -17,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BedBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -119,7 +120,7 @@ public abstract class LivingEntityMixin extends Entity {
         if (blockPos == null) return;
         BlockState state = this.level().getBlockState(blockPos);
         if (state.getBlock() instanceof IBedBlock bedBlock)
-            cir.setReturnValue(!bedBlock.isBed(state, this.level(), blockPos, (LivingEntity) (Object) this) ? Direction.UP : BedBlock.getBedOrientation(this.level(), blockPos));
+            cir.setReturnValue(!bedBlock.isBed(state, this.level(), blockPos, (LivingEntity) (Object) this) ? Direction.UP : state.getValue(HorizontalDirectionalBlock.FACING));
     }
 
     @WrapOperation(method = "completeUsingItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;finishUsingItem(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;)Lnet/minecraft/world/item/ItemStack;"))
