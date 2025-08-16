@@ -4,7 +4,6 @@ import com.github.tartaricacid.touhoulittlemaid.entity.item.EntitySit;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.syncher.SynchedEntityData;
 
 import static com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid.GAME_SKILL;
 import static com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid.GAME_STATUE;

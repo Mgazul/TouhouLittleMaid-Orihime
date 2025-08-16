@@ -23,7 +23,7 @@ public class RecipeMatcher {
             for (int x = 0; x < elements; ++x) {
                 int matched = 0;
                 int offset = (x + 2) * elements;
-                Predicate<T> test =  tests.get(x);
+                Predicate<T> test = tests.get(x);
 
                 for (int y = 0; y < elements; ++y) {
                     if (!data.get(y) && test.test(inputs.get(y))) {

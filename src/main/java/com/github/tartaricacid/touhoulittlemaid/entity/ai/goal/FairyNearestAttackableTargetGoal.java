@@ -3,7 +3,6 @@ package com.github.tartaricacid.touhoulittlemaid.entity.ai.goal;
 import com.github.tartaricacid.touhoulittlemaid.datagen.tag.EntityTypeGenerator;
 import com.github.tartaricacid.touhoulittlemaid.entity.monster.EntityFairy;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.level.Level;

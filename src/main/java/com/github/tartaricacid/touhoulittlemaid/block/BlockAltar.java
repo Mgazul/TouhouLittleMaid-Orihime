@@ -255,7 +255,7 @@ public class BlockAltar extends Block implements EntityBlock, IBlock {
         if (power.get() >= altarRecipe.getPowerCost()) {
             power.min(altarRecipe.getPowerCost());
             playerIn.setAttached(InitDataAttachment.POWER_NUM, new PowerAttachment(power.get()));
-            if (playerIn instanceof ServerPlayer){
+            if (playerIn instanceof ServerPlayer) {
                 ServerPlayNetworking.send((ServerPlayer) playerIn, SyncDataMessage.ID, SyncDataMessage.encode(
                         power.get(), playerIn.getAttachedOrCreate(InitDataAttachment.MAID_NUM, () -> new MaidNumAttachment(0)).get()));
             }

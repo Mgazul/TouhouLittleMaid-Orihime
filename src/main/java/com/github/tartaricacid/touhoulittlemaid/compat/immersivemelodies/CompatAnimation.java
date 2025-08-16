@@ -1,8 +1,8 @@
 package com.github.tartaricacid.touhoulittlemaid.compat.immersivemelodies;
 
+import com.github.tartaricacid.simplebedrockmodel.client.bedrock.model.BedrockPart;
 import com.github.tartaricacid.touhoulittlemaid.api.animation.ICustomAnimation;
 import com.github.tartaricacid.touhoulittlemaid.api.animation.IModelRenderer;
-import com.github.tartaricacid.simplebedrockmodel.client.bedrock.model.BedrockPart;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.geo.animated.AnimatedGeoBone;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.geo.animated.AnimatedGeoModel;
 import immersive_melodies.client.animation.EntityModelAnimator;

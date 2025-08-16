@@ -3,7 +3,6 @@ package com.github.tartaricacid.touhoulittlemaid.entity.ai.fishing;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.fishing.IFishingType;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.projectile.MaidFishingHook;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.FishingRodItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;

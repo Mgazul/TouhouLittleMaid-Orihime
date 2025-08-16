@@ -96,7 +96,7 @@ public final class MaidAIChatManager extends MaidAIChatData {
         chatCompletion.add(firstMessage);
         chatCompletion.addAll(filteredMessages);
     }
-    
+
     private void normalChat(String message, List<LLMMessage> chatCompletion, LLMClient chatClient) {
         ChatBubbleManager bubbleManager = this.maid.getChatBubbleManager();
         chatCompletion.add(LLMMessage.userChat(maid, message));

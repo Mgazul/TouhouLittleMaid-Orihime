@@ -1,7 +1,7 @@
 package cn.sh1rocu.touhoulittlemaid.util.itemhandler;
 
-import net.minecraft.world.item.ItemStack;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+import net.minecraft.world.item.ItemStack;
 
 public interface IItemHandler extends AutoSyncedComponent {
     String TAG_INVENTORY = "Inventory";

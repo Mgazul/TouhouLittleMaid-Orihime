@@ -18,7 +18,7 @@ public class ClearMaidAIDataMessage {
     public static final ResourceLocation ID = getResourceLocation("clear_maid_ai_data");
 
 
-    public static FriendlyByteBuf encode(int entityId)  {
+    public static FriendlyByteBuf encode(int entityId) {
         return encode(entityId, ALL_MSG_INDEX);
     }
 

@@ -47,8 +47,8 @@ public abstract class AbstractArrowMixin extends Entity {
             )
     )
     private boolean tlm$onImpact(AbstractArrow arrow, HitResult result,
-                             @Local LocalRef<EntityHitResult> entityHit,
-                             @Share("isCanceled") LocalBooleanRef isCanceled) {
+                                 @Local LocalRef<EntityHitResult> entityHit,
+                                 @Share("isCanceled") LocalBooleanRef isCanceled) {
         // note: Forge additionally checks that the result != MISS before running any logic.
         // this is likely left over from an earlier version.
         // this behavior is intentionally not replicated because 1. compat and 2. it probably doesn't matter.
@@ -98,7 +98,7 @@ public abstract class AbstractArrowMixin extends Entity {
             )
     )
     private boolean tlm$handleImpulse(AbstractArrow instance, boolean value,
-                                  @Share("isCanceled") LocalBooleanRef isCanceled) {
+                                      @Share("isCanceled") LocalBooleanRef isCanceled) {
         boolean canceled = isCanceled.get();
         isCanceled.set(false); // reset, don't leak state
         return !canceled;

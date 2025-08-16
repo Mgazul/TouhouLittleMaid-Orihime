@@ -20,6 +20,6 @@ public abstract class LootContextMixin implements ILootContext {
 
     @Override
     public ResourceLocation tlm$getQueriedLootTableId() {
-        return this.tlm$queriedLootTableId == null ? new ResourceLocation(TouhouLittleMaid.MOD_ID,"unknown_loot") : this.tlm$queriedLootTableId;
+        return this.tlm$queriedLootTableId == null ? new ResourceLocation(TouhouLittleMaid.MOD_ID, "unknown_loot") : this.tlm$queriedLootTableId;
     }
 }

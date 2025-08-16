@@ -4,7 +4,6 @@ import cn.sh1rocu.touhoulittlemaid.util.itemhandler.IItemHandler;
 import cn.sh1rocu.touhoulittlemaid.util.itemhandler.SlotItemHandler;
 import com.github.tartaricacid.touhoulittlemaid.inventory.container.MaidMainContainer;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 
