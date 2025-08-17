@@ -4,7 +4,7 @@ import cn.sh1rocu.touhoulittlemaid.api.extension.IEntity;
 import cn.sh1rocu.touhoulittlemaid.mixin.accessor.ExperienceOrbAccessor;
 import cn.sh1rocu.touhoulittlemaid.util.block.BlockUtil;
 import cn.sh1rocu.touhoulittlemaid.util.enchant.EnchantmentUtil;
-import cn.sh1rocu.touhoulittlemaid.util.forge.CommonHooks;
+import cn.sh1rocu.touhoulittlemaid.util.forge.ForgeHooks;
 import cn.sh1rocu.touhoulittlemaid.util.itemhandler.*;
 import cn.sh1rocu.touhoulittlemaid.util.itemhandler.entity.EntityArmorInvWrapper;
 import cn.sh1rocu.touhoulittlemaid.util.itemhandler.entity.EntityHandsInvWrapper;
@@ -2440,7 +2440,7 @@ public class EntityMaid extends TamableAnimal implements CrossbowAttackMob, IMai
             result = super.onClimbable();
             // 用作脚手架和卡在梯子顶部的特判，避免女仆卡在脚手架顶上
             if (!result && !this.isSpectator()) {
-                Optional<BlockPos> ladderPos = CommonHooks.isLivingOnLadder(
+                Optional<BlockPos> ladderPos = ForgeHooks.isLivingOnLadder(
                         level.getBlockState(blockPosition().below()),
                         level(), blockPosition().below(), this);
                 if (ladderPos.isPresent()) {

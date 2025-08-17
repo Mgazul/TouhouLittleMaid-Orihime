@@ -1,6 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.entity.ai.brain.task;
 
-import cn.sh1rocu.touhoulittlemaid.util.forge.CommonHooks;
+import cn.sh1rocu.touhoulittlemaid.util.forge.ForgeHooks;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
@@ -77,7 +77,7 @@ public class MaidClimbTask extends Behavior<EntityMaid> {
         // 而且速度太慢的话，爬楼梯时间过长，路径就被掐断了，
         // 就又会重新规划路线……这样控制比较麻烦，而且也还有其他的东西在干扰……
         // 最好的是一次路径控制完，这样的效果是最好的
-        if (maidFeetPos.getY() <= beGoNode.y && up && CommonHooks.isLadder(feetBlock, level, maidFeetPos, maid) /*feetBlock.isLadder(level, maidFeetPos, maid)*/) {
+        if (maidFeetPos.getY() <= beGoNode.y && up && ForgeHooks.isLadder(feetBlock, level, maidFeetPos, maid) /*feetBlock.isLadder(level, maidFeetPos, maid)*/) {
             double yMotion0 = 1;
             double yMotion = 0.25;
             maid.setDeltaMovement(0, yMotion0, 0);
