@@ -1,12 +1,12 @@
 package com.github.tartaricacid.touhoulittlemaid.client.renderer.entity;
 
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
-import com.github.tartaricacid.touhoulittlemaid.client.model.bedrock.SimpleBedrockModel;
 import com.github.tartaricacid.touhoulittlemaid.client.resource.BedrockModelLoader;
 import com.github.tartaricacid.touhoulittlemaid.entity.item.EntityBox;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -21,7 +21,7 @@ import static com.github.tartaricacid.touhoulittlemaid.client.resource.BedrockMo
 
 public class EntityBoxRender extends EntityRenderer<EntityBox> {
     private final List<ResourceLocation> texturesGroup = Lists.newArrayList();
-    private final SimpleBedrockModel<EntityBox> boxModel;
+    private final EntityModel<EntityBox> boxModel;
 
     public EntityBoxRender(EntityRendererProvider.Context manager) {
         super(manager);
