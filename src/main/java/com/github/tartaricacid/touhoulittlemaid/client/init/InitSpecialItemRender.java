@@ -29,6 +29,11 @@ public final class InitSpecialItemRender implements ModelLoadingPlugin {
     private static final ResourceLocation LIFE_POINT = new ResourceLocation(TouhouLittleMaid.MOD_ID, "life_point");
     private static final ResourceLocation POINT_ITEM = new ResourceLocation(TouhouLittleMaid.MOD_ID, "point_item");
 
+    // 祭坛合成占位符的物品模型
+    private static final ResourceLocation SPAWN_BOX = new ResourceLocation(TouhouLittleMaid.MOD_ID, "item/spawn_box");
+    private static final ResourceLocation REBORN_MAID = new ResourceLocation(TouhouLittleMaid.MOD_ID, "item/reborn_maid");
+    private static final ResourceLocation SPAWN_LIGHTNING_BOLT = new ResourceLocation(TouhouLittleMaid.MOD_ID, "item/spawn_lightning_bolt");
+
     @Override
     public void onInitializeModelLoader(Context plugin) {
         register();
@@ -68,10 +73,13 @@ public final class InitSpecialItemRender implements ModelLoadingPlugin {
     }
 
     public static void registerModels(Context plugin) {
-        //PERSPECTIVE_MODEL_LIST.forEach((pair) ->   event.register(pair.getRight()));
-        //REPLACEABLE_MODEL_LIST.forEach((triple) -> event.register(triple.getMiddle()));
         plugin.addModels(PERSPECTIVE_MODEL_LIST.stream().map(Pair::getRight).toList());
         plugin.addModels(REPLACEABLE_MODEL_LIST.stream().map(Triple::getMiddle).toList());
+
+        // 特殊需要额外注册的模型
+        plugin.addModels(SPAWN_BOX);
+        plugin.addModels(REBORN_MAID);
+        plugin.addModels(SPAWN_LIGHTNING_BOLT);
     }
 
     public static void addInHandModel(Item item) {

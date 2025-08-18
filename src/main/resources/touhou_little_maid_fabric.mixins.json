@@ -42,6 +42,7 @@
     "compat.carryon.ListHandlerMixin"
   ],
   "client": [
+    "accessor.ItemRendererAccessor",
     "accessor.LevelRendererAccessor",
     "accessor.MinecraftAccessor",
     "accessor.ScreenAccessor",

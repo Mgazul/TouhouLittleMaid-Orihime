@@ -15,6 +15,9 @@ import static com.github.tartaricacid.touhoulittlemaid.init.InitDataAttachment.P
 public class EntityDeathEvent {
     public static void onEntityDeath() {
         ServerLivingEntityEvents.AFTER_DEATH.register((target, damageSource) -> {
+            if (damageSource == null) {
+                return;
+            }
             Entity causingEntity = damageSource.getEntity();
             if (causingEntity instanceof EntityMaid maid) {
                 maid.getKillRecordManager().onTargetDeath(maid, target);
