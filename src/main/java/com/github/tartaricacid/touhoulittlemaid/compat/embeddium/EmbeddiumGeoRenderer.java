@@ -4,7 +4,7 @@ package com.github.tartaricacid.touhoulittlemaid.compat.embeddium;
  * Fabric 1.21.1 暂无emb
  */
 class EmbeddiumGeoRenderer {
-/*    static Vector3f C000 = new Vector3f();
+  /*  static Vector3f C000 = new Vector3f();
     static Vector3f C100 = new Vector3f();
     static Vector3f C110 = new Vector3f();
     static Vector3f C010 = new Vector3f();
@@ -66,7 +66,7 @@ class EmbeddiumGeoRenderer {
 
             int faces = mesh.faces(i);
             boolean mirrored = (faces & 0b1000000) != 0;
-            if (RenderSystem.getModelViewMatrix().m32() == 0) {
+            if ((faces & 0b111111) == 0b111111 && RenderSystem.getModelViewMatrix().m32() == 0) {
                 if ((C101.x + C000.x) * ny.x + (C101.y + C000.y) * ny.y + (C101.z + C000.z) * ny.z < 0) {
                     faces &= mirrored ? ~0b000010 : ~0b00001;
                 }
@@ -79,10 +79,10 @@ class EmbeddiumGeoRenderer {
                 if ((C001.x + C111.x) * nz.x + (C001.y + C111.y) * nz.y + (C001.z + C111.z) * nz.z > 0) {
                     faces &= mirrored ? ~0b000100 : ~0b001000;
                 }
-                if ((C101.x + C110.x) * nx.x + (C101.y + C110.y) * nx.y + (C101.z + C110.z) * nx.z > 0) {
+                if ((C000.x + C011.x) * nx.x + (C000.y + C011.y) * nx.y + (C000.z + C011.z) * nx.z < 0) {
                     faces &= mirrored ? ~0b100000 : ~0b010000;
                 }
-                if ((C000.x + C011.x) * nx.x + (C000.y + C011.y) * nx.y + (C000.z + C011.z) * nx.z < 0) {
+                if ((C101.x + C110.x) * nx.x + (C101.y + C110.y) * nx.y + (C101.z + C110.z) * nx.z > 0) {
                     faces &= mirrored ? ~0b010000 : ~0b100000;
                 }
             } else {
@@ -172,23 +172,6 @@ class EmbeddiumGeoRenderer {
             }
             if ((faces & 0b010000) != 0) // WEST
             {
-                // FIXME 你问我为什么 WEST 是 EAST 的 UV，我也不知道，但是游戏内就是好的
-                emitVertex(ptr, C101.x, C101.y, C101.z, color, mesh.eastU0(i), mesh.eastV1(i), packedOverlay, packedLight, normalPX);
-                ptr += ModelVertex.STRIDE;
-
-                emitVertex(ptr, C100.x, C100.y, C100.z, color, mesh.eastU1(i), mesh.eastV1(i), packedOverlay, packedLight, normalPX);
-                ptr += ModelVertex.STRIDE;
-
-                emitVertex(ptr, C110.x, C110.y, C110.z, color, mesh.eastU1(i), mesh.eastV0(i), packedOverlay, packedLight, normalPX);
-                ptr += ModelVertex.STRIDE;
-
-                emitVertex(ptr, C111.x, C111.y, C111.z, color, mesh.eastU0(i), mesh.eastV0(i), packedOverlay, packedLight, normalPX);
-                ptr += ModelVertex.STRIDE;
-                vertexCount += 4;
-            }
-            if ((faces & 0b100000) != 0) // EAST
-            {
-                // FIXME 你问我为什么 EAST 是 WEST 的 UV，我也不知道，但是游戏内就是好的
                 emitVertex(ptr, C000.x, C000.y, C000.z, color, mesh.westU0(i), mesh.westV1(i), packedOverlay, packedLight, normalNX);
                 ptr += ModelVertex.STRIDE;
 
@@ -199,6 +182,21 @@ class EmbeddiumGeoRenderer {
                 ptr += ModelVertex.STRIDE;
 
                 emitVertex(ptr, C010.x, C010.y, C010.z, color, mesh.westU0(i), mesh.westV0(i), packedOverlay, packedLight, normalNX);
+                ptr += ModelVertex.STRIDE;
+                vertexCount += 4;
+            }
+            if ((faces & 0b100000) != 0) // EAST
+            {
+                emitVertex(ptr, C101.x, C101.y, C101.z, color, mesh.eastU0(i), mesh.eastV1(i), packedOverlay, packedLight, normalPX);
+                ptr += ModelVertex.STRIDE;
+
+                emitVertex(ptr, C100.x, C100.y, C100.z, color, mesh.eastU1(i), mesh.eastV1(i), packedOverlay, packedLight, normalPX);
+                ptr += ModelVertex.STRIDE;
+
+                emitVertex(ptr, C110.x, C110.y, C110.z, color, mesh.eastU1(i), mesh.eastV0(i), packedOverlay, packedLight, normalPX);
+                ptr += ModelVertex.STRIDE;
+
+                emitVertex(ptr, C111.x, C111.y, C111.z, color, mesh.eastU0(i), mesh.eastV0(i), packedOverlay, packedLight, normalPX);
                 ptr += ModelVertex.STRIDE;
                 vertexCount += 4;
             }

@@ -36,6 +36,7 @@
     "common.ThrowableProjectileMixin"
   ],
   "client": [
+    "accessor.ItemRendererAccessor",
     "accessor.LevelRendererAccessor",
     "accessor.ScreenAccessor",
     "accessor.TextureSheetParticleAccessor",
