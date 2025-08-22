@@ -57,6 +57,7 @@ public class NetworkHandler {
         ClientPlayNetworking.registerGlobalReceiver(AdvancedAddEntityPayload.TYPE, AdvancedAddEntityPayload::handle);
         ClientPlayNetworking.registerGlobalReceiver(SyncFluidAmountPackage.TYPE, SyncFluidAmountPackage::handle);
         ClientPlayNetworking.registerGlobalReceiver(OpenPlayerInventoryPackage.TYPE, OpenPlayerInventoryPackage::handle);
+        ClientPlayNetworking.registerGlobalReceiver(MaidAnimationPackage.TYPE, MaidAnimationPackage::handle);
     }
 
     public static void registerS2CPackets() {
@@ -83,6 +84,7 @@ public class NetworkHandler {
         registerS2CPacket(AdvancedAddEntityPayload.TYPE, AdvancedAddEntityPayload.STREAM_CODEC);
         registerS2CPacket(SyncFluidAmountPackage.TYPE, SyncFluidAmountPackage.STREAM_CODEC);
         registerS2CPacket(OpenPlayerInventoryPackage.TYPE, OpenPlayerInventoryPackage.STREAM_CODEC);
+        registerS2CPacket(MaidAnimationPackage.TYPE, MaidAnimationPackage.STREAM_CODEC);
     }
 
     public static void registerC2SPackets() {
@@ -118,8 +120,8 @@ public class NetworkHandler {
     }
 
     public static void sendToNearby(Entity entity, CustomPacketPayload toSend) {
-        if (entity.level instanceof ServerLevel) {
-            for (ServerPlayer target : PlayerLookup.tracking(entity)) {
+        if (entity.level instanceof ServerLevel serverLevel) {
+            for (ServerPlayer target : PlayerLookup.tracking(serverLevel, entity.blockPosition())) {
                 ServerPlayNetworking.send(target, toSend);
             }
         }
@@ -129,6 +131,14 @@ public class NetworkHandler {
         if (entity.level instanceof ServerLevel serverLevel) {
             BlockPos pos = entity.blockPosition();
             for (ServerPlayer target : PlayerLookup.around(serverLevel, new Vec3i(pos.getX(), pos.getY(), pos.getZ()), distance)) {
+                ServerPlayNetworking.send(target, toSend);
+            }
+        }
+    }
+
+    public static void sendToPlayersTrackingEntity(Entity entity, CustomPacketPayload toSend) {
+        if (entity.level instanceof ServerLevel) {
+            for (ServerPlayer target : PlayerLookup.tracking(entity)) {
                 ServerPlayNetworking.send(target, toSend);
             }
         }
