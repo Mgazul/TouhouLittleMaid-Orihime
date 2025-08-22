@@ -33,7 +33,8 @@
     "common.ServerLevelMixin",
     "common.ServerLevelMixin$EntityCallbacksMixin",
     "common.ServerPacksSourceMixin",
-    "common.ThrowableProjectileMixin"
+    "common.ThrowableProjectileMixin",
+    "compat.improvedmobs.EventHandlerMixin"
   ],
   "client": [
     "accessor.ItemRendererAccessor",

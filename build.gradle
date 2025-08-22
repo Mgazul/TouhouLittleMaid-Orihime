@@ -197,6 +197,10 @@ dependencies {
     // 森罗物语：烹饪
     modImplementation "maven.modrinth:kaleidoscope-cookery:1.0.1-fabric+mc1.21.1"
 
+    // Improved Mobs
+    modImplementation "maven.modrinth:improved-mobs:1.21.1-1.14.2-fabric"
+    modImplementation "maven.modrinth:tenshilib:1.21.1-2.1.1-fabric"
+
     // 不加就无法run的各种前置
     modImplementation "io.github.cottonmc:LibGui:11.1.0+1.21"
     modImplementation "me.zeroeightsix:fiber:0.23.0-SNAPSHOT"
