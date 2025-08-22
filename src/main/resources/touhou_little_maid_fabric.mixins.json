@@ -41,7 +41,8 @@
     "common.ServerPacksSourceMixin",
     "common.ThrowableProjectileMixin",
     "compat.carryon.ListHandlerMixin",
-    "compat.improvedmobs.EventHandlerMixin"
+    "compat.improvedmobs.EventHandlerMixin",
+    "compat.tacz.LivingEntityReloadMixin"
   ],
   "client": [
     "accessor.ItemRendererAccessor",
