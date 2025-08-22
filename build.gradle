@@ -169,7 +169,7 @@ dependencies {
     // modImplementation(include("libs:simplebedrockmodel:1.3.0-fabric-1.20.1"))
 
     // 拔刀剑
-    modImplementation "libs:SlashBlade-Refabricated-1.20.1:0.0.3"
+    modImplementation "libs:SlashBlade-Refabricated-1.20.1:0.0.6"
     modImplementation "io.github.fabricators_of_create.Porting-Lib:obj_loader:2.3.8+1.20.1" // 加载obj模型
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-item:${project.cca_version}"
 
@@ -231,6 +231,10 @@ dependencies {
 
     // 森罗物语：烹饪
     modImplementation "maven.modrinth:kaleidoscope-cookery:1.0.1-fabric+mc1.20.1"
+
+    // Improved Mobs
+    modImplementation "maven.modrinth:improved-mobs:1.20.1-1.13.6-fabric"
+    modImplementation "maven.modrinth:tenshilib:1.20.1-1.7.6-fabric"
 
     modImplementation(include("io.github.fabricators_of_create.Porting-Lib:common:2.3.8+1.20.1"))
 

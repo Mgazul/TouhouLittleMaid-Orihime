@@ -39,7 +39,8 @@
     "common.ServerLevelMixin$EntityCallbacksMixin",
     "common.ServerPacksSourceMixin",
     "common.ThrowableProjectileMixin",
-    "compat.carryon.ListHandlerMixin"
+    "compat.carryon.ListHandlerMixin",
+    "compat.improvedmobs.EventHandlerMixin"
   ],
   "client": [
     "accessor.ItemRendererAccessor",
