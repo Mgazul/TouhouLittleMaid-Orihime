@@ -3,9 +3,10 @@ Available on [Modrinth](https://modrinth.com/mod/touhoulittlemaid-orihime) and [
 You can get the detail in TLM's [WIKI](https://tlmwiki.cfpa.team/).<br>
 
 **Note:**
-- **This mod requires [Forge Config API Port](https://modrinth.com/mod/forge-config-api-port)**
-- **If you want to change some settings in-game, you should install [Cloth Config API](https://modrinth.com/mod/cloth-config)**
-- **This mod is still experimental, perhaps there exist some bugs**
+- **This mod requires [Forge Config API Port](https://modrinth.com/mod/forge-config-api-port).**
+- **If you want to change some settings in-game, you should install [Cloth Config API](https://modrinth.com/mod/cloth-config).**
+- **This mod is still experimental, perhaps there exist some bugs.**
+- **If you want to install TACZ-Fabric-1.20.1, you must use [this fork](https://github.com/Sh1roCu/TACZ-Fabric/releases/tag/v1.0.2-hotfix4), or else maids won't send sound.**
 
 **<br>
 If you want to extend this mod, you can add an entry point of type "little_maid_extension" in your fabric.mod.json:**
