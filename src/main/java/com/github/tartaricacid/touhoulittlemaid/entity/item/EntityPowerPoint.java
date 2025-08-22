@@ -117,7 +117,7 @@ public class EntityPowerPoint extends Entity implements IEntityAdditionalSpawnDa
             spawnExplosionParticle(level, x, y, z, random);
         } else {
             FriendlyByteBuf buf = BeaconAbsorbMessage.encode(x, y, z);
-            NetworkHandler.sendToNearby(this, BeaconAbsorbMessage.ID, buf);
+            NetworkHandler.sendToNearby(level, blockPosition(), BeaconAbsorbMessage.ID, buf);
         }
     }
 

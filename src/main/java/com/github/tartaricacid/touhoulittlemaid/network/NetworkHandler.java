@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 
 import java.util.Objects;
 
@@ -63,6 +64,7 @@ public class NetworkHandler {
 
         registerS2CPacket(SyncFluidAmountMessage.ID, SyncFluidAmountMessage::handle);
         registerS2CPacket(OpenPlayerInventoryMessage.ID, OpenPlayerInventoryMessage::handle);
+        registerS2CPacket(MaidAnimationMessage.ID, MaidAnimationMessage::handle);
     }
 
     public static void registerC2SPackets() {
@@ -97,9 +99,25 @@ public class NetworkHandler {
         registerC2SPacket(DismountMessage.ID, DismountMessage::handle);
     }
 
+    public static void sendToTrackingEntity(Entity entity, ResourceLocation channelName, FriendlyByteBuf buf) {
+        for (ServerPlayer target : PlayerLookup.tracking(entity)) {
+            ServerPlayNetworking.send(target, channelName, buf);
+        }
+    }
+
+    public static void sendToNearby(Level world, BlockPos pos, ResourceLocation channelName, FriendlyByteBuf buf) {
+        if (world instanceof ServerLevel ws) {
+            for (ServerPlayer target : PlayerLookup.around(ws, new Vec3i(pos.getX(), pos.getY(), pos.getZ()), 192)) {
+                ServerPlayNetworking.send(target, channelName, buf);
+            }
+        }
+    }
+
     public static void sendToNearby(Entity entity, ResourceLocation channelName, FriendlyByteBuf buf) {
         if (entity.level instanceof ServerLevel) {
-            for (ServerPlayer target : PlayerLookup.tracking(entity)) {
+            ServerLevel ws = (ServerLevel) entity.level();
+            BlockPos pos = entity.blockPosition();
+            for (ServerPlayer target : PlayerLookup.around(ws, new Vec3i(pos.getX(), pos.getY(), pos.getZ()), 192)) {
                 ServerPlayNetworking.send(target, channelName, buf);
             }
         }
