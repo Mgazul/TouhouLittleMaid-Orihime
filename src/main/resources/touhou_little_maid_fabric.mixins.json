@@ -24,6 +24,7 @@
     "common.FireworkRocketEntityMixin",
     "common.FishingHookMixin",
     "common.ItemEntityMixin",
+    "common.LevelMixin",
     "common.LivingEntityMixin",
     "common.LlamaSpitMixin",
     "common.LootContextMixin",
@@ -55,8 +56,10 @@
     "client.ItemInHandRendererMixin",
     "client.ItemRendererMixin",
     "client.KeyboardHandlerMixin",
+    "client.LocalPlayerMixin",
     "client.MinecraftMixin",
     "client.ParticleEngineMixin",
+    "client.RemotePlayerMixin",
     "client.SoundEngineMixin"
   ],
   "injectors": {

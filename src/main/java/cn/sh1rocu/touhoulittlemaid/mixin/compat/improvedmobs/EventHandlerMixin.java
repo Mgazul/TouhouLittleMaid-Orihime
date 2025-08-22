@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(EventHandler.class)
 public class EventHandlerMixin {
     @WrapWithCondition(
-            remap = false,
             method = "onEntityLoad",
             at = @At(
                     value = "INVOKE",

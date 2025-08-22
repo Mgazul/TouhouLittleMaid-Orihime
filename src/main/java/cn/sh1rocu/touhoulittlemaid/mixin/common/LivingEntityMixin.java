@@ -1,5 +1,6 @@
 package cn.sh1rocu.touhoulittlemaid.mixin.common;
 
+import cn.sh1rocu.touhoulittlemaid.api.event.LivingAttackEvent;
 import cn.sh1rocu.touhoulittlemaid.api.extension.IBedBlock;
 import cn.sh1rocu.touhoulittlemaid.util.forge.EventHooks;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -144,6 +145,17 @@ public abstract class LivingEntityMixin extends Entity {
             } else {
                 this.lastHurtByPlayer = null;
             }
+        }
+    }
+
+    @Inject(method = "hurt", at = @At("HEAD"), cancellable = true)
+    public void tlm$attackEvent(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+        LivingEntity self = (LivingEntity) (Object) this;
+        if (!(self instanceof Player)) {
+            LivingAttackEvent event = new LivingAttackEvent(self, source, amount);
+            LivingAttackEvent.CALLBACK.invoker().onLivingAttack(event);
+            if (event.isCanceled())
+                cir.setReturnValue(false);
         }
     }
 }

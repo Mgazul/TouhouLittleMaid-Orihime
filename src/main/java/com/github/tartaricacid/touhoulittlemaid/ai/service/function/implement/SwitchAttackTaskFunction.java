@@ -9,6 +9,7 @@ import com.github.tartaricacid.touhoulittlemaid.ai.service.function.schema.param
 import com.github.tartaricacid.touhoulittlemaid.ai.service.function.schema.parameter.StringParameter;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IAttackTask;
 import com.github.tartaricacid.touhoulittlemaid.api.task.IMaidTask;
+import com.github.tartaricacid.touhoulittlemaid.compat.tacz.TacCompat;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
@@ -53,10 +54,10 @@ public class SwitchAttackTaskFunction implements IFunctionCall<SwitchAttackTaskF
                 .addEnumValues("idle", "attack", "ranged_attack",
                         "crossbow_attack", "danmaku_attack", "trident_attack");
         // 兼容 TACZ
-/*        if (TacCompat.isInstalled()) {
+        if (TacCompat.isInstalled()) {
             taskId.setDescription(TASK_ID_PARAMETER_DESC + "\n" + GUN_TASK_ID_PARAMETER_DESC);
             taskId.addEnumValues("gun_attack");
-        }*/
+        }
         root.addProperties(TASK_ID_PARAMETER_ID, taskId);
         return root;
     }

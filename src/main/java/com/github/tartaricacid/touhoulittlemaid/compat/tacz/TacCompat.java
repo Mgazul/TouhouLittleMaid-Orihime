@@ -1,14 +1,25 @@
 package com.github.tartaricacid.touhoulittlemaid.compat.tacz;
 
+import cn.sh1rocu.touhoulittlemaid.api.event.ExplosionEvents;
+import cn.sh1rocu.touhoulittlemaid.api.event.LivingAttackEvent;
 import com.github.tartaricacid.touhoulittlemaid.api.entity.IMaid;
+import com.github.tartaricacid.touhoulittlemaid.api.event.MaidEquipEvent;
+import com.github.tartaricacid.touhoulittlemaid.api.event.MaidHurtEvent;
 import com.github.tartaricacid.touhoulittlemaid.client.animation.script.ModelRendererWrapper;
 import com.github.tartaricacid.touhoulittlemaid.client.entity.GeckoMaidEntity;
+import com.github.tartaricacid.touhoulittlemaid.compat.tacz.client.GunBaseAnimation;
+import com.github.tartaricacid.touhoulittlemaid.compat.tacz.client.GunGeckoAnimation;
+import com.github.tartaricacid.touhoulittlemaid.compat.tacz.client.GunMaidRender;
+import com.github.tartaricacid.touhoulittlemaid.compat.tacz.event.GunHurtMaidEvent;
+import com.github.tartaricacid.touhoulittlemaid.compat.tacz.event.MaidGunEquipEvent;
+import com.github.tartaricacid.touhoulittlemaid.compat.tacz.task.TaskGunAttack;
 import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.core.PlayState;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.core.builder.ILoopType;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.core.event.predicate.AnimationEvent;
 import com.github.tartaricacid.touhoulittlemaid.geckolib3.geo.animated.ILocationModel;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
@@ -25,9 +36,16 @@ public class TacCompat {
 
     public static void initAndAddGunTask(TaskManager manager) {
         if (FabricLoader.getInstance().isModLoaded(TACZ_ID)) {
-//            MinecraftForge.EVENT_BUS.register(new GunHurtMaidEvent());
-//            MinecraftForge.EVENT_BUS.register(new MaidGunEquipEvent());
-//            manager.add(new TaskGunAttack());
+            GunHurtMaidEvent gunHurtMaidEvent = new GunHurtMaidEvent();
+            MaidHurtEvent.CALLBACK.register(gunHurtMaidEvent::onMaidHurt);
+            EntityHurtByGunEvent.Pre.EVENT.register(gunHurtMaidEvent::onGunHurt);
+            LivingAttackEvent.CALLBACK.register(gunHurtMaidEvent::onPlayerHurt);
+            ExplosionEvents.DETONATE.register(gunHurtMaidEvent::onExplosionDetonateEvent);
+
+            MaidGunEquipEvent maidGunEquipEvent = new MaidGunEquipEvent();
+            MaidEquipEvent.CALLBACK.register(maidGunEquipEvent::onMaidEquip);
+
+            manager.add(new TaskGunAttack());
             INSTALLED = true;
         }
     }
@@ -38,7 +56,7 @@ public class TacCompat {
 
     public static boolean isGun(ItemStack stack) {
         if (INSTALLED) {
-            // return TacInnerCompat.isGun(stack);
+            return TacInnerCompat.isGun(stack);
         }
         return false;
     }
@@ -51,7 +69,7 @@ public class TacCompat {
     @Nullable
     public static ResourceLocation getGunId(ItemStack stack) {
         if (INSTALLED) {
-            // return TacInnerCompat.getGunId(stack);
+            return TacInnerCompat.getGunId(stack);
         }
         return null;
     }
@@ -59,7 +77,7 @@ public class TacCompat {
     @Environment(EnvType.CLIENT)
     public static boolean onHoldGun(IMaid maid, @Nullable ModelRendererWrapper armLeft, @Nullable ModelRendererWrapper armRight) {
         if (INSTALLED) {
-            // return GunBaseAnimation.onHoldGun(maid, armLeft, armRight);
+            return GunBaseAnimation.onHoldGun(maid, armLeft, armRight);
         }
         return false;
     }
@@ -67,14 +85,14 @@ public class TacCompat {
     @Environment(EnvType.CLIENT)
     public static void addItemTranslate(PoseStack matrixStack, ItemStack itemStack, boolean isLeft) {
         if (INSTALLED) {
-            // GunMaidRender.addItemTranslate(matrixStack, itemStack, isLeft);
+            GunMaidRender.addItemTranslate(matrixStack, itemStack, isLeft);
         }
     }
 
     @Environment(EnvType.CLIENT)
     public static void renderBackGun(PoseStack matrixStack, MultiBufferSource bufferIn, int packedLightIn, ItemStack stack, IMaid maid) {
         if (INSTALLED) {
-            // GunMaidRender.renderBackGun(matrixStack, bufferIn, packedLightIn, stack, maid);
+            GunMaidRender.renderBackGun(matrixStack, bufferIn, packedLightIn, stack, maid);
         }
     }
 
@@ -82,7 +100,7 @@ public class TacCompat {
     public static void renderBackGun(ItemStack offhandItem, ILocationModel geoModel, IMaid maid, PoseStack poseStack, MultiBufferSource bufferIn, int packedLight) {
         if (INSTALLED && isGun(offhandItem)) {
             poseStack.pushPose();
-            // GunMaidRender.renderBackGun(offhandItem, geoModel, maid, poseStack, bufferIn, packedLight);
+            GunMaidRender.renderBackGun(offhandItem, geoModel, maid, poseStack, bufferIn, packedLight);
             poseStack.popPose();
         }
     }
@@ -91,7 +109,7 @@ public class TacCompat {
     @Nullable
     public static PlayState playGunMainAnimation(IMaid maid, AnimationEvent<GeckoMaidEntity<?>> event, String animationName, ILoopType loopType) {
         if (INSTALLED && isGun(maid.asEntity().getMainHandItem())) {
-            // return GunGeckoAnimation.playGunMainAnimation(event, animationName, loopType);
+            return GunGeckoAnimation.playGunMainAnimation(event, animationName, loopType);
         }
         return null;
     }
@@ -100,7 +118,7 @@ public class TacCompat {
     @Nullable
     public static PlayState playGunHoldAnimation(ItemStack mainHandItem, AnimationEvent<GeckoMaidEntity<?>> event) {
         if (INSTALLED && isGun(mainHandItem)) {
-            // return GunGeckoAnimation.playGunHoldAnimation(event, mainHandItem);
+            return GunGeckoAnimation.playGunHoldAnimation(event, mainHandItem);
         }
         return null;
     }
