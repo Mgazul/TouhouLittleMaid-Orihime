@@ -3,16 +3,11 @@ package com.github.tartaricacid.touhoulittlemaid.compat.tacz.event;
 import cn.sh1rocu.touhoulittlemaid.api.event.LivingAttackEvent;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidHurtEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
-import com.tacz.guns.GunMod;
 import com.tacz.guns.api.event.common.EntityHurtByGunEvent;
 import com.tacz.guns.entity.EntityKineticBullet;
 import com.tacz.guns.init.ModDamageTypes;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -81,12 +76,8 @@ public class GunHurtMaidEvent {
         }
     }
 
-    // 暂时放这
-    private static final ResourceKey<DamageType> BULLET_VOID = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(GunMod.MOD_ID, "bullet_void"));
-    private static final ResourceKey<DamageType> BULLET_VOID_IGNORE_ARMOR = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(GunMod.MOD_ID, "bullet_void_ignore_armor"));
-
     private boolean isBulletDamage(DamageSource source) {
-        if (source.is(ModDamageTypes.BULLET) || source.is(ModDamageTypes.BULLET_IGNORE_ARMOR) || source.is(BULLET_VOID) || source.is(BULLET_VOID_IGNORE_ARMOR)) {
+        if (source.is(ModDamageTypes.BULLETS_TAG)) {
             return true;
         }
         if (source.is(DamageTypeTags.IS_EXPLOSION)) {

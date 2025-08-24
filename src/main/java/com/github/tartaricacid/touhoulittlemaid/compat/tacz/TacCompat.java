@@ -38,7 +38,7 @@ public class TacCompat {
         if (FabricLoader.getInstance().isModLoaded(TACZ_ID)) {
             GunHurtMaidEvent gunHurtMaidEvent = new GunHurtMaidEvent();
             MaidHurtEvent.CALLBACK.register(gunHurtMaidEvent::onMaidHurt);
-            EntityHurtByGunEvent.Pre.EVENT.register(gunHurtMaidEvent::onGunHurt);
+            EntityHurtByGunEvent.PRE.register(gunHurtMaidEvent::onGunHurt);
             LivingAttackEvent.CALLBACK.register(gunHurtMaidEvent::onPlayerHurt);
             ExplosionEvents.DETONATE.register(gunHurtMaidEvent::onExplosionDetonateEvent);
 

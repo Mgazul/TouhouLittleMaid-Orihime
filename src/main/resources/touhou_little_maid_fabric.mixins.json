@@ -42,7 +42,10 @@
     "common.ThrowableProjectileMixin",
     "compat.carryon.ListHandlerMixin",
     "compat.improvedmobs.EventHandlerMixin",
-    "compat.tacz.LivingEntityReloadMixin"
+    "compat.tacz.AbstractGunItemMixin",
+    "compat.tacz.GunAnimationStateContextMixin",
+    "compat.tacz.LivingEntityShootMixin",
+    "compat.tacz.ModernKineticGunScriptAPIMixin"
   ],
   "client": [
     "accessor.ItemRendererAccessor",

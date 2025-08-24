@@ -8,7 +8,7 @@ import com.tacz.guns.api.item.IGun;
 public class MaidGunEquipEvent {
     public void onMaidEquip(MaidEquipEvent event) {
         EntityMaid maid = event.getMaid();
-        if (IGun.mainhandHoldGun(maid)) {
+        if (IGun.mainHandHoldGun(maid)) {
             IGunOperator operator = IGunOperator.fromLivingEntity(maid);
             operator.draw(maid::getMainHandItem);
         }
