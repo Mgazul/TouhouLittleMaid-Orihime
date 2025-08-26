@@ -16,8 +16,10 @@
     "common.BlockEntityMixin",
     "common.BundlePacketMixin",
     "common.EntityMixin",
+    "common.ExplosionMixin",
     "common.FarmBlockMixin",
     "common.ItemEntityMixin",
+    "common.LevelMixin",
     "common.LivingEntityMixin",
     "common.LlamaSpitMixin",
     "common.LootContextMixin",
@@ -34,7 +36,11 @@
     "common.ServerLevelMixin$EntityCallbacksMixin",
     "common.ServerPacksSourceMixin",
     "common.ThrowableProjectileMixin",
-    "compat.improvedmobs.EventHandlerMixin"
+    "compat.improvedmobs.EventHandlerMixin",
+    "compat.tacz.AbstractGunItemMixin",
+    "compat.tacz.GunAnimationStateContextMixin",
+    "compat.tacz.LivingEntityShootMixin",
+    "compat.tacz.ModernKineticGunScriptAPIMixin"
   ],
   "client": [
     "accessor.ItemRendererAccessor",
@@ -48,8 +54,10 @@
     "client.ItemInHandRendererMixin",
     "client.ItemRendererMixin",
     "client.KeyboardHandlerMixin",
+    "client.LocalPlayerMixin",
     "client.MinecraftMixin",
     "client.ParticleEngineMixin",
+    "client.RemotePlayerMixin",
     "client.SoundEngineMixin"
   ],
   "injectors": {

@@ -147,7 +147,7 @@ dependencies {
     // REI
     modCompileOnly "maven.modrinth:architectury-api:${architectury_api_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
-    modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
+    modImplementation("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
         exclude group: 'net.fabricmc.fabric-api'
     }
     // EMI
@@ -200,6 +200,19 @@ dependencies {
     // Improved Mobs
     modImplementation "maven.modrinth:improved-mobs:1.21.1-1.14.2-fabric"
     modImplementation "maven.modrinth:tenshilib:1.21.1-2.1.1-fabric"
+
+    // TACZ
+    modImplementation("libs:TACZ-Refabricated:1.21.1-0.0.2.1")
+    implementation(minecraftLibraries('org.apache.commons:commons-math3:3.6.1'))
+    implementation('com.github.FiguraMC.luaj:luaj-core:3.0.8-figura') {
+        exclude group: 'org.apache.commons', module: 'commons-lang3'
+    }
+    implementation('com.github.FiguraMC.luaj:luaj-jse:3.0.8-figura') {
+        exclude group: 'org.apache.commons', module: 'commons-lang3'
+    }
+    implementation('org.apache.bcel:bcel:6.6.1') {
+        exclude group: 'org.apache.commons', module: 'commons-lang3'
+    }
 
     // 不加就无法run的各种前置
     modImplementation "io.github.cottonmc:LibGui:11.1.0+1.21"
