@@ -5,7 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 public interface IBlockEntityPersistentData {
     String PERSISTENT_DATA = "ForgeData";
 
-    default CompoundTag getPersistentData() {
+    default CompoundTag tlm$getPersistentData() {
         throw new RuntimeException();
     }
 }

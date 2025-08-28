@@ -36,26 +36,26 @@ public class TileEntityGomoku extends TileEntityJoy implements IBoardGameEntityB
         for (int[] chessRow : chessData) {
             listTag.add(new IntArrayTag(chessRow));
         }
-        getPersistentData().put(CHESS_DATA, listTag);
-        getPersistentData().putBoolean(IN_PROGRESS, this.inProgress);
-        getPersistentData().putBoolean(PLAYER_TURN, this.playerTurn);
-        getPersistentData().putInt(CHESS_COUNTER, this.chessCounter);
-        getPersistentData().put(LATEST_CHESS_POINT, Point.toTag(this.latestChessPoint));
+        tlm$getPersistentData().put(CHESS_DATA, listTag);
+        tlm$getPersistentData().putBoolean(IN_PROGRESS, this.inProgress);
+        tlm$getPersistentData().putBoolean(PLAYER_TURN, this.playerTurn);
+        tlm$getPersistentData().putInt(CHESS_COUNTER, this.chessCounter);
+        tlm$getPersistentData().put(LATEST_CHESS_POINT, Point.toTag(this.latestChessPoint));
         super.saveAdditional(tag);
     }
 
     @Override
     public void load(CompoundTag nbt) {
         super.load(nbt);
-        ListTag listTag = getPersistentData().getList(CHESS_DATA, Tag.TAG_INT_ARRAY);
+        ListTag listTag = tlm$getPersistentData().getList(CHESS_DATA, Tag.TAG_INT_ARRAY);
         for (int i = 0; i < listTag.size(); i++) {
             int[] intArray = listTag.getIntArray(i);
             this.chessData[i] = intArray;
         }
-        this.inProgress = getPersistentData().getBoolean(IN_PROGRESS);
-        this.playerTurn = getPersistentData().getBoolean(PLAYER_TURN);
-        this.chessCounter = getPersistentData().getInt(CHESS_COUNTER);
-        this.latestChessPoint = Point.fromTag(getPersistentData().getCompound(LATEST_CHESS_POINT));
+        this.inProgress = tlm$getPersistentData().getBoolean(IN_PROGRESS);
+        this.playerTurn = tlm$getPersistentData().getBoolean(PLAYER_TURN);
+        this.chessCounter = tlm$getPersistentData().getInt(CHESS_COUNTER);
+        this.latestChessPoint = Point.fromTag(tlm$getPersistentData().getCompound(LATEST_CHESS_POINT));
     }
 
     public void reset() {

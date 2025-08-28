@@ -43,11 +43,11 @@ public class TileEntityModelSwitcher extends BlockEntity implements IBlockEntity
         for (ModeInfo info : infoList) {
             listTag.add(info.serialize());
         }
-        getPersistentData().put(INFO_LIST, listTag);
+        tlm$getPersistentData().put(INFO_LIST, listTag);
         if (this.uuid != null) {
-            getPersistentData().put(ENTITY_UUID, NbtUtils.createUUID(this.uuid));
+            tlm$getPersistentData().put(ENTITY_UUID, NbtUtils.createUUID(this.uuid));
         }
-        getPersistentData().putInt(LIST_INDEX, this.index);
+        tlm$getPersistentData().putInt(LIST_INDEX, this.index);
         super.saveAdditional(pTag);
     }
 
@@ -55,17 +55,17 @@ public class TileEntityModelSwitcher extends BlockEntity implements IBlockEntity
     public void load(CompoundTag pTag) {
         super.load(pTag);
         infoList.clear();
-        ListTag listTag = getPersistentData().getList(INFO_LIST, Tag.TAG_COMPOUND);
+        ListTag listTag = tlm$getPersistentData().getList(INFO_LIST, Tag.TAG_COMPOUND);
         for (int i = 0; i < listTag.size(); i++) {
             ModeInfo info = new ModeInfo();
             info.deserialize(listTag.getCompound(i));
             infoList.add(info);
         }
-        Tag uuidTag = getPersistentData().get(ENTITY_UUID);
+        Tag uuidTag = tlm$getPersistentData().get(ENTITY_UUID);
         if (uuidTag != null) {
             this.uuid = NbtUtils.loadUUID(uuidTag);
         }
-        this.index = getPersistentData().getInt(LIST_INDEX);
+        this.index = tlm$getPersistentData().getInt(LIST_INDEX);
     }
 
     @Override

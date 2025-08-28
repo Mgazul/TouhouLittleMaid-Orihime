@@ -30,7 +30,7 @@ public abstract class BlockEntityMixin implements IBlockEntityPersistentData {
     }
 
     @Override
-    public CompoundTag getPersistentData() {
+    public CompoundTag tlm$getPersistentData() {
         if (tlm$persistentData == null) {
             tlm$persistentData = new CompoundTag();
         }

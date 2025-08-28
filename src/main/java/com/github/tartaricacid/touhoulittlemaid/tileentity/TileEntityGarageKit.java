@@ -28,16 +28,16 @@ public class TileEntityGarageKit extends BlockEntity implements IBlockEntityPers
 
     @Override
     public void saveAdditional(CompoundTag pTag) {
-        getPersistentData().putString(FACING_TAG, facing.getSerializedName());
-        getPersistentData().put(EXTRA_DATA, extraData);
+        tlm$getPersistentData().putString(FACING_TAG, facing.getSerializedName());
+        tlm$getPersistentData().put(EXTRA_DATA, extraData);
         super.saveAdditional(pTag);
     }
 
     @Override
     public void load(CompoundTag pTag) {
         super.load(pTag);
-        facing = Direction.byName(getPersistentData().getString(FACING_TAG));
-        extraData = getPersistentData().getCompound(EXTRA_DATA);
+        facing = Direction.byName(tlm$getPersistentData().getString(FACING_TAG));
+        extraData = tlm$getPersistentData().getCompound(EXTRA_DATA);
     }
 
     @Override
