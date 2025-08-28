@@ -47,14 +47,14 @@ public class TileEntityShrine extends BlockEntity implements IBlockEntityPersist
 
     @Override
     protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
-        getPersistentData().put(STORAGE_ITEM, handler.serializeNBT(pRegistries));
+        tlm$getPersistentData().put(STORAGE_ITEM, handler.serializeNBT(pRegistries));
         super.saveAdditional(pTag, pRegistries);
     }
 
     @Override
     public void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
         super.loadAdditional(pTag, pRegistries);
-        handler.deserializeNBT(pRegistries, getPersistentData().getCompound(STORAGE_ITEM));
+        handler.deserializeNBT(pRegistries, tlm$getPersistentData().getCompound(STORAGE_ITEM));
     }
 
     @Override

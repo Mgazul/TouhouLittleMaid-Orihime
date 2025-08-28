@@ -88,22 +88,22 @@ public class TileEntityPicnicMat extends BlockEntity implements IBlockEntityPers
 
     @Override
     protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
-        getPersistentData().put(CENTER_POS_NAME, NbtUtils.writeBlockPos(centerPos));
-        getPersistentData().put(STORAGE_ITEM, handler.serializeNBT(pRegistries));
+        tlm$getPersistentData().put(CENTER_POS_NAME, NbtUtils.writeBlockPos(centerPos));
+        tlm$getPersistentData().put(STORAGE_ITEM, handler.serializeNBT(pRegistries));
         ListTag listTag = new ListTag();
         for (UUID uuid : sitIds) {
             listTag.add(NbtUtils.createUUID(uuid));
         }
-        getPersistentData().put(SIT_IDS, listTag);
+        tlm$getPersistentData().put(SIT_IDS, listTag);
         super.saveAdditional(pTag, pRegistries);
     }
 
     @Override
     public void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
         super.loadAdditional(pTag, pRegistries);
-        NbtUtils.readBlockPos(getPersistentData(), CENTER_POS_NAME).ifPresent(pos -> centerPos = pos);
-        this.handler.deserializeNBT(pRegistries, getPersistentData().getCompound(STORAGE_ITEM));
-        ListTag sitIdsTag = getPersistentData().getList(SIT_IDS, Tag.TAG_INT_ARRAY);
+        NbtUtils.readBlockPos(tlm$getPersistentData(), CENTER_POS_NAME).ifPresent(pos -> centerPos = pos);
+        this.handler.deserializeNBT(pRegistries, tlm$getPersistentData().getCompound(STORAGE_ITEM));
+        ListTag sitIdsTag = tlm$getPersistentData().getList(SIT_IDS, Tag.TAG_INT_ARRAY);
         int i = 0;
         for (Tag tag : sitIdsTag) {
             this.sitIds[i] = NbtUtils.loadUUID(tag);

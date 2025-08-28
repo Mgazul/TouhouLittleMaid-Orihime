@@ -26,14 +26,14 @@ public abstract class TileEntityJoy extends BlockEntity implements IBlockEntityP
 
     @Override
     protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
-        getPersistentData().putUUID(SIT_ID, this.sitId);
+        tlm$getPersistentData().putUUID(SIT_ID, this.sitId);
         super.saveAdditional(pTag, pRegistries);
     }
 
     @Override
     public void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
         super.loadAdditional(pTag, pRegistries);
-        this.sitId = getPersistentData().getUUID(SIT_ID);
+        this.sitId = tlm$getPersistentData().getUUID(SIT_ID);
     }
 
     @Override
