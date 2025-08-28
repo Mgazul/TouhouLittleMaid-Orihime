@@ -38,26 +38,26 @@ public class TileEntityGomoku extends TileEntityJoy implements IBoardGameEntityB
         for (byte[] chessRow : chessData) {
             listTag.add(new ByteArrayTag(chessRow));
         }
-        getPersistentData().put(CHESS_DATA, listTag);
-        getPersistentData().putBoolean(IN_PROGRESS, this.inProgress);
-        getPersistentData().putBoolean(PLAYER_TURN, this.playerTurn);
-        getPersistentData().putInt(CHESS_COUNTER, this.chessCounter);
-        getPersistentData().put(LATEST_CHESS_POINT, Point.toTag(this.latestChessPoint));
+        tlm$getPersistentData().put(CHESS_DATA, listTag);
+        tlm$getPersistentData().putBoolean(IN_PROGRESS, this.inProgress);
+        tlm$getPersistentData().putBoolean(PLAYER_TURN, this.playerTurn);
+        tlm$getPersistentData().putInt(CHESS_COUNTER, this.chessCounter);
+        tlm$getPersistentData().put(LATEST_CHESS_POINT, Point.toTag(this.latestChessPoint));
         super.saveAdditional(pTag, pRegistries);
     }
 
     @Override
     public void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
         super.loadAdditional(pTag, pRegistries);
-        ListTag listTag = getPersistentData().getList(CHESS_DATA, Tag.TAG_BYTE_ARRAY);
+        ListTag listTag = tlm$getPersistentData().getList(CHESS_DATA, Tag.TAG_BYTE_ARRAY);
         for (int i = 0; i < listTag.size(); i++) {
             ByteArrayTag byteArray = (ByteArrayTag) listTag.get(i);
             this.chessData[i] = byteArray.getAsByteArray();
         }
-        this.inProgress = getPersistentData().getBoolean(IN_PROGRESS);
-        this.playerTurn = getPersistentData().getBoolean(PLAYER_TURN);
-        this.chessCounter = getPersistentData().getInt(CHESS_COUNTER);
-        this.latestChessPoint = Point.fromTag(getPersistentData().getCompound(LATEST_CHESS_POINT));
+        this.inProgress = tlm$getPersistentData().getBoolean(IN_PROGRESS);
+        this.playerTurn = tlm$getPersistentData().getBoolean(PLAYER_TURN);
+        this.chessCounter = tlm$getPersistentData().getInt(CHESS_COUNTER);
+        this.latestChessPoint = Point.fromTag(tlm$getPersistentData().getCompound(LATEST_CHESS_POINT));
     }
 
     public void reset() {

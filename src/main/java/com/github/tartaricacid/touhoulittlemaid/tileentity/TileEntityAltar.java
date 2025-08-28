@@ -56,26 +56,26 @@ public class TileEntityAltar extends BlockEntity implements IBlockEntityPersiste
 
     @Override
     public void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
-        getPersistentData().putBoolean(IS_RENDER, isRender);
-        getPersistentData().putBoolean(CAN_PLACE_ITEM, canPlaceItem);
-        getPersistentData().putInt(STORAGE_STATE_ID, Block.getId(storageState));
-        getPersistentData().put(STORAGE_ITEM, handler.serializeNBT(pRegistries));
-        getPersistentData().putString(DIRECTION, direction.getSerializedName());
-        getPersistentData().put(STORAGE_BLOCK_LIST, blockPosList.serialize());
-        getPersistentData().put(CAN_PLACE_ITEM_POS_LIST, canPlaceItemPosList.serialize());
+        tlm$getPersistentData().putBoolean(IS_RENDER, isRender);
+        tlm$getPersistentData().putBoolean(CAN_PLACE_ITEM, canPlaceItem);
+        tlm$getPersistentData().putInt(STORAGE_STATE_ID, Block.getId(storageState));
+        tlm$getPersistentData().put(STORAGE_ITEM, handler.serializeNBT(pRegistries));
+        tlm$getPersistentData().putString(DIRECTION, direction.getSerializedName());
+        tlm$getPersistentData().put(STORAGE_BLOCK_LIST, blockPosList.serialize());
+        tlm$getPersistentData().put(CAN_PLACE_ITEM_POS_LIST, canPlaceItemPosList.serialize());
         super.saveAdditional(pTag, pRegistries);
     }
 
     @Override
     public void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
         super.loadAdditional(pTag, pRegistries);
-        isRender = getPersistentData().getBoolean(IS_RENDER);
-        canPlaceItem = getPersistentData().getBoolean(CAN_PLACE_ITEM);
-        storageState = Block.stateById(getPersistentData().getInt(STORAGE_STATE_ID));
-        handler.deserializeNBT(pRegistries, getPersistentData().getCompound(STORAGE_ITEM));
-        direction = Direction.byName(getPersistentData().getString(DIRECTION));
-        blockPosList.deserialize(getPersistentData().getList(STORAGE_BLOCK_LIST, Tag.TAG_INT_ARRAY));
-        canPlaceItemPosList.deserialize(getPersistentData().getList(CAN_PLACE_ITEM_POS_LIST, Tag.TAG_INT_ARRAY));
+        isRender = tlm$getPersistentData().getBoolean(IS_RENDER);
+        canPlaceItem = tlm$getPersistentData().getBoolean(CAN_PLACE_ITEM);
+        storageState = Block.stateById(tlm$getPersistentData().getInt(STORAGE_STATE_ID));
+        handler.deserializeNBT(pRegistries, tlm$getPersistentData().getCompound(STORAGE_ITEM));
+        direction = Direction.byName(tlm$getPersistentData().getString(DIRECTION));
+        blockPosList.deserialize(tlm$getPersistentData().getList(STORAGE_BLOCK_LIST, Tag.TAG_INT_ARRAY));
+        canPlaceItemPosList.deserialize(tlm$getPersistentData().getList(CAN_PLACE_ITEM_POS_LIST, Tag.TAG_INT_ARRAY));
     }
 
     public BlockPos getWorldPosition() {

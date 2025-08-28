@@ -32,14 +32,14 @@ public class TileEntityMaidBed extends BlockEntity implements IBlockEntityPersis
 
     @Override
     public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        getPersistentData().putInt(COLOR_TAG, color.getId());
+        tlm$getPersistentData().putInt(COLOR_TAG, color.getId());
         super.saveAdditional(tag, registries);
     }
 
     @Override
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        color = DyeColor.byId(getPersistentData().getInt(COLOR_TAG));
+        color = DyeColor.byId(tlm$getPersistentData().getInt(COLOR_TAG));
     }
 
     @Override
