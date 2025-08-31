@@ -12,6 +12,7 @@ import com.github.tartaricacid.touhoulittlemaid.client.overlay.ShowPowerOverlay;
 import com.github.tartaricacid.touhoulittlemaid.client.resource.LegacyPackRepositorySource;
 import com.github.tartaricacid.touhoulittlemaid.compat.immersivemelodies.ImmersiveMelodiesCompat;
 import com.github.tartaricacid.touhoulittlemaid.compat.oculus.OculusCompat;
+import com.github.tartaricacid.touhoulittlemaid.compat.patpat.PatPatCompat;
 import com.github.tartaricacid.touhoulittlemaid.compat.ponder.PonderCompat;
 import com.github.tartaricacid.touhoulittlemaid.compat.simplehats.SimpleHatsCompat;
 import com.github.tartaricacid.touhoulittlemaid.compat.sodium.SodiumCompat;
@@ -39,6 +40,7 @@ public class ClientSetupEvent {
         ImmersiveMelodiesCompat.init();
         OculusCompat.init();
         SodiumCompat.init();
+        PatPatCompat.init();
         PonderCompat.register();
     }
 
