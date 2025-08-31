@@ -214,6 +214,9 @@ dependencies {
         exclude group: 'org.apache.commons', module: 'commons-lang3'
     }
 
+    //PatPat
+    modImplementation "maven.modrinth:patpat:1.2.1+1.21.1"
+
     // 不加就无法run的各种前置
     modImplementation "io.github.cottonmc:LibGui:11.1.0+1.21"
     modImplementation "me.zeroeightsix:fiber:0.23.0-SNAPSHOT"

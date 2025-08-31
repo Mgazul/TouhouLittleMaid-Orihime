@@ -38,16 +38,18 @@ public record PlayMaidSoundPackage(ResourceLocation soundEvent, String id,
     @Environment(EnvType.CLIENT)
     private static void playSound(PlayMaidSoundPackage message) {
         Minecraft mc = Minecraft.getInstance();
-        if (mc.level != null) {
-            Entity entity = mc.level.getEntity(message.entityId);
-            if (entity instanceof EntityMaid maid) {
-                SoundEvent event = BuiltInRegistries.SOUND_EVENT.get(message.soundEvent);
-                if (event != null) {
-                    mc.getSoundManager().play(new MaidSoundInstance(event, message.id, maid));
-
-                }
-            }
+        if (mc.level == null) {
+            return;
         }
+        Entity entity = mc.level.getEntity(message.entityId);
+        if (!(entity instanceof EntityMaid maid)) {
+            return;
+        }
+        SoundEvent event = BuiltInRegistries.SOUND_EVENT.get(message.soundEvent);
+        if (event == null) {
+            return;
+        }
+        mc.getSoundManager().play(new MaidSoundInstance(event, message.id, maid));
     }
 
     @Override

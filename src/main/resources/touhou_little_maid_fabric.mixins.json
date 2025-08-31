@@ -27,6 +27,7 @@
     "common.LootTableMixin$BuilderMixin",
     "common.NaturalSpawnerMixin",
     "common.PackRepositoryMixin",
+    "common.ParrotMixin",
     "common.PersistentEntitySectionManagerMixin",
     "common.PlayerListMixin",
     "common.PlayerMixin",
