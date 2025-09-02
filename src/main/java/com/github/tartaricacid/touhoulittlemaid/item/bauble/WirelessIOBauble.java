@@ -121,7 +121,7 @@ public class WirelessIOBauble implements IMaidBauble {
                     return;
                 }
                 Storage<ItemVariant> chestInv = ItemStorage.SIDED.find(maid.level, te.getBlockPos(), te.getBlockState(), te, null);
-                if (chestInv == null) {
+                if (chestInv != null) {
                     IItemHandler maidInv = maid.getAvailableInv(false);
                     boolean isMaidToChest = ItemWirelessIO.isMaidToChest(baubleItem);
                     boolean isBlacklist = ItemWirelessIO.isBlacklist(baubleItem);
@@ -163,6 +163,8 @@ public class WirelessIOBauble implements IMaidBauble {
                 continue;
             }
             ItemStack maidInvItem = maid.getStackInSlot(i);
+            if (maidInvItem.isEmpty())
+                continue;
             boolean allowMove = isBlacklist;
             for (int j = 0; j < filterList.getSlots(); j++) {
                 ItemStack filterItem = filterList.getStackInSlot(j);
