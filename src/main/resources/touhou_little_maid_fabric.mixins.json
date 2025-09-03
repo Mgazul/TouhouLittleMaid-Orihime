@@ -39,6 +39,7 @@
     "common.ServerLevelMixin",
     "common.ServerLevelMixin$EntityCallbacksMixin",
     "common.ServerPacksSourceMixin",
+    "common.ShapedRecipeMixin",
     "common.ThrowableProjectileMixin",
     "compat.carryon.ListHandlerMixin",
     "compat.improvedmobs.EventHandlerMixin",
