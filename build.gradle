@@ -213,9 +213,12 @@ dependencies {
     implementation('org.apache.bcel:bcel:6.6.1') {
         exclude group: 'org.apache.commons', module: 'commons-lang3'
     }
+    modImplementation "curse.maven:nonconflictkeys-fabric-865546:4572953"
 
-    //PatPat
+    // PatPat
     modImplementation "maven.modrinth:patpat:1.2.1+1.21.1"
+    modImplementation "maven.modrinth:proxlib:0.2.4+1.21"
+    modImplementation "maven.modrinth:fabric-permissions-api:0.3.1"
 
     // 不加就无法run的各种前置
     modImplementation "io.github.cottonmc:LibGui:11.1.0+1.21"
