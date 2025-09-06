@@ -1,6 +1,7 @@
 package cn.sh1rocu.touhoulittlemaid.client;
 
 import cn.sh1rocu.touhoulittlemaid.api.event.*;
+import cn.sh1rocu.touhoulittlemaid.api.extension.IItemRenderer;
 import com.github.tartaricacid.simplebedrockmodel.client.manager.BedrockEntityModelRegisterEvent;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaid;
 import com.github.tartaricacid.touhoulittlemaid.TouhouLittleMaidClient;
@@ -21,11 +22,13 @@ import fuzs.forgeconfigapiport.fabric.api.neoforge.v4.NeoForgeModConfigEvents;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.packs.PackType;
 
 import static cn.sh1rocu.touhoulittlemaid.TouhouLittleMaidFabric.*;
@@ -39,6 +42,12 @@ public class TouhouLittleMaidFabricClient implements ClientModInitializer {
         InfoGetManager.onClientSetup();
 
         com.github.tartaricacid.simplebedrockmodel.client.ClientSetupEvent.onClientSetup();
+
+        BuiltInRegistries.ITEM.stream().filter(item -> item instanceof IItemRenderer).forEach(clientEx ->
+                BuiltinItemRendererRegistry.INSTANCE.register(clientEx,
+                        (stack, mode, matrices, vertexConsumers, light, overlay) ->
+                                ((IItemRenderer) clientEx).getCustomRenderer().renderByItem(stack, mode, matrices, vertexConsumers, light, overlay)));
+
         BedrockEntityModelRegisterEvent.CALLBACK.register(BedrockModelLoader::onRegisterBedrockModelRenderers);
 
         ItemTooltipCallback.EVENT.addPhaseOrdering(Event.DEFAULT_PHASE, LOW);
