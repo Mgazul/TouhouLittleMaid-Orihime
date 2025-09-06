@@ -59,7 +59,6 @@
     "client.ClientLevelMixin$EntityCallbacksMixin",
     "client.CreateWorldScreenMixin",
     "client.ItemInHandRendererMixin",
-    "client.ItemRendererMixin",
     "client.KeyboardHandlerMixin",
     "client.LocalPlayerMixin",
     "client.MinecraftMixin",

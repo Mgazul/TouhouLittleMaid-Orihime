@@ -1,6 +1,6 @@
 package cn.sh1rocu.touhoulittlemaid.mixin.common;
 
-import cn.sh1rocu.tacz.util.forge.CraftingHelper;
+import cn.sh1rocu.touhoulittlemaid.util.forge.CraftingHelper;
 import com.google.gson.JsonObject;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
