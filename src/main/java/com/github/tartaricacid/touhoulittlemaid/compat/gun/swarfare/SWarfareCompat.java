@@ -60,8 +60,8 @@ public class SWarfareCompat {
             LivingAttackEvent.CALLBACK.register(gunHurtMaidEvent::onPlayerHurt);
             ExplosionEvents.DETONATE.register(gunHurtMaidEvent::onExplosionDetonateEvent);
 
-            MaidSaddleClickEvent maidKillMessageEvent = new MaidSaddleClickEvent();
-            UseEntityCallback.EVENT.register(maidKillMessageEvent::onEntityRightClick);
+            MaidSaddleClickEvent maidSaddleClickEvent = new MaidSaddleClickEvent();
+            UseEntityCallback.EVENT.register(maidSaddleClickEvent::onEntityRightClick);
         }
         return INSTALLED;
     }
