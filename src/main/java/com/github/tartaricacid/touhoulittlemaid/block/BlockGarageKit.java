@@ -156,7 +156,7 @@ public class BlockGarageKit extends Block implements EntityBlock, IBlock {
         TileEntityGarageKit garageKit = (TileEntityGarageKit) tile;
         EntityType<?> type = ((SpawnEggItem) stack.getItem()).getType(stack.getTag());
         ResourceLocation key = BuiltInRegistries.ENTITY_TYPE.getKey(type);
-        if (key == null) {
+        if (key == BuiltInRegistries.ENTITY_TYPE.getDefaultKey()) {
             return InteractionResult.PASS;
         }
 

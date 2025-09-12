@@ -103,6 +103,8 @@ public class TouhouLittleMaidFabric implements ModInitializer {
         }
         InteractMaidEvent.CALLBACK.register(ItemSubstituteJizo::onEntityInteract);
         MaidDamageEvent.CALLBACK.register(LOWEST, RandomEmoji::addHurtChatText);
+        LivingHurtEvent.CALLBACK.register(MaidLivingEntityEvent::onLivingHurt);
+        LivingDamageEvent.CALLBACK.register(MaidLivingEntityEvent::onLivingDamage);
     }
 
     private static void subscribeDebugEvents() {

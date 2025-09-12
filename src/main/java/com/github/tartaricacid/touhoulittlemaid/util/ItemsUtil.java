@@ -131,6 +131,9 @@ public final class ItemsUtil {
     public static String getItemId(Item item) {
         ResourceLocation key = BuiltInRegistries.ITEM.getKey(item);
         Preconditions.checkNotNull(key);
+        // key不会返回null, 手动检测并抛出NPE
+        if (key == BuiltInRegistries.ITEM.getDefaultKey())
+            throw new NullPointerException("item can't be default key");
         return key.toString();
     }
 

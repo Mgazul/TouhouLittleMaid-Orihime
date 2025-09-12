@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.item;
 
+import cn.sh1rocu.touhoulittlemaid.util.itemhandler.ItemHandlerHelper;
 import com.github.tartaricacid.touhoulittlemaid.advancements.maid.TriggerType;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAndItemTransformEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -17,6 +18,8 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -30,7 +33,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class ItemCamera extends Item {
-    private static final String MAID_INFO = "MaidInfo";
+    public static final String MAID_INFO = "MaidInfo";
 
     public ItemCamera() {
         super((new Properties()).stacksTo(1).durability(50));
@@ -59,6 +62,27 @@ public class ItemCamera extends Item {
             }
         }
         return super.use(worldIn, playerIn, handIn);
+    }
+
+    public static void spawnMaidPhoto(Level worldIn, CompoundTag data, Player playerIn) {
+        ItemStack photo = InitItems.PHOTO.getDefaultInstance();
+        CompoundTag photoTag = new CompoundTag();
+        CompoundTag maidTag = new CompoundTag();
+        Optional<Entity> optional = EntityType.create(data, worldIn);
+        if (optional.isEmpty() || !(optional.get() instanceof EntityMaid maid)) {
+            return;
+        }
+        maid.setHomeModeEnable(false);
+        maid.saveWithoutId(maidTag);
+        maidTag.putString("id", Objects.requireNonNull(BuiltInRegistries.ENTITY_TYPE.getKey(InitEntities.MAID)).toString());
+
+        var event = new MaidAndItemTransformEvent.ToItem(maid, photo, maidTag);
+        MaidAndItemTransformEvent.TO_ITEM.invoker().onToItem(event);
+
+        photoTag.put(MAID_INFO, maidTag);
+        photo.setTag(photoTag);
+
+        ItemHandlerHelper.giveItemToPlayer(playerIn, photo);
     }
 
     private void spawnMaidPhoto(Level worldIn, EntityMaid maid, Player playerIn) {

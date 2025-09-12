@@ -22,6 +22,9 @@ public class MaidAnimationMessage {
 
     public static final int NONE = 0;
     public static final int PICK_UP_SNOWBALL = 1;
+    public static final int SWF_AIM = 2;
+    public static final int SWF_RELOAD = 3;
+    public static final int SWF_FIRE = 4;
 
     public static FriendlyByteBuf pickUpSnowball(EntityMaid maid) {
         // 播放丢雪球动画之前，先禁止女仆移动
@@ -54,6 +57,7 @@ public class MaidAnimationMessage {
         if (level.getEntity(maidId) instanceof EntityMaid maid) {
             maid.animationId = animationId;
             maid.animationRecordTime = System.currentTimeMillis();
+            maid.shouldReset = true;
         }
     }
 }

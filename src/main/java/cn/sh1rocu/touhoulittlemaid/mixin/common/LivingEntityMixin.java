@@ -1,12 +1,16 @@
 package cn.sh1rocu.touhoulittlemaid.mixin.common;
 
 import cn.sh1rocu.touhoulittlemaid.api.event.LivingAttackEvent;
+import cn.sh1rocu.touhoulittlemaid.api.event.LivingDamageEvent;
+import cn.sh1rocu.touhoulittlemaid.api.event.LivingHurtEvent;
 import cn.sh1rocu.touhoulittlemaid.api.extension.IBedBlock;
 import cn.sh1rocu.touhoulittlemaid.util.forge.EventHooks;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -26,6 +30,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -51,6 +56,31 @@ public abstract class LivingEntityMixin extends Entity {
 
     public LivingEntityMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
+    }
+
+    @ModifyVariable(method = "actuallyHurt", at = @At(value = "LOAD", ordinal = 0), index = 2)
+    private float tlm$livingHurtEvent(float value, DamageSource pDamageSource, @Share("hurt") LocalRef<LivingHurtEvent> eventRef) {
+        LivingHurtEvent event = new LivingHurtEvent((LivingEntity) (Object) this, pDamageSource, value);
+        eventRef.set(event);
+        LivingHurtEvent.CALLBACK.invoker().onLivingHurt(event);
+        if (event.isCanceled())
+            return 0;
+        return event.getAmount();
+    }
+
+    @Inject(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getDamageAfterArmorAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"), cancellable = true)
+    private void tlm$shouldCancelHurt(DamageSource damageSource, float f, CallbackInfo ci, @Share("hurt") LocalRef<LivingHurtEvent> eventRef) {
+        if (eventRef.get().getAmount() <= 0)
+            ci.cancel();
+    }
+
+    @ModifyVariable(method = "actuallyHurt", at = @At(value = "LOAD", ordinal = 5), index = 2)
+    private float tlm$livingDamageEvent(float value, DamageSource pDamageSource) {
+        LivingDamageEvent event = new LivingDamageEvent((LivingEntity) (Object) this, pDamageSource, value);
+        LivingDamageEvent.CALLBACK.invoker().onLivingDamage(event);
+        if (event.isCanceled())
+            return 0;
+        return event.getAmount();
     }
 
     @Inject(

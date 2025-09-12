@@ -64,7 +64,7 @@ public class AltarRecipeComponent implements IComponentProcessor {
             List<String> stackNames = Lists.newArrayList();
             for (ItemStack stack : stacks) {
                 ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
-                if (itemId != null) {
+                if (itemId != BuiltInRegistries.ITEM.getDefaultKey()) {
                     stackNames.add(itemId.toString());
                 }
             }
@@ -97,7 +97,7 @@ public class AltarRecipeComponent implements IComponentProcessor {
                     entityType = InitEntities.MAID;
                 }
                 ResourceLocation entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entityType);
-                if (entityId != null) {
+                if (entityId != BuiltInRegistries.ENTITY_TYPE.getDefaultKey()) {
                     return IVariable.wrap(entityId.toString());
                 } else {
                     return IVariable.wrap("minecraft:item");

@@ -134,6 +134,14 @@ repositories {
     maven {
         url "https://maven.nova-committee.cn/releases"
     }
+    maven {
+        name = 'GeckoLib'
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        content {
+            includeGroupByRegex("software\\.bernie.*")
+            includeGroup("com.eliotlash.mclib")
+        }
+    }
 }
 
 dependencies {
@@ -260,6 +268,14 @@ dependencies {
     modImplementation "maven.modrinth:patpat:1.2.1+1.20.1"
     modImplementation "maven.modrinth:proxlib:0.2.4+1.20.1"
     modImplementation "maven.modrinth:fabric-permissions-api:0.3.1"
+
+    // 卓越前线
+    modCompileOnly("libs:superbwarfare-fabric:0.0.1-forge0.8.7")
+    modCompileOnly 'software.bernie.geckolib:geckolib-fabric-1.20.1:4.4.6'
+
+    // 地图相关模组兼容
+    modRuntimeOnly("maven.modrinth:xaeros-minimap:25.2.10_Fabric_1.20")
+    modRuntimeOnly("maven.modrinth:xaeros-world-map:1.39.12_Fabric_1.20")
 
     // 不加就无法run的各种前置
     modImplementation "io.github.cottonmc:LibGui:8.1.1+1.20.1"
