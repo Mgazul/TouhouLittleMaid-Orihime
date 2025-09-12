@@ -1,5 +1,6 @@
 package com.github.tartaricacid.touhoulittlemaid.item;
 
+import cn.sh1rocu.touhoulittlemaid.util.itemhandler.ItemHandlerHelper;
 import com.github.tartaricacid.touhoulittlemaid.advancements.maid.TriggerType;
 import com.github.tartaricacid.touhoulittlemaid.api.event.MaidAndItemTransformEvent;
 import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
@@ -14,6 +15,8 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -55,6 +58,24 @@ public class ItemCamera extends Item {
             }
         }
         return super.use(worldIn, playerIn, handIn);
+    }
+
+    public static void spawnMaidPhoto(Level worldIn, CompoundTag data, Player playerIn) {
+        ItemStack photo = InitItems.PHOTO.getDefaultInstance();
+        CompoundTag maidTag = new CompoundTag();
+        Optional<Entity> optional = EntityType.create(data, worldIn);
+        if (optional.isEmpty() || !(optional.get() instanceof EntityMaid maid)) {
+            return;
+        }
+        maid.setHomeModeEnable(false);
+        maid.saveWithoutId(maidTag);
+        maidTag.putString("id", Objects.requireNonNull(BuiltInRegistries.ENTITY_TYPE.getKey(InitEntities.MAID)).toString());
+
+        var event = new MaidAndItemTransformEvent.ToItem(maid, photo, maidTag);
+        MaidAndItemTransformEvent.TO_ITEM.invoker().onToItem(event);
+
+        photo.set(InitDataComponent.MAID_INFO, CustomData.of(maidTag));
+        ItemHandlerHelper.giveItemToPlayer(playerIn, photo);
     }
 
     private void spawnMaidPhoto(Level worldIn, EntityMaid maid, Player playerIn) {

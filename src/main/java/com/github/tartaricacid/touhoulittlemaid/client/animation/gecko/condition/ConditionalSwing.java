@@ -87,7 +87,7 @@ public class ConditionalSwing {
         }
         ItemStack itemInHand = maid.asEntity().getItemInHand(hand);
         ResourceLocation registryName = BuiltInRegistries.ITEM.getKey(itemInHand.getItem());
-        if (registryName == null) {
+        if (registryName == BuiltInRegistries.ITEM.getDefaultKey()) {
             return EMPTY;
         }
         if (idTest.contains(registryName)) {

@@ -84,7 +84,7 @@ public final class InitSpecialItemRender implements ModelLoadingPlugin {
 
     public static void addInHandModel(Item item) {
         ResourceLocation res = BuiltInRegistries.ITEM.getKey(item);
-        if (res != null) {
+        if (res != BuiltInRegistries.ITEM.getDefaultKey()) {
             ModelResourceLocation rawName = ModelResourceLocation.inventory(res);
             ModelResourceLocation inHandName = standalone(ResourceLocation.fromNamespaceAndPath(res.getNamespace(), "item/" + res.getPath() + "_in_hand"));
             PERSPECTIVE_MODEL_LIST.add(Pair.of(rawName, inHandName));
@@ -93,7 +93,7 @@ public final class InitSpecialItemRender implements ModelLoadingPlugin {
 
     public static void addReplaceableModel(Item item, ResourceLocation replacedModel, Supplier<Boolean> isReplace) {
         ResourceLocation res = BuiltInRegistries.ITEM.getKey(item);
-        if (res != null) {
+        if (res != BuiltInRegistries.ITEM.getDefaultKey()) {
             ModelResourceLocation rawModelResourceLocation = ModelResourceLocation.inventory(res);
             ModelResourceLocation replacedModelResourceLocation = standalone(ResourceLocation.fromNamespaceAndPath(replacedModel.getNamespace(), "item/" + replacedModel.getPath()));
             REPLACEABLE_MODEL_LIST.add(Triple.of(rawModelResourceLocation, replacedModelResourceLocation, isReplace));

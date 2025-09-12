@@ -26,6 +26,7 @@ import com.github.tartaricacid.touhoulittlemaid.client.resource.CustomPackLoader
 import com.github.tartaricacid.touhoulittlemaid.client.resource.pojo.MaidModelInfo;
 import com.github.tartaricacid.touhoulittlemaid.compat.ysm.YsmCompat;
 import com.github.tartaricacid.touhoulittlemaid.compat.ysm.event.YsmMaidClientTickEvent;
+import com.github.tartaricacid.touhoulittlemaid.config.ServerConfig;
 import com.github.tartaricacid.touhoulittlemaid.config.subconfig.MaidConfig;
 import com.github.tartaricacid.touhoulittlemaid.config.subconfig.MiscConfig;
 import com.github.tartaricacid.touhoulittlemaid.data.MaidNumAttachment;
@@ -63,6 +64,7 @@ import com.github.tartaricacid.touhoulittlemaid.network.message.SyncYsmMaidDataP
 import com.github.tartaricacid.touhoulittlemaid.util.ItemsUtil;
 import com.github.tartaricacid.touhoulittlemaid.util.ParseI18n;
 import com.github.tartaricacid.touhoulittlemaid.util.TeleportHelper;
+import com.github.tartaricacid.touhoulittlemaid.world.backups.MaidBackupsManager;
 import com.github.tartaricacid.touhoulittlemaid.world.data.MaidWorldData;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Dynamic;
@@ -70,8 +72,6 @@ import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.entity.FakePlayer;
-import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -84,8 +84,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.*;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -212,6 +211,9 @@ public class EntityMaid extends TamableAnimal implements CrossbowAttackMob, IMai
     private static final EntityDataAccessor<ItemStack> BACKPACK_ITEM_SHOW = SynchedEntityData.defineId(EntityMaid.class, EntityDataSerializers.ITEM_STACK);
     private static final EntityDataAccessor<String> BACKPACK_FLUID = SynchedEntityData.defineId(EntityMaid.class, EntityDataSerializers.STRING);
 
+    // 给卓越前线之类的枪械模组使用的，标记女仆是否处于 aim 状态
+    private static final EntityDataAccessor<Boolean> DATA_IS_AIMING = SynchedEntityData.defineId(EntityMaid.class, EntityDataSerializers.BOOLEAN);
+
     // 游戏数据记录，包括赢棋次数和赢棋状态
     static final EntityDataAccessor<CompoundTag> GAME_SKILL = SynchedEntityData.defineId(EntityMaid.class, EntityDataSerializers.COMPOUND_TAG);
     static final EntityDataAccessor<Byte> GAME_STATUE = SynchedEntityData.defineId(EntityMaid.class, EntityDataSerializers.BYTE);
@@ -286,6 +288,7 @@ public class EntityMaid extends TamableAnimal implements CrossbowAttackMob, IMai
      */
     public int animationId = 0;
     public long animationRecordTime = -1L;
+    public boolean shouldReset = false;
 
     private List<SendEffectPackage.EffectData> effects = Lists.newArrayList();
     private IMaidTask task = TaskManager.getIdleTask();
@@ -390,6 +393,8 @@ public class EntityMaid extends TamableAnimal implements CrossbowAttackMob, IMai
         builder.define(BACKPACK_ITEM_SHOW, ItemStack.EMPTY);
         builder.define(BACKPACK_FLUID, StringUtils.EMPTY);
         builder.define(TASK_DATA_SYNC, new CompoundTag());
+
+        builder.define(DATA_IS_AIMING, false);
 
         // 父类构造方法调用此类，就会出现这种初始化混乱的问题
         if (this.configManager == null) {
@@ -511,9 +516,17 @@ public class EntityMaid extends TamableAnimal implements CrossbowAttackMob, IMai
             if (!level.isClientSide && this.rouletteAnimDirty) {
                 this.rouletteAnimDirty = false;
                 SyncYsmMaidDataPackage message = new SyncYsmMaidDataPackage(this.getId(), this.rouletteAnim, this.rouletteAnimPlaying, this.roamingVars);
-                for (ServerPlayer player : PlayerLookup.tracking(this)) {
-                    ServerPlayNetworking.send(player, message);
-                }
+                NetworkHandler.sendToPlayersTrackingEntity(this, message);
+            }
+        }
+
+        // 女仆备份机制
+        if (ServerConfig.MAID_BACKUP_ENABLE.get()) {
+            int saveIntervalTick = ServerConfig.MAID_BACKUP_INTERVAL_SECONDS.get() * 20;
+            // 通过哈希计算出一个随机值，这样做可以避免所有实体都在同一 tick 进行保存
+            int checkTick = Math.abs(this.getUUID().hashCode()) % saveIntervalTick;
+            if (this.level.getGameTime() % saveIntervalTick == checkTick && this.level instanceof ServerLevel serverLevel) {
+                MaidBackupsManager.save(serverLevel.getServer(), this);
             }
         }
     }
@@ -881,11 +894,28 @@ public class EntityMaid extends TamableAnimal implements CrossbowAttackMob, IMai
 
     @Override
     public boolean doHurtTarget(Entity target) {
+        MaidHurtTarget.Pre event = new MaidHurtTarget.Pre(this, target);
+        MaidHurtTarget.PRE.invoker().onPre(event);
+        if (event.isCanceled()) {
+            return true;
+        }
+
         boolean result = super.doHurtTarget(target);
         if (result) {
-            doSweepHurt(target);
+            // 尝试使用横扫之刃
+            this.doSweepHurt(target);
+            // 调用 hurtEnemy 来实现耐久消耗和部分其他功能
+            ItemStack mainHandItem = this.getMainHandItem();
+            Item item = mainHandItem.getItem();
+            if (target instanceof LivingEntity livingEntity && item.hurtEnemy(mainHandItem, livingEntity, this)) {
+                item.postHurtEnemy(mainHandItem, livingEntity, this);
+            }
         }
-        this.getMainHandItem().hurtAndBreak(1, this, EquipmentSlot.MAINHAND);
+
+        MaidHurtTarget.Post postEvent = new MaidHurtTarget.Post(this, target, result);
+        MaidHurtTarget.POST.invoker().onPost(postEvent);
+
+        // 部分 task 有额外伤害
         if (this.getTask() instanceof IAttackTask attackTask && attackTask.hasExtraAttack(this, target)) {
             boolean extraResult = attackTask.doExtraAttack(this, target);
             return result && extraResult;
@@ -944,7 +974,6 @@ public class EntityMaid extends TamableAnimal implements CrossbowAttackMob, IMai
      * 重新复写父类方法，添加上自己的 Event
      */
     @Override
-    @SuppressWarnings("UnstableApiUsage")
     protected void actuallyHurt(DamageSource damageSrc, float damageAmount) {
         if (!this.isInvulnerableTo(damageSrc) /*&& this.damageContainers != null*/) {
             //DamageContainer peek = this.damageContainers.peek();
@@ -1055,6 +1084,27 @@ public class EntityMaid extends TamableAnimal implements CrossbowAttackMob, IMai
             this.removeAllEffects();
             // 最后父类方法
             super.die(cause);
+            // 额外发送女仆所处坐标
+            this.sendMaidPos();
+        }
+    }
+
+    private void sendMaidPos() {
+        if (this.dead && !this.level.isClientSide
+                && this.level.getGameRules().getBoolean(GameRules.RULE_SHOWDEATHMESSAGES)
+                && this.getOwner() instanceof ServerPlayer serverPlayer) {
+            // 支持旅行地图格式
+            // [name:"name", x:-136, y:36, z:48, dim:minecraft:the_nether]
+            BlockPos blockPos = this.blockPosition();
+            String name = ResourceLocation.parse(this.getModelId()).getPath();
+            String msg = """
+                    [name:"%s", x:%d, y:%d, z:%d, dim:%s]""".formatted(
+                    name,
+                    blockPos.getX(), blockPos.getY(), blockPos.getZ(),
+                    this.level.dimension().location().toString()
+            );
+            OutgoingChatMessage message = OutgoingChatMessage.create(PlayerChatMessage.system(msg));
+            serverPlayer.sendChatMessage(message, false, ChatType.bind(ChatType.CHAT, serverPlayer));
         }
     }
 
@@ -2642,5 +2692,13 @@ public class EntityMaid extends TamableAnimal implements CrossbowAttackMob, IMai
 
     public ChatBubbleManager getChatBubbleManager() {
         return chatBubbleManager;
+    }
+
+    public boolean isAiming() {
+        return this.entityData.get(DATA_IS_AIMING);
+    }
+
+    public void setAiming(boolean aiming) {
+        this.entityData.set(DATA_IS_AIMING, aiming);
     }
 }
