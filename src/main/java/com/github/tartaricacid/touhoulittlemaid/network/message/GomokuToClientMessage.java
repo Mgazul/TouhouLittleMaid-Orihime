@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 
 import static cn.sh1rocu.touhoulittlemaid.TouhouLittleMaidFabric.getResourceLocation;
 
-public class GomokuClientMessage {
+public class GomokuToClientMessage {
     public static final ResourceLocation ID = getResourceLocation("gomoku_to_client");
 
     public static FriendlyByteBuf encode(BlockPos pos, int[][] chessData, Point point, int count) {
@@ -56,8 +56,8 @@ public class GomokuClientMessage {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        FriendlyByteBuf buf = GomokuServerMessage.encode(pos, aiPoint);
-        Minecraft.getInstance().submitAsync(() -> ClientPlayNetworking.send(GomokuServerMessage.ID, buf));
+        FriendlyByteBuf buf = GomokuToServerMessage.encode(pos, aiPoint);
+        Minecraft.getInstance().submitAsync(() -> ClientPlayNetworking.send(GomokuToServerMessage.ID, buf));
     }
 
 }

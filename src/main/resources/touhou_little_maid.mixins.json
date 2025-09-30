@@ -6,10 +6,12 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ArrowMixin",
+    "BlockBurningCache",
     "ConduitBlockEntityMixin",
     "EntityMixin",
     "FishingHookPredicateMixin",
     "NavigationMixin",
+    "NodeEvaluatorBurningCacher",
     "PersistentEntitySectionManagerMixin",
     "PlayerMixin",
     "StructureTemplateMixin",

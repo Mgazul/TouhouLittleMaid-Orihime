@@ -51,7 +51,7 @@ public class NetworkHandler {
         registerS2CPacket(OpenSwitcherGuiMessage.ID, OpenSwitcherGuiMessage::handle);
         registerS2CPacket(SendEffectMessage.ID, SendEffectMessage::handle);
         registerS2CPacket(PlayMaidSoundMessage.ID, PlayMaidSoundMessage::handle);
-        registerS2CPacket(GomokuClientMessage.ID, GomokuClientMessage::handle);
+        registerS2CPacket(GomokuToClientMessage.ID, GomokuToClientMessage::handle);
         registerS2CPacket(FoxScrollMessage.ID, FoxScrollMessage::handle);
         registerS2CPacket(CheckScheduleMessage.ID, CheckScheduleMessage::handle);
         registerS2CPacket(SyncMaidAreaMessage.ID, SyncMaidAreaMessage::handle);
@@ -82,7 +82,7 @@ public class NetworkHandler {
         registerC2SPacket(ToggleTabMessage.ID, ToggleTabMessage::handle);
         registerC2SPacket(RequestEffectMessage.ID, RequestEffectMessage::handle);
         registerC2SPacket(SetMaidSoundIdMessage.ID, SetMaidSoundIdMessage::handle);
-        registerC2SPacket(GomokuServerMessage.ID, GomokuServerMessage::handle);
+        registerC2SPacket(GomokuToServerMessage.ID, GomokuToServerMessage::handle);
         registerC2SPacket(SetScrollData.ID, SetScrollData::handle);
         registerC2SPacket(ServantBellSetMessage.ID, ServantBellSetMessage::handle);
         registerC2SPacket(SetAttackListMessage.ID, SetAttackListMessage::handle);

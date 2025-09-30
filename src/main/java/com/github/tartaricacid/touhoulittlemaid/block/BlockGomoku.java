@@ -14,7 +14,8 @@ import com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid;
 import com.github.tartaricacid.touhoulittlemaid.init.InitItems;
 import com.github.tartaricacid.touhoulittlemaid.init.InitSounds;
 import com.github.tartaricacid.touhoulittlemaid.init.InitTrigger;
-import com.github.tartaricacid.touhoulittlemaid.network.message.GomokuClientMessage;
+import com.github.tartaricacid.touhoulittlemaid.item.ItemHakureiGohei;
+import com.github.tartaricacid.touhoulittlemaid.network.message.GomokuToClientMessage;
 import com.github.tartaricacid.touhoulittlemaid.network.message.SpawnParticleMessage;
 import com.github.tartaricacid.touhoulittlemaid.tileentity.TileEntityGomoku;
 import com.github.tartaricacid.touhoulittlemaid.tileentity.TileEntityJoy;
@@ -239,13 +240,27 @@ public class BlockGomoku extends BlockJoy implements IBoardGameBlock, IBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (level instanceof ServerLevel serverLevel && hand == InteractionHand.MAIN_HAND && player.getMainHandItem().isEmpty()) {
+        if (level instanceof ServerLevel serverLevel && hand == InteractionHand.MAIN_HAND) {
             GomokuPart part = state.getValue(PART);
             BlockPos centerPos = pos.subtract(new Vec3i(part.getPosX(), 0, part.getPosY()));
             BlockEntity te = level.getBlockEntity(centerPos);
             if (!(te instanceof TileEntityGomoku gomoku)) {
                 return InteractionResult.FAIL;
             }
+
+            // 如果是创造模式拿着御币点击，那么铺满棋盘，只剩三个位置
+            if (player.getAbilities().instabuild && player.getMainHandItem().getItem() instanceof ItemHakureiGohei) {
+                gomoku.clickWithDebug();
+                gomoku.refresh();
+                level.playSound(null, centerPos, InitSounds.GOMOKU_RESET, SoundSource.BLOCKS, 1.0f, 1.0f);
+                return InteractionResult.SUCCESS;
+            }
+
+            // 然后是下棋，必须空手
+            if (!player.getMainHandItem().isEmpty()) {
+                return InteractionResult.PASS;
+            }
+
             Vec3 location = hit.getLocation().subtract(pos.getX(), pos.getY(), pos.getZ());
             Direction facing = state.getValue(FACING);
             if (isClickChessBox(location.x, location.z, part, facing)) {
@@ -280,7 +295,7 @@ public class BlockGomoku extends BlockJoy implements IBoardGameBlock, IBlock {
                 return InteractionResult.FAIL;
             }
             Point playerPoint = new Point(clickPos[0], clickPos[1], Point.BLACK);
-            if (gomoku.isInProgress() && chessData[playerPoint.x][playerPoint.y] == Point.EMPTY) {
+            if (gomoku.getStatue() == Statue.IN_PROGRESS && chessData[playerPoint.x][playerPoint.y] == Point.EMPTY) {
                 gomoku.setChessData(playerPoint.x, playerPoint.y, playerPoint.type);
                 Statue statue = MaidGomokuAI.getStatue(chessData, playerPoint);
                 // 但是和其他人的女仆对弈不加好感哦
@@ -300,12 +315,12 @@ public class BlockGomoku extends BlockJoy implements IBoardGameBlock, IBlock {
                         InitTrigger.MAID_EVENT.trigger(serverPlayer, TriggerType.WIN_GOMOKU);
                     }
                 }
-                gomoku.setInProgress(statue == Statue.IN_PROGRESS);
+                gomoku.setStatue(statue);
                 level.playSound(null, pos, InitSounds.GOMOKU, SoundSource.BLOCKS, 1.0f, 0.8F + level.random.nextFloat() * 0.4F);
-                if (gomoku.isInProgress() && player instanceof ServerPlayer serverPlayer) {
+                if (gomoku.getStatue() == Statue.IN_PROGRESS && player instanceof ServerPlayer serverPlayer) {
                     gomoku.setPlayerTurn(false);
-                    FriendlyByteBuf buf = GomokuClientMessage.encode(centerPos, chessData, playerPoint, maid.getGameRecordManager().getGomokuWinCount());
-                    ServerPlayNetworking.send(serverPlayer, GomokuClientMessage.ID, buf);
+                    FriendlyByteBuf buf = GomokuToClientMessage.encode(centerPos, chessData, playerPoint, maid.getGameRecordManager().getGomokuWinCount());
+                    ServerPlayNetworking.send(serverPlayer, GomokuToClientMessage.ID, buf);
                 }
                 gomoku.refresh();
                 return InteractionResult.SUCCESS;

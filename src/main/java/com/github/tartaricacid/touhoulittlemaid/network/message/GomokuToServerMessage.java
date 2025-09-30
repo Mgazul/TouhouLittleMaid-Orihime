@@ -22,7 +22,7 @@ import net.minecraft.world.level.Level;
 
 import static cn.sh1rocu.touhoulittlemaid.TouhouLittleMaidFabric.getResourceLocation;
 
-public class GomokuServerMessage {
+public class GomokuToServerMessage {
     public static final ResourceLocation ID = getResourceLocation("gomoku_to_server");
 
     public static FriendlyByteBuf encode(BlockPos pos, Point point) {
@@ -43,19 +43,21 @@ public class GomokuServerMessage {
                 return;
             }
             if (level.getBlockEntity(pos) instanceof TileEntityGomoku gomoku) {
-                if (!gomoku.isInProgress() || gomoku.isPlayerTurn() || gomoku.getChessCounter() <= 0) {
+                Statue statue = gomoku.getStatue();
+                if (statue != Statue.IN_PROGRESS || gomoku.isPlayerTurn() || gomoku.getChessCounter() <= 0) {
                     return;
                 }
                 gomoku.setChessData(aiPoint.x, aiPoint.y, aiPoint.type);
-                gomoku.setInProgress(MaidGomokuAI.getStatue(gomoku.getChessData(), aiPoint) == Statue.IN_PROGRESS);
+                gomoku.setStatue(MaidGomokuAI.getStatue(gomoku.getChessData(), aiPoint));
+                statue = gomoku.getStatue();
                 if (level instanceof ServerLevel serverLevel && serverLevel.getEntity(gomoku.getSitId()) instanceof EntitySit sit && sit.getFirstPassenger() instanceof EntityMaid maid) {
                     maid.swing(InteractionHand.MAIN_HAND);
-                    if (!gomoku.isInProgress()) {
+                    if (statue == Statue.WIN) {
                         maid.getGameRecordManager().markStatue(true);
                     }
                 }
                 level.playSound(null, pos, InitSounds.GOMOKU, SoundSource.BLOCKS, 1.0f, 0.8F + level.random.nextFloat() * 0.4F);
-                if (gomoku.isInProgress()) {
+                if (statue == Statue.IN_PROGRESS) {
                     gomoku.setPlayerTurn(true);
                 }
                 gomoku.refresh();
